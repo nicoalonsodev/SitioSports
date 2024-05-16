@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Heading from "../Products/Heading";
 import Product from "../Products/Product";
 import {
@@ -9,12 +9,37 @@ import {
   adidas3,
   puma1,
 } from "../../../assets/images/index";
+import { useSelector } from "react-redux";
 
 const BestSellers = () => {
+  const products = useSelector((state) => state.orebiReducer.products);
+  const [bestSellersProducts, setBestSellersProducts] = useState([]);
+
+  useEffect(() => {
+    if (products) {
+      const bestSellers = products.filter(product => product.best_sellers);
+      setBestSellersProducts(bestSellers);
+    }
+  }, [products]);
+
   return (
     <div className="w-full pb-20">
-      <Heading heading="Our Bestsellers" />
+      <Heading heading="Lo Más Vendido" />
+      
       <div className="w-full grid grid-cols-1 md:grid-cols-2 lgl:grid-cols-3 xl:grid-cols-4 gap-10">
+      {bestSellersProducts.map((product) => (
+          <div className="px-2">
+          <Product
+            _id={product.id}
+            img={product.variants[0].imgUrl[0]}
+            productName={product.productName}
+            price={product.price}
+            color="Black"
+            badge={true}
+            des={product.description}
+          />
+        </div>
+        ))}
         <Product
           _id="1011"
           img={nike1}
@@ -40,15 +65,6 @@ const BestSellers = () => {
           price="25.00"
           color="Mixed"
           badge={true}
-          des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
-        />
-        <Product
-          _id="1014"
-          img={adidas2}
-          productName="Travel Bag"
-          price="220.00"
-          color="Black"
-          badge={false}
           des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
         />
       </div>

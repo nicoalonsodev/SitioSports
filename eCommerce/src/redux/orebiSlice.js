@@ -4,12 +4,14 @@ import { toast } from "react-toastify";
 const initialState = {
   userInfo: [],
   products: [],
+  commissions: [],
   cartProducts: [],
   checkedBrands: [],
   checkedSizes: [],
   checkedSubcategorys: [],
   checkedCategorys: [],
   users: [],
+  orders: [],
 };
 export const orebiSlice = createSlice({
   name: "orebi",
@@ -17,7 +19,7 @@ export const orebiSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const item = state.cartProducts.find(
-        (item) => item._id === action.payload._id
+        (item) => item._id === action.payload._id && item.size === action.payload.size
       );
       if (item) {
         item.quantity += action.payload.quantity;
@@ -49,7 +51,7 @@ export const orebiSlice = createSlice({
     },
     deleteItem: (state, action) => {
       state.cartProducts = state.cartProducts.filter(
-        (item) => item._id !== action.payload
+        (item) => item._id !== action.payload._id || item.size !== action.payload.size
       );
       // Dispatch a success toast
       toast.error("Product removed from cart");
@@ -128,10 +130,18 @@ export const orebiSlice = createSlice({
       state.products = action.payload;
       // console.log(action.payload);
     },
+    setBackendCommissions: (state, action) => {
+      state.commissions = action.payload;
+      console.log(action.payload);
+    },
     setBackendUsers: (state, action) => {
       const usersObject = action.payload;
       const count = usersObject.users?.length;
       state.users = {users: usersObject.users, count: count};
+      // console.log(usersObject.users);
+    },
+    setBackendOrders: (state, action) => {
+      state.orders = action.payload.orders;
       // console.log(usersObject.users);
     },
   },
@@ -150,5 +160,7 @@ export const {
   toggleSizes,
   toggleSubcategory,
   cleanFilters,
+  setBackendOrders,
+  setBackendCommissions,
 } = orebiSlice.actions;
 export default orebiSlice.reducer;

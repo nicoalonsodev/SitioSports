@@ -2,7 +2,11 @@ import React, { useState } from "react";
 
 const SizesFormCamisetas = ({ handleSizes, selectedSizes, cat }) => {
   const [sizes, setSizes] = useState([
-    "S", "M", "L", "XL", "XXL"
+    { size: "S", price: 0, stock: 0 },
+    { size: "M", price: 0, stock: 0 },
+    { size: "L", price: 0, stock: 0 },
+    { size: "XL", price: 0, stock: 0 },
+    { size: "XXL", price: 0, stock: 0 },
   ]);
 
   

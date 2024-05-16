@@ -4,8 +4,8 @@ import { CgRedo } from "react-icons/cg";
 
 const BannerBottom = () => {
   return (
-    <div className="w-full bg-white border-b-[1px] py-4 border-b-gray-200 px-4">
-      <div className="max-w-container mx-auto h-20 flex flex-col md:flex-row justify-between items-center lg:px-20">
+    <div className="w-full bg-white border-b-[1px] py-4 border-b-gray-200 px-32">
+      <div className="max-w-container mx-auto h-20 flex flex-col md:flex-row justify-between items-center lg:px-24">
         <div className="flex items-center gap-2 w-72 space-x-4">
           <span className="font-bold font-titleFont w-6 text-center">
             <svg
@@ -40,6 +40,8 @@ const BannerBottom = () => {
           </span>
           <p className="text-lightText text-xl">24 Hs Atención al Cliente</p>
         </div>
+        <div className="h-2/3 border-l-2 border-[#e5e7eb]"></div>
+
         <div className="flex md:w-auto items-center gap-2 w-72 space-x-4">
           <span className="text-5xl text-center w-10 ml-1 text-orange-500">
             <svg
@@ -53,13 +55,14 @@ const BannerBottom = () => {
             </svg>
           </span>
           <p className="text-xl text-lightText text-base">
-          ENVÍO GRATIS <br />{" "}
+            ENVÍO GRATIS <br />{" "}
             <span className="text-xs text-lightText text-base">
-            ENVÍO GRATIS A PARTIR DE $99.999
+              ENVÍO GRATIS A PARTIR DE $99.999
             </span>
           </p>
         </div>
-        <div className="flex md:w-auto items-center gap-2 w-72 space-x-4">
+        <div className="h-2/3 border-l-2 border-[#e5e7eb]"></div>
+        <div className="flex  md:w-auto items-center gap-2 w-72 space-x-4">
           <span className="text-2xl  text-center w-10">
             <svg
               xmlns="http://www.w3.org/2000/svg"

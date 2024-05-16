@@ -1,22 +1,27 @@
 import React, { useState } from "react";
 import axios from "axios";
 import UploadImage from "../../components/UploadImage/UploadImage";
-import SizesForm from "./SizesFormBotines";
-import SizesFormCamisetas from "./SizesFormCamisetas";
-import SizesFormMedias from "./SizesFormMedias";
-
+import PostSizeBotines from "../../components/ProductForm/PostSizeBotines";
+import PostSizeCamisetas from "../../components/ProductForm/PostSizeCamisetas";
+import PostSizeMedias from "../../components/ProductForm/PostSizeMedias";
+import Variant from "./Variant";
 const ProductForm = () => {
   // const [selectedSizes, setSelectedSizes] = useState([]);
+  const [variants, setVariants] = useState([
+    { variant: "", id: 1, sizes: [], imgUrl: [] },
+  ]);
   const [form, setForm] = useState({
     productName: "",
     price: 0,
-    stock: "",
+    stock: 0,
     brand: "",
     cat: "",
     sizes: [],
+    variants: [{ variant: "", id: 1, sizes: [], imgUrl: [] }],
     color: "",
     image: "",
     description: "",
+    sub_cat: "",
   });
 
   const handleChange = (e) => {
@@ -26,7 +31,9 @@ const ProductForm = () => {
       setForm((prevForm) => ({
         ...prevForm,
         [name]: value,
-        sizes: [], // Limpiar a un array vacío
+        sizes: [],
+        variants: variants,
+        sub_cat: "",
       }));
     } else {
       setForm((prevForm) => ({
@@ -36,19 +43,134 @@ const ProductForm = () => {
     }
   };
 
-  const handleSizes = (size) => {
-    if (form.sizes.includes(size)) {
-      setForm((prevForm) => ({
-        ...prevForm,
-        sizes: prevForm.sizes.filter((selectedSize) => selectedSize !== size),
-      }));
-    } else {
-      setForm((prevForm) => ({
-        ...prevForm,
-        sizes: [...prevForm.sizes, size],
-      }));
+  const handleSizes = (size, id) => {
+    // Encuentra el índice del objeto en variants con el mismo id
+    const variantFormIndex = form.variants.findIndex(
+      (variant) => variant.id === id
+    );
+    const variantIndex = variants.findIndex((variant) => variant.id === id);
+
+    // Si el índice es válido, actualiza el estado
+    if (variantFormIndex !== -1) {
+      setForm((prevForm) => {
+        const updatedVariants = [...prevForm.variants];
+        updatedVariants[variantFormIndex] = {
+          ...updatedVariants[variantFormIndex],
+          sizes: size,
+        };
+
+        return {
+          ...prevForm,
+          variants: updatedVariants,
+        };
+      });
     }
   };
+
+  const handleCreateVariant = () => {
+    // Genera un nuevo ID único para la nueva variante
+    const newId =
+      variants.length > 0 ? variants[variants.length - 1].id + 1 : 1;
+
+    // Crea una nueva variante con el ID generado y el resto de los campos en blanco
+    const newVariant = { variant: "new", id: newId, sizes: [], imgUrl: [] };
+
+    // Actualiza el estado para agregar la nueva variante
+    setVariants((prevVariants) => [...prevVariants, newVariant]);
+
+    setForm((prevForm) => ({
+      ...prevForm,
+      variants: [...prevForm.variants, newVariant],
+    }));
+  };
+
+  const handleDeleteVariant = (variantId) => {
+    // Filtra las variantes para mantener solo aquellas cuyo ID no coincide con el ID dado
+    const updatedVariants = variants.filter(
+      (variant) => variant.id !== variantId
+    );
+
+    // Actualiza el estado con las variantes actualizadas
+    setVariants(updatedVariants);
+    // Filtra las variantes en form.variants para mantener solo aquellas cuyo ID no coincide con el ID dado
+    const updatedFormVariants = form.variants.filter(
+      (variant) => variant.id !== variantId
+    );
+
+    // Actualiza el estado de form con las variantes actualizadas
+    setForm((prevForm) => ({
+      ...prevForm,
+      variants: updatedFormVariants,
+    }));
+  };
+
+  const handleChangeVariantName = (variantId, newValue) => {
+    // Actualiza el estado cambiando el valor del variant con el ID dado
+    setForm((prevForm) => ({
+      ...prevForm,
+      variants: prevForm.variants.map((variant) =>
+        variant.id === variantId ? { ...variant, variant: newValue } : variant
+      ),
+    }));
+
+    setVariants((prevVariants) =>
+      prevVariants.map((variant) =>
+        variant.id === variantId ? { ...variant, variant: newValue } : variant
+      )
+    );
+  };
+  
+  const handleChangeVariantImg = (img, variantId) => {
+    // Actualiza el estado cambiando el valor del variant con el ID dado
+    setForm((prevForm) => ({
+      ...prevForm,
+      variants: prevForm.variants.map((variant) =>
+        variant.id === variantId
+          ? { ...variant, imgUrl: [...variant.imgUrl, img] } // Agrega la nueva imagen al array existente
+          : variant
+      ),
+    }));
+
+    setVariants((prevVariants) =>
+      prevVariants.map((variant) =>
+        variant.id === variantId
+          ? { ...variant, imgUrl: [...variant.imgUrl, img] } // Agrega la nueva imagen al array existente
+          : variant
+      )
+    );
+  };
+
+  const handleDeleteImage = (index, variantId) => {
+
+    
+    // Actualizar el estado con las imágenes actualizadas
+    setVariants((prevVariants) =>
+      prevVariants.map((variant) =>
+        variant.id === variantId ? { ...variant, imgUrl: variant.imgUrl.filter((_, i) => i !== index) } : variant
+      )
+    );
+  
+    setForm((prevForm) => ({
+      ...prevForm,
+      variants: prevForm.variants.map((variant) =>
+        variant.id === variantId ? { ...variant, imgUrl: variant.imgUrl.filter((_, i) => i !== index) } : variant
+      )
+    }));
+  };
+
+  // const handleSizes = (size) => {
+  //   if (form.sizes.includes(size)) {
+  //     setForm((prevForm) => ({
+  //       ...prevForm,
+  //       sizes: prevForm.sizes.filter((selectedSize) => selectedSize !== size),
+  //     }));
+  //   } else {
+  //     setForm((prevForm) => ({
+  //       ...prevForm,
+  //       sizes: [...prevForm.sizes, size],
+  //     }));
+  //   }
+  // };
 
   const handleUploadImage = (url) => {
     setForm((prevRegistro) => ({
@@ -68,7 +190,6 @@ const ProductForm = () => {
         setForm({
           productName: "",
           price: 0,
-          stock: "",
           brand: "",
           cat: "",
           color: "",
@@ -83,7 +204,7 @@ const ProductForm = () => {
       console.error("Error al realizar la solicitud:", error);
     }
   };
-
+  console.log();
   // const handleSizes = (size) => {
   //   if (selectedSizes.includes(size)) {
   //     setSelectedSizes(selectedSizes.filter((selectedSize) => selectedSize !== size));
@@ -152,30 +273,6 @@ const ProductForm = () => {
 
             <div class="sm:col-span-4">
               <label
-                for="stock"
-                class="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Stock
-              </label>
-              <div class="mt-2">
-                <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                  {/* <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span> */}
-                  <input
-                    type="text"
-                    name="stock"
-                    id="stock"
-                    onChange={handleChange}
-                    value={form.stock}
-                    autocomplete="stock"
-                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="Nike Ultimate"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div class="sm:col-span-4">
-              <label
                 for="brand"
                 class="block text-sm font-medium leading-6 text-gray-900"
               >
@@ -210,10 +307,12 @@ const ProductForm = () => {
                   id="cat"
                   name="cat"
                   autocomplete="categoria"
-                  value={form.cat}
                   onChange={handleChange}
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                 >
+                  <option value="" disabled selected hidden>
+                    Selecciona una opción
+                  </option>
                   <option>Camisetas</option>
                   <option>Botines</option>
                   <option>Medias</option>
@@ -229,113 +328,62 @@ const ProductForm = () => {
                 Subcategoria
               </label>
               <div className="mt-2">
-  {form.cat === "Botines" ? (
-    <select
-      id="sub_cat"
-      name="sub_cat"
-      autoComplete="categoria"
-      value={form.sub_cat}
-      onChange={handleChange}
-      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-    >
-      <option>Futbol 5</option>
-      <option>Futbol 11</option>
-    </select>
-  ) : form.cat === "Camisetas" ? (
-    <select
-      id="sub_cat"
-      name="sub_cat"
-      autoComplete="categoria"
-      value={form.sub_cat}
-      onChange={handleChange}
-      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-    >
-      <option>24/25</option>
-      <option>Retro</option>
-    </select>
-  ) :  (
-   
-    ""
-  )}
-</div>
-            </div>
-
-            <div className="col-span-4">
-              {form.cat === "Botines" ? (
-                <SizesForm
-                  handleSizes={handleSizes}
-                  selectedSizes={form.sizes}
-                />
-              ) : (
-                ""
-              )}
-              {form.cat === "Camisetas" ? (
-                <SizesFormCamisetas
-                  handleSizes={handleSizes}
-                  selectedSizes={form.sizes}
-                />
-              ) : (
-                ""
-              )}
-              {form.cat === "Medias" ? (
-                <SizesFormMedias
-                  handleSizes={handleSizes}
-                  selectedSizes={form.sizes}
-                />
-              ) : (
-                ""
-              )}
-            </div>
-
-            {/* <div class="sm:col-span-4">
-              <label
-                for="cat"
-                class="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Categoría
-              </label>
-              <div class="mt-2">
-                <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                  {/* <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span> */}
-            {/* <input
-                    type="text"
-                    name="cat"
-                    id="cat"
+                {form.cat === "Botines" ? (
+                  <select
+                    id="sub_cat"
+                    name="sub_cat"
+                    value={form.sub_cat}
+                    autoComplete="categoria"
                     onChange={handleChange}
-                    value={form.cat}
-                    autocomplete="cat"
-                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="Nike Ultimate"
-                  />
-                </div>
-              </div>
-            </div> */}
-
-            <div class="sm:col-span-4">
-              <label
-                for="color"
-                class="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Color
-              </label>
-              <div class="mt-2">
-                <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                  {/* <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span> */}
-                  <input
-                    type="text"
-                    name="color"
-                    id="color"
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                  >
+                    <option value="" disabled selected>
+                      Selecciona una opción
+                    </option>
+                    <option>Futbol 5</option>
+                    <option>Futbol 11</option>
+                  </select>
+                ) : form.cat === "Camisetas" ? (
+                  <select
+                    id="sub_cat"
+                    name="sub_cat"
+                    value={form.sub_cat}
+                    autoComplete="categoria"
                     onChange={handleChange}
-                    value={form.color}
-                    autocomplete="color"
-                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="Nike Ultimate"
-                  />
-                </div>
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                  >
+                    <option value="" disabled selected>
+                      Selecciona una opción
+                    </option>
+                    <option>24/25</option>
+                    <option>Retro</option>
+                  </select>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
 
-            <div class="sm:col-span-4">
+            <div>
+              <div
+                className="border-[1px] border-gray-200 bg-gray-100 shadow-md cursor-pointer opacity-60 hover:opacity-100"
+                onClick={handleCreateVariant}
+              >
+                + Agregar Variante
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-4 sm:col-span-6">
+              {variants?.map((vari, index) => (
+                <div key={index}>
+                  <Variant handleChangeVariantImg={handleChangeVariantImg} handleDeleteImage={handleDeleteImage} handleChangeVariantName={handleChangeVariantName} handleDeleteVariant={handleDeleteVariant} cat={form.cat} vari={vari} handleSizes={handleSizes} variants={form.variants} /> 
+                </div>
+              ))}
+    
+            </div>
+
+
+            <div class="sm:col-span-6">
               <label
                 for="image"
                 class="block text-sm font-medium leading-6 text-gray-900"
@@ -380,285 +428,11 @@ const ProductForm = () => {
                 Descripción sobre el producto.
               </p>
             </div>
-            {/* 
-        <div class="col-span-full">
-          <label for="photo" class="block text-sm font-medium leading-6 text-gray-900">Photo</label>
-          <div class="mt-2 flex items-center gap-x-3">
-            <svg class="h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path fill-rule="evenodd"
-                d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-                clip-rule="evenodd" />
-            </svg>
-            <button type="button" class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Change</button>
-          </div>
-        </div> */}
+
             <UploadImage handleUploadImage={handleUploadImage} />
           </div>
         </div>
-        {/* Info Personal */}
-        {/* <div class="border-b border-gray-900/10 pb-12">
-          <h2 class="text-base font-semibold leading-7 text-gray-900">
-            Personal Information
-          </h2>
-          <p class="mt-1 text-sm leading-6 text-gray-600">
-            Use a permanent address where you can receive mail.
-          </p>
-
-          <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-            <div class="sm:col-span-3">
-              <label
-                for="first-name"
-                class="block text-sm font-medium leading-6 text-gray-900"
-              >
-                First name
-              </label>
-              <div class="mt-2">
-                <input
-                  type="text"
-                  name="first-name"
-                  id="first-name"
-                  autocomplete="given-name"
-                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div class="sm:col-span-3">
-              <label
-                for="last-name"
-                class="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Last name
-              </label>
-              <div class="mt-2">
-                <input
-                  type="text"
-                  name="last-name"
-                  id="last-name"
-                  autocomplete="family-name"
-                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div class="sm:col-span-4">
-              <label
-                for="email"
-                class="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Email address
-              </label>
-              <div class="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autocomplete="email"
-                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div> */}
-
-        {/* <div class="col-span-full">
-              <label
-                for="street-address"
-                class="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Street address
-              </label>
-              <div class="mt-2">
-                <input
-                  type="text"
-                  name="street-address"
-                  id="street-address"
-                  autocomplete="street-address"
-                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div> */}
-
-        {/* <div class="sm:col-span-2 sm:col-start-1">
-              <label
-                for="city"
-                class="block text-sm font-medium leading-6 text-gray-900"
-              >
-                City
-              </label>
-              <div class="mt-2">
-                <input
-                  type="text"
-                  name="city"
-                  id="city"
-                  autocomplete="address-level2"
-                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div> */}
-
-        {/* <div class="sm:col-span-2">
-              <label
-                for="region"
-                class="block text-sm font-medium leading-6 text-gray-900"
-              >
-                State / Province
-              </label>
-              <div class="mt-2">
-                <input
-                  type="text"
-                  name="region"
-                  id="region"
-                  autocomplete="address-level1"
-                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div class="sm:col-span-2">
-              <label
-                for="postal-code"
-                class="block text-sm font-medium leading-6 text-gray-900"
-              >
-                ZIP / Postal code
-              </label>
-              <div class="mt-2">
-                <input
-                  type="text"
-                  name="postal-code"
-                  id="postal-code"
-                  autocomplete="postal-code"
-                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-          </div>
-        </div> */}
-
-        {/* Notificaciones */}
-        {/* <div class="border-b border-gray-900/10 pb-12">
-          <h2 class="text-base font-semibold leading-7 text-gray-900">
-            Notifications
-          </h2>
-          <p class="mt-1 text-sm leading-6 text-gray-600">
-            We'll always let you know about important changes, but you pick what
-            else you want to hear about.
-          </p>
-
-          <div class="mt-10 space-y-10">
-            <fieldset>
-              <legend class="text-sm font-semibold leading-6 text-gray-900">
-                By Email
-              </legend>
-              <div class="mt-6 space-y-6">
-                <div class="relative flex gap-x-3">
-                  <div class="flex h-6 items-center">
-                    <input
-                      id="comments"
-                      name="comments"
-                      type="checkbox"
-                      class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                    />
-                  </div>
-                  <div class="text-sm leading-6">
-                    <label for="comments" class="font-medium text-gray-900">
-                      Comments
-                    </label>
-                    <p class="text-gray-500">
-                      Get notified when someones posts a comment on a posting.
-                    </p>
-                  </div>
-                </div>
-                <div class="relative flex gap-x-3">
-                  <div class="flex h-6 items-center">
-                    <input
-                      id="candidates"
-                      name="candidates"
-                      type="checkbox"
-                      class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                    />
-                  </div>
-                  <div class="text-sm leading-6">
-                    <label for="candidates" class="font-medium text-gray-900">
-                      Candidates
-                    </label>
-                    <p class="text-gray-500">
-                      Get notified when a candidate applies for a job.
-                    </p>
-                  </div>
-                </div>
-                <div class="relative flex gap-x-3">
-                  <div class="flex h-6 items-center">
-                    <input
-                      id="offers"
-                      name="offers"
-                      type="checkbox"
-                      class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                    />
-                  </div>
-                  <div class="text-sm leading-6">
-                    <label for="offers" class="font-medium text-gray-900">
-                      Offers
-                    </label>
-                    <p class="text-gray-500">
-                      Get notified when a candidate accepts or rejects an offer.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset>
-              <legend class="text-sm font-semibold leading-6 text-gray-900">
-                Push Notifications
-              </legend>
-              <p class="mt-1 text-sm leading-6 text-gray-600">
-                These are delivered via SMS to your mobile phone.
-              </p>
-              <div class="mt-6 space-y-6">
-                <div class="flex items-center gap-x-3">
-                  <input
-                    id="push-everything"
-                    name="push-notifications"
-                    type="radio"
-                    class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  />
-                  <label
-                    for="push-everything"
-                    class="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Everything
-                  </label>
-                </div>
-                <div class="flex items-center gap-x-3">
-                  <input
-                    id="push-email"
-                    name="push-notifications"
-                    type="radio"
-                    class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  />
-                  <label
-                    for="push-email"
-                    class="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    Same as email
-                  </label>
-                </div>
-                <div class="flex items-center gap-x-3">
-                  <input
-                    id="push-nothing"
-                    name="push-notifications"
-                    type="radio"
-                    class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                  />
-                  <label
-                    for="push-nothing"
-                    class="block text-sm font-medium leading-6 text-gray-900"
-                  >
-                    No push notifications
-                  </label>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-        </div> */}
+      
       </div>
 
       <div class="mt-6 flex items-center justify-end gap-x-6">

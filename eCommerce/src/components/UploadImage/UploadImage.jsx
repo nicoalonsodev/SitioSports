@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-const UploadImage = ({ handleUploadImage }) => {
+const UploadImage = ({ handleUploadImage, id, handleUploadImageVariant }) => {
   const [loading, setLoading] = useState(false);
   const [url, setUrl] = useState("");
 
@@ -18,14 +18,18 @@ const UploadImage = ({ handleUploadImage }) => {
       };
     });
   };
-
+console.log(id);
   function uploadSingleImage(base64) {
     setLoading(true);
     axios
       .post("http://localhost:3001/uploadImage", { image: base64 })
       .then((res) => {
         setUrl(res.data);
-        handleUploadImage(res.data);
+        if (id) {
+          handleUploadImageVariant(res.data, id);
+        } else { 
+          handleUploadImage(res.data);
+        }
         alert("Imagen Cargada Exitosamente");
       })
       .then(() => setLoading(false))

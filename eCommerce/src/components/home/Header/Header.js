@@ -9,10 +9,12 @@ import { navBarList } from "../../../constants";
 import Flex from "../../designLayouts/Flex";
 import { FaUser, FaCaretDown, FaShoppingCart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleCategory } from "../../../redux/orebiSlice";
+import { cleanFilters, toggleCategory, setBackendCommissions } from "../../../redux/orebiSlice";
 import DropdownBotines from "./DropdownBotines";
 import DropdownCamisetas from "./DropdownCamisetas";
 import DropdownMedias from "./DropdownMedias";
+import HeaderBottom from "./HeaderBottom";
+import { fetchCommissionsFromBackend } from "../../../utils/api";
 const Header = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.orebiReducer.cartProducts);
@@ -44,6 +46,20 @@ const Header = () => {
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
   };
+
+  const fetchData = async () => {
+    try {
+      const commissions = await fetchCommissionsFromBackend();
+      dispatch(setBackendCommissions(commissions));
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  const handleCommissionClick = () => {
+    fetchData();
+  };
+
   const allCategories = [
     {
       _id: 9006,
@@ -72,34 +88,37 @@ const Header = () => {
   const navBotinkStyle = {
     color: showBotinesDiv ? "#fc148c" : "#767676",
     // textDecoration: "underline",
-    textDecorationColor: showBotinesDiv  ? "#fc148c" : "#767676",
+    textDecorationColor: showBotinesDiv ? "#fc148c" : "#767676",
     textDecorationThickness: "1px",
     underlineOffset: "4px",
   };
 
   const navCamisetaStyle = {
-    color:  showCamisetas ? "#fc148c" : "#767676",
+    color: showCamisetas ? "#fc148c" : "#767676",
     // textDecoration: "underline",
-    textDecorationColor:  showCamisetas ? "#fc148c" : "#767676",
+    textDecorationColor: showCamisetas ? "#fc148c" : "#767676",
     textDecorationThickness: "1px",
     underlineOffset: "4px",
   };
   return (
-    <div className="w-full h-24 bg-white sticky top-0 z-50 border-b-[1px] border-b-gray-200">
+    <div className="w-full  h-28 bg-white sticky top-0 z-50 border-b-[1px] border-b-gray-200">
       <nav className="h-full px-4 max-w-container mx-auto relative">
-        <Flex className="flex items-center justify-between h-full">
+      <div className="absolute top-0 right-20">
+        <a className="text-gray-500 text-md" href="/ayuda">Ayuda</a>
+       </div>
+        <Flex className="flex items-center justify-between h-full mx-10">
           <Link to="/">
             <div>
               <Image className="w-24 object-cover" imgSrc={logoTransparent} />
             </div>
           </Link>
-          <div>
+          <div className="w-3/5">
             {showMenu && (
               <motion.ul
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5 }}
-                className="flex items-center w-auto z-50 p-0 gap-2"
+                className="flex items-center justify-center w-full z-50 p-0 gap-2"
               >
                 <>
                   {/* <div className="relative">
@@ -128,12 +147,9 @@ const Header = () => {
                       className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
                       to={"/shop"}
                       state={{ data: location.pathname.split("/")[1] }}
-                      // onClick={() => {
-                      //   if (_id === 1003) {
-                      //     const cat = allCategories[0];
-                      //     dispatch(toggleCategory(cat));
-                      //   }
-                      // }}
+                      onClick={() => {
+                        dispatch(cleanFilters());
+                      }}
                     >
                       <li>Catálogo</li>
                     </NavLink>
@@ -148,12 +164,10 @@ const Header = () => {
                       className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
                       to={"/shop"}
                       state={{ data: location.pathname.split("/")[1] }}
-                      // onClick={() => {
-                      //   if (_id === 1003) {
-                      //     const cat = allCategories[0];
-                      //     dispatch(toggleCategory(cat));
-                      //   }
-                      // }}
+                      onClick={() => {
+                        dispatch(cleanFilters());
+                        dispatch(toggleCategory(allCategories[0]));
+                      }}
                     >
                       <li style={navBotinkStyle}>Botines</li>
                     </NavLink>
@@ -173,14 +187,12 @@ const Header = () => {
                     <NavLink
                       key={1004}
                       className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
-                      to={"/h"}
+                      to={"/shop"}
                       state={{ data: location.pathname.split("/")[1] }}
-                      // onClick={() => {
-                      //   if (_id === 1003) {
-                      //     const cat = allCategories[0];
-                      //     dispatch(toggleCategory(cat));
-                      //   }
-                      // }}
+                      onClick={() => {
+                        dispatch(cleanFilters());
+                        dispatch(toggleCategory(allCategories[1]));
+                      }}
                     >
                       <li style={navCamisetaStyle}>Camisetas</li>
                     </NavLink>
@@ -200,8 +212,12 @@ const Header = () => {
                     <NavLink
                       key={1005}
                       className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
-                      to={"/d"}
+                      to={"/shop"}
                       state={{ data: location.pathname.split("/")[1] }}
+                      onClick={() => {
+                        dispatch(cleanFilters());
+                        dispatch(toggleCategory(allCategories[2]));
+                      }}
                     >
                       <li>Medias</li>
                     </NavLink>
@@ -212,6 +228,7 @@ const Header = () => {
                       className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
                       to={"/encargo"}
                       state={{ data: location.pathname.split("/")[1] }}
+                      onClick={handleCommissionClick}
                     >
                       <li>Encargo</li>
                     </NavLink>
@@ -308,33 +325,10 @@ const Header = () => {
               </div>
             )}
           </div>
-          <div className="flex gap-4 mt-2 lg:mt-0 items-center pr-6 cursor-pointer relative">
-            <div onClick={() => setShowUser(!showUser)} className="flex">
-              <FaUser />
-              <FaCaretDown />
+          <div className="flex w-auto  gap-4 mt-2 lg:mt-0 items-center cursor-pointer relative">
+            <div className="justify-end flex">
+              <HeaderBottom />
             </div>
-            {showUser && (
-              <motion.ul
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5 }}
-                className="absolute top-6 left-0 z-50 bg-primeColor w-44 text-[#767676] h-auto p-4 pb-6"
-              >
-                <Link to="/signin">
-                  <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer">
-                    Login
-                  </li>
-                </Link>
-                <Link onClick={() => setShowUser(false)} to="/signup">
-                  <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer">
-                    Sign Up
-                  </li>
-                </Link>
-                <li className="text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer">
-                  Profile
-                </li>
-              </motion.ul>
-            )}
             <Link to="/cart">
               <div className="relative">
                 <FaShoppingCart />
@@ -343,7 +337,6 @@ const Header = () => {
                 </span>
               </div>
             </Link>
-            {/* <BsSuitHeartFill /> */}
           </div>
         </Flex>
       </nav>

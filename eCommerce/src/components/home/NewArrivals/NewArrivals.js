@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import Heading from "../Products/Heading";
 import Product from "../Products/Product";
@@ -11,8 +11,18 @@ import {
 } from "../../../assets/images/index";
 import SampleNextArrow from "./SampleNextArrow";
 import SamplePrevArrow from "./SamplePrevArrow";
-
+import { useSelector } from "react-redux";
 const NewArrivals = () => {
+  const products = useSelector((state) => state.orebiReducer.products);
+  const [newArrivalsProducts, setNewArrivalsProducts] = useState([]);
+
+  useEffect(() => {
+    if (products) {
+      const newArrivals = products.filter(product => product.new_arrivals);
+      setNewArrivalsProducts(newArrivals);
+    }
+  }, [products]);
+
   const settings = {
     infinite: true,
     speed: 500,
@@ -49,8 +59,21 @@ const NewArrivals = () => {
   };
   return (
     <div className="w-full pb-16">
-      <Heading heading="New Arrivals" />
+      <Heading heading="Nuevos ingresos" />
       <Slider {...settings}>
+        {newArrivalsProducts.map((product) => (
+          <div className="px-2">
+          <Product
+            _id={product.id}
+            img={product.variants[0].imgUrl[0]}
+            productName={product.productName}
+            price={product.price}
+            color="Black"
+            badge={true}
+            des={product.description}
+          />
+        </div>
+        ))}
         <div className="px-2">
           <Product
             _id="100001"

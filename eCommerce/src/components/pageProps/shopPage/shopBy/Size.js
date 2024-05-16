@@ -11,7 +11,9 @@ const Size = () => {
 
   useEffect(() => {
     if (checkedSizes.length !== 0) {
-      const hasNonColorSize = checkedSizes.some(size => !colors.find(color => color.title === size.title));
+      const hasNonColorSize = checkedSizes.some(
+        (size) => !colors.find((color) => color.title === size.title)
+      );
       setShowFilter(!hasNonColorSize);
     }
   }, [checkedSizes]);
@@ -21,50 +23,32 @@ const Size = () => {
       _id: 9001,
       title: "39",
     },
-    {
-      _id: 9002,
-      title: "39.5",
-    },
+
     {
       _id: 9003,
       title: "40",
     },
-    {
-      _id: 9004,
-      title: "40.5",
-    },
+
     {
       _id: 9005,
       title: "41",
     },
-    {
-      _id: 9006,
-      title: "41.5",
-    },
+
     {
       _id: 9007,
       title: "42",
     },
-    {
-      _id: 9008,
-      title: "42.5",
-    },
+
     {
       _id: 9009,
       title: "43",
     },
-    {
-      _id: 9010,
-      title: "43.5",
-    },
+
     {
       _id: 9011,
       title: "44",
     },
-    {
-      _id: 90012,
-      title: "44.5",
-    },
+
     {
       _id: 90013,
       title: "45",
@@ -75,10 +59,10 @@ const Size = () => {
     dispatch(toggleSizes(size));
   };
   const handleFilterToggle = () => {
-    if(checkedSizes.length === 0){
-        setShowFilter(!showFilter)
+    if (checkedSizes.length === 0) {
+      setShowFilter(!showFilter);
     }
-  }
+  };
   return (
     <div>
       <div
@@ -98,7 +82,7 @@ const Size = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-<ul className="flex flex-col gap-4 text-sm lg:text-base text-[#767676]">
+          <ul className="flex flex-col gap-4 text-sm lg:text-base text-[#767676]">
             {colors.map((item) => (
               <li
                 key={item._id}

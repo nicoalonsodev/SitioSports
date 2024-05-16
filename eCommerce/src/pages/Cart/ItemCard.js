@@ -1,5 +1,5 @@
 import React from "react";
-import { ImCross } from "react-icons/im";
+import { RxCross2 } from "react-icons/rx";
 import { useDispatch } from "react-redux";
 import {
   deleteItem,
@@ -10,46 +10,69 @@ import {
 const ItemCard = ({ item }) => {
   const dispatch = useDispatch();
   return (
-    <div className="w-full grid grid-cols-6 mb-4 border ">
-      <div className="flex col-span-5 mdl:col-span-2 items-center gap-4 ">
-        <img
-          className="w-[180px] h-[180px] object-cover"
-          src={item.image}
-          alt="productImage"
-        />
-        <div className="flex items-start" >
-        <h1 className="font-titleFont font-semibold text-xl">{item.name}</h1>
-          <ImCross
-            onClick={() => dispatch(deleteItem(item._id))}
-            className="text-primeColor hover:text-red-500 duration-300 cursor-pointer"
+    <div className="w-full mb-4 border ">
+      <div className="flex justify-between col-span-3 gap-4">
+        <div className="flex gap-4">
+          <img
+            className="w-[200px] h-[200px] object-cover"
+            src={item.image}
+            alt="productImage"
           />
-          
+          <div className="py-4">
+            <div className="flex items-start ">
+              <h1 className="font-light uppercase text-lg">
+                {item.name}
+              </h1>
+            </div>
+            <div className="flex items-start ">
+              <h1 className="font-light uppercase text-lg">
+                {item.variant.variant}
+              </h1>
+            </div>
+            <div className=" flex-col items-center justify-between px-4 mdl:px-0 gap-y-6 mdl:gap-0">
+              <div className="flex w-1/3 items-center text-lg font-bold">
+                ${item.quantity * item.price}
+              </div>
+              <div className="flex w-2/3 items-center justify-start text-md font-normal">
+                Talle {item.size}
+              </div>
+              <div className="w- border-gray-500 flex items-center justify-start gap-4 text-lg my-4">
+                <span
+                  onClick={() => dispatch(drecreaseQuantity({ _id: item._id }))}
+                  className="w-6 h-6 bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-[1px] border-gray-300 hover:border-gray-300"
+                >
+                  -
+                </span>
+                <p>{item.quantity}</p>
+                <span
+                  onClick={() => {
+                    if (item.quantity < item.maxQuantity) {
+                      dispatch(increaseQuantity({ _id: item._id }));
+                    }
+                  }}
+                  className={`w-6 h-6  bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300  duration-300 border-[1px] border-gray-300 hover:border-gray-300 ${
+                    item.quantity >= item.maxQuantity
+                      ? "cursor-not-allowed"
+                      : "cursor-pointer"
+                  }`}
+                >
+                  {item.quantity >= item.maxQuantity ? "x" : "+"}
+                </span>
+              </div>
+
+              {/* <div className="w-1/3 flex items-center font-titleFont font-bold text-lg">
+              <p>${item.quantity * item.price}</p>
+            </div> */}
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="col-span-5 mdl:col-span-3 flex items-center justify-between py-4 mdl:py-0 px-4 mdl:px-0 gap-6 mdl:gap-0">
-        <div className="flex w-1/3 items-center text-lg font-semibold">
-          ${item.price}
-        </div>
-        <div className="flex w-1/3 items-center justify-center text-lg font-semibold">
-          {item.size}
-        </div>
-        <div className="w-1/3 flex items-center justify-center gap-6 text-lg">
-          <span
-            onClick={() => dispatch(drecreaseQuantity({ _id: item._id }))}
-            className="w-6 h-6 bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-[1px] border-gray-300 hover:border-gray-300"
-          >
-            -
-          </span>
-          <p>{item.quantity}</p>
-          <span
-            onClick={() => dispatch(increaseQuantity({ _id: item._id }))}
-            className="w-6 h-6 bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-[1px] border-gray-300 hover:border-gray-300"
-          >
-            +
-          </span>
-        </div>
-        <div className="w-1/3 flex items-center font-titleFont font-bold text-lg">
-          <p>${item.quantity * item.price}</p>
+        <div className="flex items-start py-4 px-4">
+          <RxCross2
+            onClick={() =>
+              dispatch(deleteItem({ _id: item._id, size: item.size }))
+            }
+            className="text-primeColor text-xl hover:text-gray-500 duration-300 cursor-pointer"
+          />
         </div>
       </div>
     </div>

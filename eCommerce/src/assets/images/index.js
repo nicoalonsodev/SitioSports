@@ -13,8 +13,15 @@ import saleImgThree from "./sale/saleImgThree.webp";
 import saleImgFour from "./sitio/nikes1.jpg";
 import saleImgFive from "./sitio/sale1.jpg";
 import saleImgSix from "./sitio/sale2.jpg";
-import down from "./down.svg"
-import up from "./up.svg"
+import down from "./down.svg";
+import up from "./up.svg";
+import visa from "./visa.png";
+import amex from "./amex.png";
+import mastercard from "./mastercard.png";
+import talles_botines from "./talles-botines.png";
+import talles_camisetas from "./talles-camisetas.png";
+
+
 // ============== Products Start here ====================
 import pdf1 from "../pdf/pdf1.pdf";
 // New Arrivals
@@ -61,8 +68,6 @@ import productOfTheYear from "./products/productOfTheYear.webp";
 import paymentCard from "./payment.png";
 import emptyCart from "../images/emptyCart.png";
 
-
-
 import IMPRIMANTE_PANTUM_CP2200DW from "../images/products/imprimante/IMPRIMANTE_PANTUM_CP2200DW.webp";
 import IMPRIMANTE_PANTUM_BM5100FDW from "../images/products/imprimante/IMPRIMANTE_PANTUM_BM5100FDW.webp";
 import IMPRIMANTE_PANTUM_BP5100DN from "../images/products/imprimante/IMPRIMANTE_PANTUM_BP5100DN.webp";
@@ -104,12 +109,19 @@ import medias1 from "./sitio/medias/medias1.jpeg";
 import medias2 from "./sitio/medias/medias2.jpeg";
 import medias3 from "./sitio/medias/medias3.jpeg";
 
+import shipping from "./shipping.svg";
 export {
+  talles_botines,
+  talles_camisetas,
   logo,
   logoTransparent,
   logoLight,
   down,
   up,
+  mastercard,
+  visa,
+  amex,
+  shipping,
   bannerImgOne,
   bannerImgTwo,
   bannerImgThree,
@@ -154,19 +166,16 @@ export {
   ruban2,
   ruban3,
   ruban4,
-
   nike1,
   nike2,
   adidas1,
   adidas2,
   adidas3,
   puma1,
-
   river,
   boca,
   arg,
   arg2,
-  
   medias1,
   medias2,
   medias3,

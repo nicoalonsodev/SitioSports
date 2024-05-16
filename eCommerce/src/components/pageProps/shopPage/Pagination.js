@@ -7,8 +7,8 @@ import { paginationItems } from "../../../constants";
 // const items = paginationItems;
 
 function Items({ currentItems, selectedBrands, selectedCategories, selectedSizes, selectedSubcategories }) {
-  const items = useSelector((state) => state.orebiReducer.products);
-  // Filter items based on selected brands and categories
+ 
+
   const filteredItems = currentItems.filter((item) => {
     const isBrandSelected =
       selectedBrands.length === 0 ||
@@ -22,11 +22,16 @@ function Items({ currentItems, selectedBrands, selectedCategories, selectedSizes
     selectedSubcategories.length === 0 ||
     selectedSubcategories.some((subcategory) => subcategory.title === item.sub_cat);
 
-      const isSizeSelected =
-      selectedSizes.length === 0 ||
-      selectedSizes.some((selectedSize) =>
-        item.sizes.some((itemSize) => selectedSize.title === itemSize)
-      );
+    const isSizeSelected =
+    selectedSizes.length === 0 ||
+    selectedSizes.some((selectedSize) =>
+      item.variants.some((variant) =>
+        variant.sizes.some(
+          (size) =>
+            selectedSize.title === size.size && size.stock !== 0
+        )
+      )
+    );
     return isBrandSelected && isCategorySelected && isSizeSelected && isSubcategorySelected;
   });
  
@@ -44,7 +49,9 @@ function Items({ currentItems, selectedBrands, selectedCategories, selectedSizes
             cat={item.cat}
             sub_cat={item.sub_cat}
             sizes={item.sizes}
+            variants={item.variants}
             description={item.description}
+            color={item.color}
           />
         </div>
       ))}
@@ -52,8 +59,17 @@ function Items({ currentItems, selectedBrands, selectedCategories, selectedSizes
   );
 }
 
-const Pagination = ({ itemsPerPage }) => {
-  const items = useSelector((state) => state.orebiReducer.products);
+const Pagination = ({ itemsPerPage, commissions }) => {
+  const items = useSelector(state => {
+    if (commissions) {
+      // Si es así, devolvemos los productos por encargo
+      return state.orebiReducer.commissions;
+    } else {
+      // Si no, devolvemos todos los productos
+      return state.orebiReducer.products;
+    }
+  });  // Filter items based on selected brands and categories
+
   const [itemOffset, setItemOffset] = useState(0);
   const [itemStart, setItemStart] = useState(1);
 
@@ -72,7 +88,6 @@ const Pagination = ({ itemsPerPage }) => {
     (state) => state.orebiReducer.checkedSizes
   );
   const pageCount = Math.ceil(items.length / itemsPerPage);
-console.log(selectedCategories);
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % items.length;
     const newStart = newOffset + 1; // Adjust the start index
@@ -83,34 +98,14 @@ console.log(selectedCategories);
 
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 mdl:gap-4 lg:gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-10 mdl:gap-4 lg:gap-10">
         <Items
           currentItems={currentItems}
           selectedBrands={selectedBrands}
           selectedCategories={selectedCategories}
           selectedSizes={selectedSizes}
           selectedSubcategories={selectedSubcategories}
-        />{" "}
-      </div>
-      <div className="flex flex-col mdl:flex-row justify-center mdl:justify-between items-center">
-        <ReactPaginate
-          nextLabel=""
-          onPageChange={handlePageClick}
-          pageRangeDisplayed={3}
-          marginPagesDisplayed={2}
-          pageCount={pageCount}
-          previousLabel=""
-          pageLinkClassName="w-9 h-9 border-[1px] border-lightColor hover:border-gray-500 duration-300 flex justify-center items-center"
-          pageClassName="mr-6"
-          containerClassName="flex text-base font-semibold font-titleFont py-10"
-          activeClassName="bg-black text-white"
         />
-
-        <p className="text-base font-normal text-lightText">
-          Products from {itemStart} to {Math.min(endOffset, items.length)} of{" "}
-          {items.length}
-        </p>
-        <button onClick={() => console.log(selectedBrands)}> test</button>
       </div>
     </div>
   );

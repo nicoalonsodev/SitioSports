@@ -3,30 +3,32 @@ import Heading from "../Products/Heading";
 import Product from "../Products/Product";
 import { SplOfferData } from "../../../constants";
 import { useParams } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 const SpecialOffers = () => {
-  const { category } = useParams();
 
+  const products = useSelector((state) => state.orebiReducer.products);
   const [data, setData] = useState([]);
   useEffect(() => {
-    setData(SplOfferData);
-  }, [data]);
-
-  const catData = data.filter((item) => item.cat === category);
+    if (products) {
+      const specialOffers = products.filter(product => product.new_arrivals);
+      setData(specialOffers);
+    }
+  }, [products]);
+ 
   return (
     <div className="w-full pb-20">
-      <Heading heading="Special Offers" />
+      <Heading heading="Ofertas" />
       <div className="w-full grid grid-cols-1 md:grid-cols-2 lgl:grid-cols-3 xl:grid-cols-3 gap-10">
-        {catData.map((data) => (
+        {data.map((product) => (
           <Product
-            key={data._id}
-            _id={data._id}
-            img={data.img}
-            productName={data.productName}
-            price={data.price}
-            color={data.color}
+            key={product._id}
+            _id={product._id}
+            img={product.variants[0].imgUrl[0]}
+            productName={product.productName}
+            price={product.price}
+            color={product.color}
             badge={true}
-            des={data.des}
+            des={product.des}
           />
         ))}
       </div>

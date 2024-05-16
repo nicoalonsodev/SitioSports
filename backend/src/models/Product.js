@@ -22,10 +22,6 @@ module.exports = (sequelize) => {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
-    stock: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     brand: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -39,13 +35,19 @@ module.exports = (sequelize) => {
       allowNull: true,
     },
     sizes: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.JSON,
+      allowNull: true, 
+      defaultValue: [] 
+    },
+    variants: {
+      type: DataTypes.JSON,
       allowNull: true, 
       defaultValue: [] 
     },
     color: {
       type: DataTypes.STRING,
       allowNull: false,
+      defaultValue: "",
     },
     badge: {
       type: DataTypes.BOOLEAN,
@@ -59,6 +61,21 @@ module.exports = (sequelize) => {
     description: {
       type: DataTypes.STRING(2080),
       allowNull: true,
+    },
+    best_sellers: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+    new_arrivals: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
+    special_offers: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
   });
 };

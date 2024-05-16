@@ -17,3 +17,21 @@ export const fetchUsersFromBackend = async () => {
     throw error;
   }
 };
+
+export const fetchOrdersFromBackend = async () => {
+  try {
+    const response = await axios.get("http://localhost:3001/orders");
+    return response.data; 
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchCommissionsFromBackend = async () => {
+  try {
+    const response = await axios.get("http://localhost:3001/commissions");
+    return response.data; 
+  } catch (error) {
+    throw error;
+  }
+};

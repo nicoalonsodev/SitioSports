@@ -14,11 +14,11 @@
 }
 
 /* ============= NavLink active Start here ============== */
-nav .active li {
+/* nav .active li {
   color: #fc148c;
   font-weight: 600;
   text-decoration: 1px underline #fc148c;
-}
+} */
 
 @media screen and (max-width: 665px) {
   nav .active li {

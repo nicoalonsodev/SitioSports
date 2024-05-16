@@ -7,31 +7,38 @@ const putProductHandler = async (req, res) => {
   const {
     productName,
     price,
-    stock,
     brand,
     cat,
     sub_cat,
     sizes,
+    variants,
     color,
     badge,
     image,
     description,
+    best_sellers,
+    new_arrivals,
+    special_offers,
   } = req.body;
+  const updatedFields = {
+    productName,
+    price,
+    brand,
+    cat,
+    sub_cat,
+    sizes,
+    variants,
+    color,
+    badge,
+    image,
+    description,
+    best_sellers,
+    new_arrivals,
+    special_offers,
+  };
   try {
-    await putProductController(
-      id,
-      productName,
-      price,
-      stock,
-      brand,
-      cat,
-      sub_cat,
-      sizes,
-      color,
-      badge,
-      image,
-      description
-    );
+    await putProductController(id, updatedFields);
+    console.log("cambiaste!");
     res.send("Registro modificado correctamente");
   } catch (error) {
     console.error(error);

@@ -1,13 +1,73 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../redux/orebiSlice";
 import Sizes from "../../Sizes/Sizes";
-const ProductInfo = ({ productInfo }) => {
+import PaymentMethods from "./PaymentMethods";
+import { FaRulerHorizontal } from "react-icons/fa";
+import SizeGuide from "./SizeGuide";
+
+const ProductInfo = ({ productInfo, handleSelectedImages }) => {
   const [selectedSize, setSelectedSize] = useState(null);
+  const [sizeMaxQuantity, setSizeMaxQuantity] = useState(0);
+  const [selectedVariant, setSelectedVariant] = useState({
+    "variant": "blue",
+    "id": 2,
+    "sizes": [
+      {
+        "size": "39",
+        "stock": 6
+      },
+      {
+        "size": "40",
+        "stock": 0
+      },
+      {
+        "size": "41",
+        "stock": 0
+      },
+      {
+        "size": "42",
+        "stock": 0
+      },
+      {
+        "size": "43",
+        "stock": 3
+      },
+      {
+        "size": "44",
+        "stock": 0
+      },
+      {
+        "size": "45",
+        "stock": 0
+      }
+    ],
+    "imgUrl": [
+      "https://res.cloudinary.com/doczyujqf/image/upload/v1715636234/xjh8ueocjorq1puiidvm.jpg",
+      "https://res.cloudinary.com/doczyujqf/image/upload/v1715687623/gwriyowwnzne4sriuatf.jpg"
+    ]
+  });
   const highlightStyle = {
     color: "#d0121a", // Change this to the desired color
     fontWeight: "bold", // Change this to the desired font weight
   };
+
+  useEffect(() => {
+    if (
+      productInfo &&
+      productInfo.variants &&
+      productInfo.variants.length > 0
+    ) {
+      setSelectedVariant(productInfo.variants[0]);
+    }
+  }, [productInfo]);
+  console.log(selectedVariant);
+
+  useEffect(() => {
+    if (selectedVariant) {
+      handleSelectedImages(selectedVariant.imgUrl);
+    }
+  }, [selectedVariant]);
 
   const renderDescription = () => {
     if (!productInfo.des) {
@@ -33,48 +93,24 @@ const ProductInfo = ({ productInfo }) => {
       title: "39",
     },
     {
-      _id: 9002,
-      title: "39.5",
-    },
-    {
       _id: 9003,
       title: "40",
-    },
-    {
-      _id: 9004,
-      title: "40.5",
     },
     {
       _id: 9005,
       title: "41",
     },
     {
-      _id: 9006,
-      title: "41.5",
-    },
-    {
       _id: 9007,
       title: "42",
-    },
-    {
-      _id: 9008,
-      title: "42.5",
     },
     {
       _id: 9009,
       title: "43",
     },
     {
-      _id: 9010,
-      title: "43.5",
-    },
-    {
       _id: 9011,
       title: "44",
-    },
-    {
-      _id: 90012,
-      title: "44.5",
     },
     {
       _id: 90013,
@@ -106,33 +142,85 @@ const ProductInfo = ({ productInfo }) => {
   ];
   const handleSize = (size) => {
     setSelectedSize(size);
+    // Buscar el objeto en productInfo.sizes que tiene el tamaño seleccionado
+    const selectedSizeObject = selectedVariant.sizes.find(
+      (item) => item.size === size
+    );
+
+    if (selectedSizeObject) {
+      // Si se encontró el objeto, actualizar el estado sizeMaxQuantity con el stock correspondiente
+      setSizeMaxQuantity(selectedSizeObject.stock);
+    } else {
+      // Manejar el caso donde el tamaño seleccionado no se encuentra en productInfo.sizes
+      console.log("El tamaño seleccionado no se encontró en el producto");
+      // Podrías establecer sizeMaxQuantity en 0 u otro valor predeterminado si lo deseas
+      setSizeMaxQuantity(0);
+    }
   };
+
+  const availableSizes = selectedVariant.sizes
+    ?.map((size) => {
+      if (size.stock > 0) {
+        return size.size;
+      }
+    })
+    .filter((size) => size !== undefined && size !== null);
+
   return (
     <>
-      <div className="flex flex-col items-start gap-4 lg:w-2/4">
+      <div className="flex flex-col items-start gap-4 lg:w-[40%]">
         <div>
           <span className=" text-[#fc148c] font-semibold">Fútbol</span>
-          <h1 className="text-4xl font-bold">{productInfo.productName}</h1>
-          <h6 className="text-lg font-semibold text-gray-700">
+          <h1 className="text-3xl font-normal">{productInfo.productName}</h1>
+          <h6 className="text-3xl font-extrabold text-gray-700">
             $ {productInfo.price}
           </h6>
         </div>
-        <p className="text-gray-700">Short description</p>
-        <Sizes selectedSize={selectedSize} handleSize={handleSize} productSizes={productInfo.sizes} sizes={productInfo.cat === "Botines" ? sizesBotines : sizesCamisetas} />
-        <div className="hover:underline cursor-pointer">Guia de talles</div>
+        <p className="text-gray-700">{productInfo.description}</p>
+        <PaymentMethods />
+        {productInfo.variants ? (
+          <div className="flex">
+            {productInfo.variants?.map((variant) => (
+              <div
+                key={variant.id}
+                className={`cursor-pointer border-gray-300 border-[1px] ${
+                  variant.id !== selectedVariant.id
+                    ? ""
+                    : "border-b-2 border-gray-700"
+                }`}
+                onClick={() => setSelectedVariant(variant)}
+              >
+                <img className="w-20" src={variant.imgUrl[0]} />
+               
+              </div>
+            ))}
+            {/* <p>{selectedVariant.variant}</p> */}
+          </div>
+        ) : (
+          ""
+        )}
+        <Sizes
+          selectedSize={selectedSize}
+          handleSize={handleSize}
+          productSizes={availableSizes}
+          sizes={productInfo.cat === "Botines" ? sizesBotines : sizesCamisetas}
+        />
+        <SizeGuide cat={productInfo.cat} />
         <div className="flex flex-row items-center gap-12">
           <button
             onClick={() =>
               dispatch(
                 addToCart({
-                  _id: productInfo.id,
+                  id: productInfo._id,
                   name: productInfo.productName,
                   quantity: 1,
+                  maxQuantity: sizeMaxQuantity,
                   size: selectedSize,
                   image: productInfo.img,
                   badge: productInfo.badge,
                   price: productInfo.price,
-                  colors: productInfo.color,
+                  color: productInfo.color,
+                  variant: selectedVariant,
                 })
               )
             }
@@ -141,7 +229,7 @@ const ProductInfo = ({ productInfo }) => {
             Agregar al Carrito
           </button>
         </div>
-        <div>Envio gratis a partir de los $99.99</div>
+        <p>EN SITIO SPORTS, VENDEMOS PRODUCTOS CON ENTREGA INMEDIATA Y PRODUCTOS POR ENCARGO. LOS PRODUCTOS CON ENTREGA INMEDIATA DEMORAN DE 1 A 5 DÍAS HÁBILES EN LLEGAR A TU PUERTA Y LOS PRODUCTOS POR ENCARGO DEMORAN DE 20 A 30 DÍAS HÁBILES. PARA VER EL CATALOGO POR ENCARGO <a className="underline" href="/encargo">HAZ CLICK AQUI</a></p>
       </div>
     </>
   );
