@@ -6,7 +6,9 @@ import AddressForm from "../../components/PayerForm/AddressForm";
 import { useDispatch, useSelector } from "react-redux";
 import ContactForm from "../../components/PayerForm/ContactForm";
 import { tarjetas, otherPaymentMethods } from "../../constants";
+import { resetCart } from "../../redux/orebiSlice";
 const Payment = (props) => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const products = useSelector((state) => state.orebiReducer.cartProducts);
   const [resume, setResume] = useState(false);
@@ -16,10 +18,11 @@ const Payment = (props) => {
   const [readyToPay, setReadyToPay] = useState(false);
   const [productInfo, setProductInfo] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [shipping, setShippihng] = useState("");
+  const [shipping, setShipping] = useState("");
   const [shippmentCharge, setShippmentCharge] = useState(0);
   const [shipmentPlusTotal, setShipmentPlusTotal] = useState(0);
   const [totalAmt, setTotalAmt] = useState("");
+  const [processing, setProcessing] = useState(false);
   const location = useLocation();
   const [order, setOrder] = useState({
     productInfo: "",
@@ -29,6 +32,7 @@ const Payment = (props) => {
   useEffect(() => {
     setProductInfo(location.state.item);
     setResume(true);
+    setShippmentCharge(location.state.shippingCharge);
   }, [location]);
 
   useEffect(() => {
@@ -44,31 +48,34 @@ const Payment = (props) => {
 
   useEffect(() => {
     //aca probamos con un valor corto
-    if (totalAmt !== "" && totalAmt > 130) {
-      setShippmentCharge(0);
+    if (totalAmt !== "" && totalAmt > 45000) {
       setShipmentPlusTotal(totalAmt);
     } else {
-      setShippmentCharge(20);
       setShipmentPlusTotal(totalAmt + shippmentCharge);
     }
-  }, [totalAmt]);
+  }, [totalAmt, shippmentCharge]);
 
   const handlePay = async () => {
     if (paymentMethod === "mp") {
       try {
+        setProcessing(true);
         const response = await axios.post(
           "http://localhost:3001/create-order",
           order
         );
         const preferenceId = response.data.id;
         const redirectUrl = `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=${preferenceId}`;
+        dispatch(resetCart());
         window.open(redirectUrl, "_blank");
+        setProcessing(false);
       } catch (error) {
         // Manejar errores si la solicitud falla
         console.error("Error creating order:", error);
+        setProcessing(false);
       }
     } else {
       try {
+        setProcessing(true);
         const postOrder = {
           items: productInfo,
           name: order.payerInfo.payerName,
@@ -97,10 +104,12 @@ const Payment = (props) => {
           "http://localhost:3001/order",
           postOrder
         );
-        console.log(responsePost.data);
-        // navigate("/order-wire-transfer");
+        navigate("/orden-transferencia-confirmada");
+        dispatch(resetCart());
+        setProcessing(false);
       } catch (error) {
         console.error("Error creating order:", error);
+        setProcessing(false);
       }
     }
   };
@@ -122,13 +131,23 @@ const Payment = (props) => {
   };
 
   // const subtotal = productInfo.price * productInfo.quantity
+  const ivaPercentage = 17.356;
+  const ivaAmount = ((ivaPercentage / 100) * shipmentPlusTotal).toFixed(2);
 
+  const handleClickShippingType = (value) => {
+    setShipping(value);
+    if (value === "esp") {
+      setShippmentCharge((prevCharge) => prevCharge + 2350);
+    }
+  };
   return (
     <div className="flex flex-wrap w-screen justify-start items-start px-32 pb-20 relative">
       <div className="w-2/3 justify-between space-y-6">
         <div className="w-full flex flex-wrap justify-start ">
           <div className="w-1/3">
-            <p className="font-bold text-2xl text-left">Tu Contacto</p>
+            <p className="font-bold text-2xl text-left uppercase">
+              Tu Contacto
+            </p>
             <div className="w-full">
               {!readyToPay ? (
                 <ContactForm handleSubmitContact={handleSubmitContact} />
@@ -161,7 +180,7 @@ const Payment = (props) => {
           </div>
         </div>
         <div className="w-full">
-          <p className="font-bold text-2xl pb-3">Tu Dirección</p>
+          <p className="font-bold text-2xl pb-3 uppercase">Tu Dirección</p>
           <div className="">
             {!addressReady && contactReady ? (
               <AddressForm handleAddress={handleAddress} email={email} />
@@ -170,7 +189,9 @@ const Payment = (props) => {
             )}
             {addressReady ? (
               <div className="py-4 text-gray-600">
-                <h1 className="text-gray-800 font-bold">Dirección de envío</h1>
+                <h1 className="text-gray-800 font-bold uppercase">
+                  Dirección de envío
+                </h1>
                 <p>{order.payerInfo.payerName}</p>
                 <p>{order.payerInfo.phone}</p>
                 <p>{order.payerInfo.zipCode}, AR</p>
@@ -194,7 +215,7 @@ const Payment = (props) => {
         </div>
 
         <div className="w-full space-y-4">
-          <p className="font-bold text-2xl ">Opciones de Entrega</p>
+          <p className="font-bold text-2xl uppercase">Opciones de Entrega</p>
           {order.payerInfo ? (
             <>
               <div
@@ -203,7 +224,7 @@ const Payment = (props) => {
                     ? "border-[3px] border-[#e46dc7] shadow-sm"
                     : "border-[1px] border-gray-700"
                 } w-3/5 flex justify-between p-4 cursor-pointer hover:bg-gray-50`}
-                onClick={() => setShippihng("estandar")}
+                onClick={() => handleClickShippingType("estandar")}
               >
                 <div className="">
                   <div className="h-auto">
@@ -221,7 +242,7 @@ const Payment = (props) => {
                     ? "border-[3px] border-[#e46dc7] shadow-sm"
                     : "border-[1px] border-gray-700"
                 } w-3/5 flex justify-between p-4 cursor-pointer hover:bg-gray-50`}
-                onClick={() => setShippihng("esp")}
+                onClick={() => handleClickShippingType("esp")}
               >
                 <div className="">
                   <div className="h-auto">
@@ -257,7 +278,7 @@ const Payment = (props) => {
         </div>
 
         <div className="w-full space-y-4">
-          <p className="font-bold text-2xl ">Medio de Pago</p>
+          <p className="font-bold text-2xl uppercase">Medio de Pago</p>
           {readyToPay ? (
             <>
               <div
@@ -329,7 +350,9 @@ const Payment = (props) => {
                 onClick={paymentMethod ? handlePay : null}
                 disabled={!paymentMethod}
               >
-                {paymentMethod === "mp"
+                {processing === true
+                  ? "..."
+                  : paymentMethod === "mp"
                   ? "Pagar a través de Mercado Pago"
                   : paymentMethod === "tb"
                   ? "Realizar pedido"
@@ -350,7 +373,7 @@ const Payment = (props) => {
           <div className="w-full gap-y-4">
             {products?.map((product) => (
               <div className="flex justify-between gap-6">
-                <div className="w-20 ">
+                <div className="w-24 ">
                   <img className="w-full" src={product.image} />
                 </div>
                 <div className="w-full text-gray-800">
@@ -373,18 +396,18 @@ const Payment = (props) => {
               </span>
             </p>
             <p className="flex items-center justify-between py-1.5 text-lg font-medium">
-              Envio
+              Costo de envío
               <span className="font-semibold tracking-wide font-titleFont">
                 {shipping === "estandar" ? "Gratis" : `$${shippmentCharge}`}
               </span>
             </p>
-            <p className="flex items-center justify-between  py-1.5 text-lg font-medium">
+            <p className="flex items-center justify-between text-pink-600  py-1.5 text-xl font-bold">
               Total
-              <span className="font-bold tracking-wide text-lg font-titleFont">
+              <span className="font-bold tracking-wide text-xl font-titleFont">
                 ${shipmentPlusTotal}
               </span>
             </p>
-            <p className="">(IVA incluido)</p>
+            <p className="text-sm">(IVA incluido ${ivaAmount})</p>
           </div>
         </div>
       </div>

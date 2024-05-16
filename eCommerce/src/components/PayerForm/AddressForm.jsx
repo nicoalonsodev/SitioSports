@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const CustomInput = ({ label, name, value, onChange, placeholder, error }) => {
+export const CustomInput = ({ label, name, value, onChange, placeholder, error }) => {
   const [focus, setFocus] = useState(false);
 
   const handleChange = (e) => {
@@ -33,7 +33,7 @@ const CustomInput = ({ label, name, value, onChange, placeholder, error }) => {
         <span
           className={`absolute top-3 left-1 w-full flex items-center pl-1 ${
             focus || value
-              ? "text-[11px] text-gray-500 transform -translate-y-[14px]"
+              ? "text-[11px] text-gray-500 transform -translate-y-[12px]"
               : "text-md text-gray-500"
           }  duration-500`}
         >

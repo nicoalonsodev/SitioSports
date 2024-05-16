@@ -3,49 +3,49 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../../redux/orebiSlice";
 import Sizes from "../../Sizes/Sizes";
 import PaymentMethods from "./PaymentMethods";
-import { FaRulerHorizontal } from "react-icons/fa";
+import { FaRulerHorizontal, FaLock } from "react-icons/fa";
 import SizeGuide from "./SizeGuide";
 
 const ProductInfo = ({ productInfo, handleSelectedImages }) => {
   const [selectedSize, setSelectedSize] = useState(null);
   const [sizeMaxQuantity, setSizeMaxQuantity] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState({
-    "variant": "blue",
-    "id": 2,
-    "sizes": [
+    variant: "blue",
+    id: 2,
+    sizes: [
       {
-        "size": "39",
-        "stock": 6
+        size: "39",
+        stock: 6,
       },
       {
-        "size": "40",
-        "stock": 0
+        size: "40",
+        stock: 0,
       },
       {
-        "size": "41",
-        "stock": 0
+        size: "41",
+        stock: 0,
       },
       {
-        "size": "42",
-        "stock": 0
+        size: "42",
+        stock: 0,
       },
       {
-        "size": "43",
-        "stock": 3
+        size: "43",
+        stock: 3,
       },
       {
-        "size": "44",
-        "stock": 0
+        size: "44",
+        stock: 0,
       },
       {
-        "size": "45",
-        "stock": 0
-      }
+        size: "45",
+        stock: 0,
+      },
     ],
-    "imgUrl": [
+    imgUrl: [
       "https://res.cloudinary.com/doczyujqf/image/upload/v1715636234/xjh8ueocjorq1puiidvm.jpg",
-      "https://res.cloudinary.com/doczyujqf/image/upload/v1715687623/gwriyowwnzne4sriuatf.jpg"
-    ]
+      "https://res.cloudinary.com/doczyujqf/image/upload/v1715687623/gwriyowwnzne4sriuatf.jpg",
+    ],
   });
   const highlightStyle = {
     color: "#d0121a", // Change this to the desired color
@@ -176,10 +176,12 @@ const ProductInfo = ({ productInfo, handleSelectedImages }) => {
             $ {productInfo.price}
           </h6>
         </div>
-        <p className="text-gray-700">{productInfo.description}</p>
+        <p className="text-gray-700">
+          {productInfo.description ? productInfo.description : ""}
+        </p>
         <PaymentMethods />
         {productInfo.variants ? (
-          <div className="flex">
+          <div className="flex py-4">
             {productInfo.variants?.map((variant) => (
               <div
                 key={variant.id}
@@ -191,10 +193,9 @@ const ProductInfo = ({ productInfo, handleSelectedImages }) => {
                 onClick={() => setSelectedVariant(variant)}
               >
                 <img className="w-20" src={variant.imgUrl[0]} />
-               
               </div>
             ))}
-            {/* <p>{selectedVariant.variant}</p> */}
+           
           </div>
         ) : (
           ""
@@ -229,7 +230,22 @@ const ProductInfo = ({ productInfo, handleSelectedImages }) => {
             Agregar al Carrito
           </button>
         </div>
-        <p>EN SITIO SPORTS, VENDEMOS PRODUCTOS CON ENTREGA INMEDIATA Y PRODUCTOS POR ENCARGO. LOS PRODUCTOS CON ENTREGA INMEDIATA DEMORAN DE 1 A 5 DÍAS HÁBILES EN LLEGAR A TU PUERTA Y LOS PRODUCTOS POR ENCARGO DEMORAN DE 20 A 30 DÍAS HÁBILES. PARA VER EL CATALOGO POR ENCARGO <a className="underline" href="/encargo">HAZ CLICK AQUI</a></p>
+        <div className="flex items-center justify-start gap-4">
+          <FaLock className="text-2xl" />
+          <div className="flex flex-col">
+            <p className="font-semibold">Compra Protegida</p>
+            <p className="text-sm">Tus datos cuidados durante toda la compra.</p>
+          </div>
+        </div>
+        <p className="text-sm">
+          EN SITIO SPORTS, VENDEMOS PRODUCTOS CON ENTREGA INMEDIATA Y PRODUCTOS
+          POR ENCARGO. LOS PRODUCTOS CON ENTREGA INMEDIATA DEMORAN DE 1 A 5 DÍAS
+          HÁBILES EN LLEGAR A TU PUERTA Y LOS PRODUCTOS POR ENCARGO DEMORAN DE
+          20 A 30 DÍAS HÁBILES. PARA VER EL CATALOGO POR ENCARGO{" "}
+          <a className="underline" href="/encargo">
+            HAZ CLICK AQUI
+          </a>
+        </p>
       </div>
     </>
   );

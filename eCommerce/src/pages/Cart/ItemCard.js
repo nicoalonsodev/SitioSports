@@ -14,7 +14,7 @@ const ItemCard = ({ item }) => {
       <div className="flex justify-between col-span-3 gap-4">
         <div className="flex gap-4">
           <img
-            className="w-[200px] h-[200px] object-cover"
+            className="w-auto h-[200px] object-cover"
             src={item.image}
             alt="productImage"
           />

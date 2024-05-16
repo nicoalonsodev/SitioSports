@@ -6,6 +6,7 @@ import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
 import { resetCart } from "../../redux/orebiSlice";
 import { emptyCart } from "../../assets/images/index";
 import ItemCard from "./ItemCard";
+import { IoIosInformationCircleOutline } from "react-icons/io";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -31,11 +32,9 @@ const Cart = () => {
     setTotalAmt(price);
   }, [products]);
   useEffect(() => {
-    if (totalAmt <= 200) {
-      setShippingCharge(30);
-    } else if (totalAmt <= 400) {
-      setShippingCharge(25);
-    } else if (totalAmt > 401) {
+    if (totalAmt <= 45000) {
+      setShippingCharge(5000);
+    }  else if (totalAmt > 45000) {
       setShippingCharge("Gratis");
     }
   }, [totalAmt]);
@@ -44,25 +43,36 @@ const Cart = () => {
     navigate(`/paymentgateway`, {
       state: {
         item: products,
+        shippingCharge,
       },
     });
-  }
+  };
   let numberOfProducts = 0;
   if (products) {
     for (const product of products) {
       numberOfProducts += product.quantity;
     }
   }
- 
+
   return (
-    <div className="max-w-container mx-auto px-32">
+    <div className="max-w-container mx-auto px-32 relative">
+      <div className="absolute top-10 right-24 flex items-center gap-3 w-[200px]">
+        <img className="w-10 rounded-md" src="https://d1zxmlch3z83cq.cloudfront.net/production/2.3.41/_next/server/static/img/safe-shopping.svg" />
+        <div className="flex flex-col">
+          <p className="text-sm font-semibold">COMPRA SEGURA</p>
+          <p className="text-sm"> 100% PROTEGIDA</p>
+        </div>
+      </div>
       <Breadcrumbs title="Tu Carrito" />
       {products.length > 0 ? (
-        <div className="pb-20">
-          <p>
-            Los artículos en tu carrito no están reservados. Terminá el proceso
-            de compra ahora para hacerte con ellos.
-          </p>
+        <div className="pb-20 ">
+          <div className="flex  gap-4 items-center">
+            <IoIosInformationCircleOutline className="text-4xl text-pink-500" />
+            <p className="text-md text-left">
+              Los artículos en tu carrito no están reservados. <br />
+              Terminá el proceso de compra ahora para hacerte con ellos.
+            </p>
+          </div>
           <div className="flex justify-between items-start flex-wrap mt-5">
             <div className="w-1/2 flex flex-wrap justify-start items-start">
               {products.map((item) => (
@@ -78,7 +88,9 @@ const Cart = () => {
                 </h1>
                 <div>
                   <p className="flex items-center justify-between border-b-0 py-1.5 text-lg font-medium">
-                    {numberOfProducts === 1 ? "1 Producto" : `${numberOfProducts} productos`}
+                    {numberOfProducts === 1
+                      ? "1 Producto"
+                      : `${numberOfProducts} productos`}
                     <span className="font-normal tracking-wide font-titleFont">
                       ${totalAmt}
                     </span>
@@ -86,13 +98,18 @@ const Cart = () => {
                   <p className="flex items-center justify-between py-1.5 text-lg font-medium">
                     Envio
                     <span className="font-normal tracking-wide font-titleFont">
-                     {shippingCharge === "Gratis" ? shippingCharge : `$${shippingCharge}`}
+                      {shippingCharge === "Gratis"
+                        ? shippingCharge
+                        : `$${shippingCharge}`}
                     </span>
                   </p>
                   <p className="flex items-center font-bold justify-between  py-1.5 text-lg ">
                     Total
                     <span className="font-bold tracking-wide text-lg font-titleFont">
-                      ${shippingCharge === "Gratis" ? totalAmt : totalAmt + shippingCharge}
+                      $
+                      {shippingCharge === "Gratis"
+                        ? totalAmt
+                        : totalAmt + shippingCharge}
                     </span>
                   </p>
                   <p className="">(IVA incluido ${ivaAmount})</p>
@@ -100,7 +117,7 @@ const Cart = () => {
                 <div className="w-full flex justify-end">
                   <button
                     className="w-full"
-                   onClick={() => handlePaymentGateway()}
+                    onClick={() => handlePaymentGateway()}
                   >
                     <button className="w-full h-10 bg-primeColor text-white hover:bg-gray-700 duration-300">
                       CONTINUAR COMPRA

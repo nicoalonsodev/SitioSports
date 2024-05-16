@@ -42,7 +42,7 @@ function Items({ currentItems, selectedBrands, selectedCategories, selectedSizes
           <Product
             _id={item.id}
             badge={item.badge}
-            img={item.image}
+            img={item.variants[0].imgUrl[0]}
             productName={item.productName}
             price={item.price}
             brand={item.brand}

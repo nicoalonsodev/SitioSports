@@ -54,7 +54,7 @@ const ProductDetails = () => {
           <div className="xl:-mt-10 -mt-7">
             <Breadcrumbs title="" prevLocation={prevLocation} />
           </div>
-          <div className="flex flex-col justify-center lg:flex-row gap-16 lg:items-start ">
+          <div className="flex flex-col justify-center lg:flex-row gap-4 lg:items-start ">
             <CarruselDetail productInfo={productInfo} variantImages={images} />
             <ProductInfo
               productInfo={productInfo ? productInfo : ""}

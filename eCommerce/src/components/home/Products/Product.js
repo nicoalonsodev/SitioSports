@@ -39,7 +39,7 @@ const Product = (props) => {
         <div onClick={handleProductDetails}>
           <Image className="w-full h-full" imgSrc={props.img} />
         </div>
-        <div className="absolute top-6 left-8">
+        <div className="absolute top-4 left-4">
           {props.badge && <Badge text="New" />}
         </div>
         <div className="w-full h-auto absolute bg-white -bottom-[130px] group-hover:bottom-0 duration-700">
