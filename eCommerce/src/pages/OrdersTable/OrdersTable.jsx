@@ -22,7 +22,7 @@ const OrdersTable = () => {
 
   const orders = useSelector((state) => state.orebiReducer.orders);
   const count = orders?.length;
-console.log(orders);
+  console.log(orders);
   const [currentPage, setCurrentPage] = useState(1);
   const [changes, setChanges] = useState({});
   const [isChanging, setIsChanging] = useState(false);
@@ -221,14 +221,14 @@ console.log(orders);
             <div className="flex">
               {/* <Dropdown handleFilter={handleFilter} /> */}
               <div className="mr-2">{/* <ExcelDownloadButton /> */}</div>
-              <div>
+              {/* <div>
                 <a
                   href="/uploadproduct"
                   className="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none"
                 >
-                Crear Orden
+                  Crear Orden
                 </a>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -245,14 +245,12 @@ console.log(orders);
                   Mail
                 </th>
                 <th className="px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
-                  Producto
+                  Total
                 </th>
                 <th className="px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
-                  Marca
+                  Fuente
                 </th>
-                <th className="px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
-                  Categoría
-                </th>
+
                 <th className="px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
                   Status
                 </th>
@@ -289,7 +287,6 @@ console.log(orders);
               </tr>
             </thead>
 
-
             <tbody className="bg-white">
               {orders?.map((order, index) => (
                 <tr key={order.order_id}>
@@ -311,21 +308,20 @@ console.log(orders);
                     {order.phone}
                   </td>
                   <td className="text-center px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
-                    {order.status_detail}
+                    ${order.transaction_amount}
                   </td>
                   <td className="text-center px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
-                    {order.shipment.state_name}
+                    {order.order_type}
                   </td>
-                  <td className="text-center px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
-                    {order.shipment.city_name}
-                  </td>
+
                   <td className="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
                     <span className="flex justify-center text-center relative  px-3 py-1 font-semibold text-green-900 leading-tight">
                       <span
                         aria-hidden
                         className={` 
                           ${
-                            order.status === "Activo"
+                            order.status === "approved" ||
+                            order.status === "Aprobado"
                               ? "absolute inset-0 bg-green-200 opacity-50 rounded-full"
                               : "absolute inset-0 bg-red-200 opacity-50 rounded-full"
                           }
@@ -335,7 +331,6 @@ console.log(orders);
                     </span>
                   </td>
 
-                  
                   {/* 
                   <td className="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
                     <input
@@ -352,8 +347,6 @@ console.log(orders);
                     />
                   </td> */}
 
-
-
                   <td className="text-center px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5">
                     {order.createdAt.slice(0, 10)}
                   </td>
@@ -369,9 +362,6 @@ console.log(orders);
                 </tr>
               ))}
             </tbody>
-
-
-
           </table>
           <div className="sm:flex-1 sm:flex sm:items-center sm:justify-between mt-4 work-sans">
             <div>

@@ -4,7 +4,7 @@ import { FaFacebook, FaYoutube, FaLinkedin, FaGithub } from "react-icons/fa";
 import FooterListTitle from "./FooterListTitle";
 import { paymentCard } from "../../../assets/images";
 import Image from "../../designLayouts/Image";
-
+import { tarjetas, otherPaymentMethods } from "../../../constants";
 const Footer = () => {
   const [emailInfo, setEmailInfo] = useState("");
   const [subscription, setSubscription] = useState(false);
@@ -31,13 +31,17 @@ const Footer = () => {
     <div className="w-full bg-[#F5F5F3] py-20 overflow-hidden">
       <div className="max-w-container mx-auto grid grid-cols-1 md:grid-cols-2  xl:grid-cols-6 px-4 gap-10">
         <div className="col-span-2">
-          <FooterListTitle title=" More about Orebi Shop" />
+          <FooterListTitle title=" Medios de pago" />
           <div className="flex flex-col gap-6">
-            <p className="text-base w-full xl:w-[80%]">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim sint
-              ab ullam, numquam nesciunt in.
-            </p>
-            <ul className="flex items-center gap-2">
+          <div className="flex flex-wrap py-3 gap-2">
+              {tarjetas?.map((tarjeta) => (
+                <img className="w-14" src={tarjeta} />
+              ))}
+              {otherPaymentMethods?.map((payment) => (
+                <img src={payment} className="w-14" />
+              ))}
+            </div>
+            {/* <ul className="flex items-center gap-2">
               <a
                 href="https://www.youtube.com/@reactjsBD"
                 target="_blank"
@@ -74,55 +78,48 @@ const Footer = () => {
                   <FaLinkedin />
                 </li>
               </a>
-            </ul>
+            </ul> */}
           </div>
         </div>
         <div>
-          <FooterListTitle title="Shop" />
+          <FooterListTitle title="Navegación" />
           <ul className="flex flex-col gap-2">
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              Accesories
+              <a href="/">Inicio</a>
+              
             </li>
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              Clothes
+            <a href="/shpo"> Catálogo</a>
             </li>
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              Electronics
+            <a href="/shop"> Botines</a>
             </li>
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              Home appliances
+            <a href="/shop"> Camisetas</a>
             </li>
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              New Arrivals
+            <a href="/shop">  Medias</a>
+            </li>
+            <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+            <a href="/ayuda">  Ayuda</a>
             </li>
           </ul>
         </div>
         <div>
-          <FooterListTitle title="Your account" />
+          <FooterListTitle title="Contáctanos" />
           <ul className="flex flex-col gap-2">
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              Profile
+              sitiosports@gmail.com
             </li>
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              Orders
+              3453344345
             </li>
-            <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              Addresses
-            </li>
-            <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              Account Details
-            </li>
-            <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              Payment Options
-            </li>
+            
           </ul>
         </div>
         <div className="col-span-2 flex flex-col items-center w-full px-4">
-          <FooterListTitle title="Subscribe to our newsletter." />
+          <FooterListTitle title="Newsletter" />
           <div className="w-full">
-            <p className="text-center mb-4">
-              A at pellentesque et mattis porta enim elementum.
-            </p>
             {subscription ? (
               <motion.p
                 initial={{ x: 20, opacity: 0 }}
@@ -140,7 +137,7 @@ const Footer = () => {
                     value={emailInfo}
                     className="w-full h-12 border-b border-gray-400 bg-transparent px-4 text-primeColor text-lg placeholder:text-base outline-none"
                     type="text"
-                    placeholder="Insert your email ...*"
+                    placeholder=" Ingrese su email ..."
                   />
                   {errMsg && (
                     <p className="text-red-600 text-sm font-semibold font-titleFont text-center animate-bounce mt-2">
@@ -152,17 +149,10 @@ const Footer = () => {
                   onClick={handleSubscription}
                   className="bg-white text-lightText w-[30%] h-10 hover:bg-black hover:text-white duration-300 text-base tracking-wide"
                 >
-                  Subscribe
+                  Subscribirme
                 </button>
               </div>
             )}
-
-            <Image
-              className={`w-[80%] lg:w-[60%] mx-auto ${
-                subscription ? "mt-2" : "mt-6"
-              }`}
-              imgSrc={paymentCard}
-            />
           </div>
         </div>
       </div>

@@ -70,10 +70,11 @@ useEffect(() => {
       try {
         setProcessing(true);
         const response = await axios.post(
-          "http://localhost:3001/create-order",
+          "https://sitiosports-production.up.railway.app/create-order",
           order
         );
         const preferenceId = response.data.id;
+        console.log(preferenceId);
         const redirectUrl = `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=${preferenceId}`;
         dispatch(resetCart());
         window.open(redirectUrl, "_blank");
@@ -112,7 +113,7 @@ useEffect(() => {
           shipping_type: shipping,
         };
         const responsePost = await axios.post(
-          "http://localhost:3001/order",
+          "https://sitiosports-production.up.railway.app/order",
           postOrder
         );
         const order_number = responsePost.data.order_number;

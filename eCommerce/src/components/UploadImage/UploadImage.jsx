@@ -22,7 +22,7 @@ console.log(id);
   function uploadSingleImage(base64) {
     setLoading(true);
     axios
-      .post("http://localhost:3001/uploadImage", { image: base64 })
+      .post("https://sitiosports-production.up.railway.app/uploadImage", { image: base64 })
       .then((res) => {
         setUrl(res.data);
         if (id) {

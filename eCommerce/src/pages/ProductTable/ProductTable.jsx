@@ -240,29 +240,29 @@ const ProductTable = () => {
           <table className="align-middle min-w-full">
             <thead>
               <tr>
-                <th className="my-custom-header-style px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider align-middle lg:my-lg-custom-header-style"></th>
-                <th className="my-custom-header-style my-lg-custom-header-style px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider align-middle">
+                <th className="my-custom-header-style px-1 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider align-middle lg:my-lg-custom-header-style"></th>
+                <th className="my-custom-header-style my-lg-custom-header-style px-1 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider align-middle">
                   Producto
                 </th>
-                <th className="px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider xl:ml-15">
+                <th className="px-1 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider xl:ml-15">
                   Precio
                 </th>
-                <th className="px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
+                <th className="px-1 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
                   Stock
                 </th>
-                <th className="px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
+                <th className="px-1 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
                   Marca
                 </th>
-                <th className="px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
+                <th className="px-1 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
                   Categoría
                 </th>
-                <th className="px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
-                  Status
+                <th className="px-1 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
+                  Estado
                 </th>
-                {/* <th className="flex px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
+                {/* <th className="flex px-1 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
                   Estado
                 </th> */}
-                <th className="px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider relative">
+                <th className="px-1 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider relative">
                   Fecha de Creación
                   {order === "asc" ? (
                     <button
@@ -288,13 +288,13 @@ const ProductTable = () => {
                     </button>
                   )}
                 </th>
-                <th className="px-6 py-3 border-b-2 border-gray-300"></th>
+                <th className="px-1 py-3 border-b-2 border-gray-300"></th>
               </tr>
             </thead>
             <tbody className="bg-white">
               {products?.map((product, index) => (
                 <tr key={product.id}>
-                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                  <td className="px-1 py-4 whitespace-no-wrap border-b border-gray-500">
                     <div className="flex items-center">
                       <div>
                         <div className="text-sm leading-5 text-gray-800">
@@ -303,42 +303,45 @@ const ProductTable = () => {
                             : (currentPage - 1) * 10 + index + 1}
                         </div>
                       </div>
+                      <div className="w-20">
+                        <img src={product.variants[0].imgUrl[0]} alt="" />
+                      </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                  <td className="px-1 py-4 whitespace-no-wrap border-b border-gray-500">
                     <div className="text-center text-sm leading-5 text-blue-900">
                       {product.productName}
                     </div>
                   </td>
-                  <td className="text-center px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                  <td className="text-center px-1 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
                     {product.price}
                   </td>
-                  <td className="text-center px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                  <td className="text-center px-1 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
                     {product.stock}
                   </td>
-                  <td className="text-center px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                  <td className="text-center px-1 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
                     {product.brand}
                   </td>
-                  <td className="text-center px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                  <td className="text-center px-1 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
                     {product.cat}
                   </td>
-                  <td className="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                  <td className="px-1 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
                     <span className="flex justify-center text-center relative  px-3 py-1 font-semibold text-green-900 leading-tight">
                       <span
                         aria-hidden
                         className={` 
                           ${
-                            product.status === "Activo"
+                            product.disabled === false
                               ? "absolute inset-0 bg-green-200 opacity-50 rounded-full"
                               : "absolute inset-0 bg-red-200 opacity-50 rounded-full"
                           }
                         `}
                       ></span>
-                      <span className="relative text-xs">Activo</span>
+                      <span className="relative text-xs">{product.disabled === false ? "Activo" : "Desactivado"}</span>
                     </span>
                   </td>
                   {/* 
-                  <td className="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                  <td className="px-1 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
                     <input
                       placeholder={product.checked}
                       type="checkbox"
@@ -352,10 +355,10 @@ const ProductTable = () => {
                       // }
                     />
                   </td> */}
-                  <td className="text-center px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5">
+                  <td className="text-center px-1 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5">
                     {product.createdAt.slice(0, 10)}
                   </td>
-                  <td className="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
+                  <td className="px-1 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
                     <a
                       href={`/productdetailbdd/${product.id}`}
                       // onClick={handleChange}

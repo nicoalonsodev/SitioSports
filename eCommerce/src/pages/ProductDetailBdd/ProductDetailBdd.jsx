@@ -10,8 +10,8 @@ const ProductDetailBdd = () => {
   const { id } = useParams();
   const [product, setProduct] = useState("");
   const [prevProduct, setPrevProduct] = useState("");
-  const [bestSellers, setBestSellers] = useState(false); 
-  const [newArrivals, setNewArrivals] = useState(false); 
+  const [bestSellers, setBestSellers] = useState(false);
+  const [newArrivals, setNewArrivals] = useState(false);
   const [specialOffers, setSpecialOffers] = useState(false);
   const products = useSelector((state) => state.orebiReducer.products);
 
@@ -38,12 +38,12 @@ const ProductDetailBdd = () => {
       sizes: product.sizes,
       brand: product.brand,
       variants: product.variants,
-      best_sellers: bestSellers, 
+      best_sellers: bestSellers,
       new_arrivals: newArrivals,
       special_offers: specialOffers,
     };
     axios
-      .put(`http://localhost:3001/products/${product.id}`, productChanges)
+      .put(`https://sitiosports-production.up.railway.app/products/${product.id}`, productChanges)
       .then((response) => {
         // Maneja la respuesta de la solicitud, por ejemplo, muestra una notificación de éxito
         alert("Cambios guardados con éxito");
@@ -174,6 +174,23 @@ const ProductDetailBdd = () => {
                 )}
               </div>
               <div className="flex justify-start gap-2 text-xl">
+                <h1 className="font-bold">Estado: </h1>
+                {isChanging ? (
+                  <input
+                    type="text"
+                    name="disabled"
+                    id="disabled"
+                    onChange={handleChange}
+                    value={product.disabled}
+                    autocomplete="disabled"
+                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
+                    placeholder="Nike Ultimate"
+                  />
+                ) : (
+                  <p>{product.disabled === false ? "Activo" : "Desactivado"}</p>
+                )}
+              </div>
+              <div className="flex justify-start gap-2 text-xl">
                 <h1 className="font-bold">Precio: </h1>
                 {isChanging ? (
                   <input
@@ -273,9 +290,47 @@ const ProductDetailBdd = () => {
                   <p text-lg>{product.brand}</p>
                 )}
               </div>
+              <div className="">
+                <h1 className="font-semibold">Colecciones:</h1>
+                <label>
+                  <input
+                    id="best_sellers"
+                    type="checkbox"
+                    name="best_sellers"
+                    value={product.best_sellers}
+                    onChange={handleChangeCheckbox}
+                  />
+                  Best Sellers
+                </label>
+                <br />
+                <label>
+                  <input
+                    id="new_arrivals"
+                    type="checkbox"
+                    name="new_arrivals"
+                    value={product.new_arrivals}
+                    onChange={handleChangeCheckbox}
+                  />
+                  New Arrivals
+                </label>
+                <br />
+                <label>
+                  <input
+                    id="special_offers"
+                    type="checkbox"
+                    name="special_offers"
+                    value={product.special_offers}
+                    onChange={handleChangeCheckbox}
+                  />
+                  Special Offers
+                </label>
+              </div>
               {/* <div className="flex justify-center w-[270px]">
                 <img src={product.image} alt="" />
               </div> */}
+              <div>
+                <p className="text-pink-600">{product.total_sales > 0 ? `Se vendieron ${product.total_sales} unidades de este producto.` : "Aun no se vendió ninguna unidad."}</p>
+              </div>
             </div>
             <div className="flex flex-wrap gap-8">
               {isChanging ? (
@@ -301,40 +356,6 @@ const ProductDetailBdd = () => {
                   handleDelete={handleDeleteVariant}
                 />
               ))}
-            </div>
-            <div>
-              <label>
-                <input
-                  id="best_sellers"
-                  type="checkbox"
-                  name="best_sellers"
-                  value={product.best_sellers}
-                  onChange={handleChangeCheckbox}
-                />
-                Best Sellers
-              </label>
-              <br />
-              <label>
-                <input
-                  id="new_arrivals"
-                  type="checkbox"
-                  name="new_arrivals"
-                  value={product.new_arrivals}
-                  onChange={handleChangeCheckbox}
-                />
-                New Arrivals
-              </label>
-              <br />
-              <label>
-                <input
-                  id="special_offers"
-                  type="checkbox"
-                  name="special_offers"
-                  value={product.special_offers}
-                  onChange={handleChangeCheckbox}
-                />
-                Special Offers
-              </label>
             </div>
           </div>
         ) : (

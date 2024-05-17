@@ -33,7 +33,7 @@ const OrderDetailBdd = () => {
     } else {
       setLoading(true);
       axios
-        .put(`http://localhost:3001/order/${order.id}`, changes)
+        .put(`https://sitiosports-production.up.railway.app/order/${order.id}`, changes)
         .then((response) => {
           // Maneja la respuesta de la solicitud, por ejemplo, muestra una notificación de éxito
           alert("Cambios guardados con éxito");
@@ -153,7 +153,7 @@ const OrderDetailBdd = () => {
                 <h1 className="font-semibold text-lg">
                   Informacion de Contacto{" "}
                 </h1>
-                <p>nicoalonso99.na@gmail.com</p>
+                <p>{order.email}</p>
                 <p>{order.phone}</p>
               </div>
               <div className="flex flex-col justify-start text-md">

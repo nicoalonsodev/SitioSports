@@ -59,11 +59,11 @@ const createOrder = async (req, res) => {
       external_reference: order_id,
       items: items,
       //cambiar urls con las de verda!
-      notification_url: "https://d2ea-131-161-239-212.ngrok-free.app/webhook",
+      notification_url: "https://4c35-131-161-239-212.ngrok-free.app/webhook",
       back_urls: {
-        success: `https://sitio-sports.vercel.app/orden-mp-confirmada/${order_number}`,
-        failure: `https://sitio-sports.vercel.app/orden-mp-rechazada/${order_number}`,
-        pending: `https://sitio-sports.vercel.app/orden-mp-pendiente/${order_number}`,
+        success: `https://www.sitiosports.com/orden-mp-confirmada/${order_number}`,
+        failure: `https://www.sitiosports.com/orden-mp-rechazada/${order_number}`,
+        pending: `https://www.sitiosports.com/orden-mp-pendiente/${order_number}`,
       },
       auto_return: "approved",
     };
@@ -71,8 +71,8 @@ const createOrder = async (req, res) => {
     const result = await preference.create({
       body,
     });
-
-    res.status(200).json({ result });
+console.log(result);
+    res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
