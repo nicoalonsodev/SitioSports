@@ -5,7 +5,7 @@ const { getOrdersHandler } = require("../handlers/getOrdersHandler");
 const { getAllProductsHandler } = require("../handlers/getAllProductsHandler");
 const { getProductByIdHandler } = require("../handlers/getProductByIdHandler");
 const { getUsersHandler } = require("../handlers/getUsersHandler");
-const { getUserByIdHandler } = require("../handlers/getUserByIdHandler");
+// const { getUserByIdHandler } = require("../handlers/getUserByIdHandler");
 const { getAllCommissionsHandler } = require("../handlers/getAllCommissionsHandler");
 const { createOrder, receiveWebhook } = require("../controllers/paymentController");
 const { postProductHandler } = require("../handlers/postProductHandler");
@@ -20,7 +20,7 @@ const { putOrderHandler } = require("../handlers/putOrderHAndler");
 router.get("/products", getAllProductsHandler);
 router.get("/products/:id", getProductByIdHandler);
 router.get("/users", getUsersHandler);
-router.get("/users/:id", getUserByIdHandler);
+// router.get("/users/:id", getUserByIdHandler);
 router.get("/orders", getOrdersHandler);
 router.get("/commissions", getAllCommissionsHandler);
 
