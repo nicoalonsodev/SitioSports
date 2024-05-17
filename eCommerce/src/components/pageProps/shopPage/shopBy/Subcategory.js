@@ -18,7 +18,7 @@ const Subcategory = () => {
     if (checkedSubcategorys.length !== 0) {
       setShowFilter(true);
     }
-  }, [checkedSubcategorys]);
+  }, [checkedSubcategorys]); 
 
   const subcategory = [
     {

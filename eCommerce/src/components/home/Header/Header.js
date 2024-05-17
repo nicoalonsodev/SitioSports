@@ -9,7 +9,11 @@ import { navBarList } from "../../../constants";
 import Flex from "../../designLayouts/Flex";
 import { FaUser, FaCaretDown, FaShoppingCart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { cleanFilters, toggleCategory, setBackendCommissions } from "../../../redux/orebiSlice";
+import {
+  cleanFilters,
+  toggleCategory,
+  setBackendCommissions,
+} from "../../../redux/orebiSlice";
 import DropdownBotines from "./DropdownBotines";
 import DropdownCamisetas from "./DropdownCamisetas";
 import DropdownMedias from "./DropdownMedias";
@@ -81,7 +85,7 @@ const Header = () => {
     } else if (_id === 1004) {
       setShowCamisetas(!showCamisetas);
     } else if (_id === 1005) {
-      setShowMedias(true);
+      setShowMedias(!showMedias);
     }
   };
 
@@ -103,9 +107,6 @@ const Header = () => {
   return (
     <div className="w-full  h-28 bg-white sticky top-0 z-50 border-b-[1px] border-b-gray-200">
       <nav className="h-full px-4 max-w-container mx-auto relative">
-      <div className="absolute top-0 right-20">
-        <a className="text-gray-500 text-md" href="/ayuda">Ayuda</a>
-       </div>
         <Flex className="flex items-center justify-between h-full mx-10">
           <Link to="/">
             <div>
@@ -221,6 +222,13 @@ const Header = () => {
                     >
                       <li>Medias</li>
                     </NavLink>
+                    <div
+                      className={`z-20 top-[20px] left-[-200px] absolute w-[900px] h-auto bg-white  ${
+                        showMedias ? "flex" : "hidden"
+                      } `}
+                    >
+                      <DropdownMedias />
+                    </div>
                   </div>
                   <div className="relative">
                     <NavLink
@@ -231,6 +239,17 @@ const Header = () => {
                       onClick={handleCommissionClick}
                     >
                       <li>Encargo</li>
+                    </NavLink>
+                  </div>
+                  <div className="relative">
+                    <NavLink
+                      key={1009}
+                      className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
+                      to={"/ayuda"}
+                      state={{ data: location.pathname.split("/")[1] }}
+                     
+                    >
+                      <li>Ayuda</li>
                     </NavLink>
                   </div>
                 </>

@@ -36,7 +36,7 @@ const ProductDetails = () => {
   useEffect(() => {
     setProductInfo(location.state.item);
     setPrevLocation(location.pathname);
-  }, [location, productInfo.ficheTech]);
+  }, [location]);
   console.log(productInfo);
   const [images, setImages] = useState({
   });

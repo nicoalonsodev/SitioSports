@@ -7,9 +7,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { paginationItems } from "../../../constants";
 import { BsSuitHeartFill } from "react-icons/bs";
-
 const HeaderBottom = () => {
-  const products = useSelector((state) => state.orebiReducer.cartProducts);
+  const products = useSelector((state) => state.orebiReducer.products);
   const [show, setShow] = useState(false);
   const [showUser, setShowUser] = useState(false);
   const navigate = useNavigate();
@@ -33,16 +32,21 @@ const HeaderBottom = () => {
   };
 
   useEffect(() => {
-    const filtered = paginationItems.filter((item) =>
+    const filtered = products.filter((item) =>
       item.productName.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilteredProducts(filtered);
   }, [searchQuery]);
 
+  const handleSearchShop = () => {
+    if (searchQuery) {
+      navigate(`/shop?search=${searchQuery}`);
+      setSearchQuery("");
+    }
+  };
   return (
     <Flex className="flex flex-col lg:flex-row items-start lg:items-center justify-end w-2/3 h-full lg:h-14">
       <div className="relative w-full lg:w-auto h-[40px] text-base text-primeColor bg-white flex items-center gap-2 justify-between px-6 rounded-xl shadow-sm">
-     
         <input
           className=" h-full outline-none placeholder:text-[#C4C4C4] placeholder:text-[14px]"
           type="text"
@@ -50,7 +54,9 @@ const HeaderBottom = () => {
           value={searchQuery}
           placeholder="Buscar"
         />
-        <FaSearch className="w-5 h-5 cursor-pointer" />
+        <button onClick={handleSearchShop}>
+          <FaSearch className="w-5 h-5 cursor-pointer" />
+        </button>
         {searchQuery && (
           <div
             className={`w-full mx-auto h-96 bg-white top-16 absolute left-0 z-50 overflow-y-scroll shadow-2xl scrollbar-hide cursor-pointer`}
@@ -66,7 +72,20 @@ const HeaderBottom = () => {
                         .join("")}`,
                       {
                         state: {
-                          item: item,
+                          item: {
+                            _id: item.id,
+                            badge: item.badge,
+                            img: item.variants[0].imgUrl[0],
+                            productName: item.productName,
+                            price: item.price,
+                            brand: item.brand,
+                            cat: item.cat,
+                            sub_cat: item.sub_cat,
+                            sizes: item.sizes,
+                            variants: item.variants,
+                            description: item.description,
+                            color: item.color,
+                          },
                         },
                       }
                     ) &
@@ -76,20 +95,21 @@ const HeaderBottom = () => {
                   key={item._id}
                   className="max-w-[600px] h-28 bg-gray-100 mb-3 flex items-center gap-3"
                 >
-                  <img className="w-24" src={item.img} alt="productImg" />
+                  <img
+                    className="w-24"
+                    src={item.variants[0].imgUrl[0]}
+                    alt="productImg"
+                  />
                   <div className="flex flex-col gap-1">
-                    <p className="font-semibold text-lg">{item.productName}</p>
-                    <p className="text-xs">
+                    <p className="font-semibold text-md">{item.productName}</p>
+                    {/* <p className="text-xs">
                       {item.des.length > 100
                         ? `${item.des.slice(0, 100)}...`
                         : item.des}
-                    </p>
-                    <p className="text-sm">
-                      Price:{" "}
-                      <span className="text-primeColor font-semibold">
-                        ${item.price}
-                      </span>
-                    </p>
+                    </p> */}
+                    <span className="text-primeColor font-semibold">
+                      ${item.price}
+                    </span>
                   </div>
                 </div>
               ))}

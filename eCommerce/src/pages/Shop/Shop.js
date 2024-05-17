@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
 import Pagination from "../../components/pageProps/shopPage/Pagination";
 import ProductBanner from "../../components/pageProps/shopPage/ProductBanner";
@@ -6,12 +7,36 @@ import ShopSideNav from "../../components/pageProps/shopPage/ShopSideNav";
 
 const Shop = () => {
   const [itemsPerPage, setItemsPerPage] = useState(48);
+  const [sort, setSort] = useState("");
+
+  const location = useLocation();
+  const [searchTag, setSearchTag] = useState("");
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const searchTerm = queryParams.get("search") || "";
+    setSearchTag(searchTerm);
+  }, [location.search]);
+
   const itemsPerPageFromBanner = (itemsPerPage) => {
     setItemsPerPage(itemsPerPage);
   };
- 
+
+  const handleSort = (sort) => {
+    setSort(sort);
+  };
+  const handleChangeSearchTag = () => {
+    setSearchTag("");
+  };
   return (
     <div className="max-w-container mx-auto px-4">
+      {searchTag ? (
+        <h1 className="pt-3 text-center text-semibold text-3xl">
+          Resultado de búsqueda: {searchTag}
+        </h1>
+      ) : (
+        ""
+      )}
       <Breadcrumbs title="" />
       {/* ================= Products Start here =================== */}
       <div className="w-full h-full flex pb-20 gap-10">
@@ -19,8 +44,16 @@ const Shop = () => {
           <ShopSideNav />
         </div>
         <div className="w-full mdl:w-[80%] lgl:w-[75%] h-full flex flex-col gap-10">
-          <ProductBanner itemsPerPageFromBanner={itemsPerPageFromBanner} />
-          <Pagination itemsPerPage={itemsPerPage} />
+          <ProductBanner
+            itemsPerPageFromBanner={itemsPerPageFromBanner}
+            handleSort={handleSort}
+          />
+          <Pagination
+            itemsPerPage={itemsPerPage}
+            sort={sort}
+            searchTag={searchTag}
+            handleChangeSearchTag={handleChangeSearchTag}
+          />
         </div>
       </div>
       {/* ================= Products End here ===================== */}

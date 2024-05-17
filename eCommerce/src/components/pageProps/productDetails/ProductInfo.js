@@ -217,7 +217,7 @@ const ProductInfo = ({ productInfo, handleSelectedImages }) => {
                   quantity: 1,
                   maxQuantity: sizeMaxQuantity,
                   size: selectedSize,
-                  image: productInfo.img,
+                  image: selectedVariant.imgUrl[0],
                   badge: productInfo.badge,
                   price: productInfo.price,
                   color: productInfo.color,

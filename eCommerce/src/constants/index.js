@@ -101,6 +101,128 @@ export const navBarList = [
     link: "/encargo",
   },
 ];
+export const allSizes = [
+  {
+    _id: 9001,
+    title: "39",
+  },
+
+  {
+    _id: 9003,
+    title: "40",
+  },
+
+  {
+    _id: 9005,
+    title: "41",
+  },
+
+  {
+    _id: 9007,
+    title: "42",
+  },
+
+  {
+    _id: 9009,
+    title: "43",
+  },
+
+  {
+    _id: 9011,
+    title: "44",
+  },
+
+  {
+    _id: 90013,
+    title: "45",
+  },
+  {
+    _id: 9014,
+    title: "S",
+  },
+  {
+    _id: 9015,
+    title: "M",
+  },
+  {
+    _id: 9016,
+    title: "L",
+  },
+  {
+    _id: 9017,
+    title: "XL",
+  },
+  {
+    _id: 9018,
+    title: "XXL",
+  },
+  {
+    _id: 9019,
+    title: "39/40",
+  },
+  {
+    _id: 9020,
+    title: "41/42",
+  },
+  {
+    _id: 9021,
+    title: "43/44",
+  },
+]
+
+export const allSubcategories = [
+  {
+    _id: 10006,
+    title: "Futbol 5",
+  },
+  {
+    _id: 10007,
+    title: "Futbol 11",
+  },
+  {
+    _id: 9019,
+    title: "39/40",
+  },
+  {
+    _id: 9020,
+    title: "41/42",
+  },
+  {
+    _id: 9021,
+    title: "43/44",
+  },
+];
+
+export const allBrands = [
+  {
+    _id: 900,
+    title: "Nike",
+  },
+  {
+    _id: 901,
+    title: "Adidas",
+  },
+  {
+    _id: 902,
+    title: "Puma",
+  },
+];
+
+export const allCategories = [
+  {
+    _id: 9006,
+    title: "Botines",
+  },
+  {
+    _id: 9009,
+    title: "Camisetas",
+  },
+
+  {
+    _id: 9008,
+    title: "Medias",
+  },
+];
 
 export const botinesSizes = [
   { size: "39", stock: 0 },

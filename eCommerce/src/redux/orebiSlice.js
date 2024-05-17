@@ -19,7 +19,8 @@ export const orebiSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const item = state.cartProducts.find(
-        (item) => item._id === action.payload._id && item.size === action.payload.size
+        (item) =>
+          item._id === action.payload._id && item.size === action.payload.size
       );
       if (item) {
         item.quantity += action.payload.quantity;
@@ -51,7 +52,8 @@ export const orebiSlice = createSlice({
     },
     deleteItem: (state, action) => {
       state.cartProducts = state.cartProducts.filter(
-        (item) => item._id !== action.payload._id || item.size !== action.payload.size
+        (item) =>
+          item._id !== action.payload._id || item.size !== action.payload.size
       );
       // Dispatch a success toast
       toast.error("Product removed from cart");
@@ -108,9 +110,7 @@ export const orebiSlice = createSlice({
 
     toggleSizes: (state, action) => {
       const size = action.payload;
-      const isSizeChecked = state.checkedSizes.some(
-        (b) => b._id === size._id
-      );
+      const isSizeChecked = state.checkedSizes.some((b) => b._id === size._id);
 
       if (isSizeChecked) {
         state.checkedSizes = state.checkedSizes.filter(
@@ -126,6 +126,15 @@ export const orebiSlice = createSlice({
       state.checkedSubcategorys = [];
       state.checkedCategorys = [];
     },
+    cleanCategories: (state, action) => {
+      state.checkedCategorys = [];
+    },
+    cleanSubcategories: (state, action) => {
+      state.checkedSubcategorys = [];
+    },
+    cleanSizes: (state, action) => {
+      state.checkedSizes = [];
+    },
     setBackendProducts: (state, action) => {
       state.products = action.payload;
       // console.log(action.payload);
@@ -137,7 +146,7 @@ export const orebiSlice = createSlice({
     setBackendUsers: (state, action) => {
       const usersObject = action.payload;
       const count = usersObject.users?.length;
-      state.users = {users: usersObject.users, count: count};
+      state.users = { users: usersObject.users, count: count };
       // console.log(usersObject.users);
     },
     setBackendOrders: (state, action) => {
@@ -162,5 +171,8 @@ export const {
   cleanFilters,
   setBackendOrders,
   setBackendCommissions,
+  cleanCategories,
+  cleanSizes,
+  cleanSubcategories,
 } = orebiSlice.actions;
 export default orebiSlice.reducer;

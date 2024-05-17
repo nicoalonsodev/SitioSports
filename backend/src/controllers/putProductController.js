@@ -21,8 +21,8 @@ const putProductController = async (id, updatedFields) => {
       image,
       description,
       best_sellers,
-    new_arrivals,
-    special_offers,
+      new_arrivals,
+      special_offers,
     } = updatedFields;
 
     // Actualizar los campos del producto solo si se proporcionan en updatedFields
@@ -68,6 +68,20 @@ const putProductController = async (id, updatedFields) => {
     if (special_offers) {
       product.special_offers = special_offers;
     }
+
+    // Calcular las ventas totales (sold) de todas las variantes y tamaños
+    let totalSales = 0;
+    if (variants) {
+      totalSales = variants.reduce((total, variant) => {
+        const variantSales = variant.sizes.reduce((variantTotal, size) => {
+          return variantTotal + size.sold;
+        }, 0);
+        return total + variantSales;
+      }, 0);
+    }
+
+    // Actualizar la propiedad total_sales del producto
+    product.total_sales = totalSales;
 
     // Guardar los cambios en la base de datos
     await product.save();

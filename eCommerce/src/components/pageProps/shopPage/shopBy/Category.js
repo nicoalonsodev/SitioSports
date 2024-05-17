@@ -3,17 +3,20 @@ import React, { useState } from "react";
 import { ImPlus } from "react-icons/im";
 import NavTitle from "./NavTitle";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleCategory } from "../../../../redux/orebiSlice";
-
+import {
+  toggleCategory,
+  cleanCategories,
+  cleanSubcategories,
+  cleanSizes,
+} from "../../../../redux/orebiSlice";
+ 
 const Category = () => {
   const [showSubCatOne, setShowSubCatOne] = useState(false);
 
   const checkedCategorys = useSelector(
     (state) => state.orebiReducer.checkedCategorys
   );
-  const products = useSelector(
-    (state) => state.orebiReducer.products
-  );
+  const products = useSelector((state) => state.orebiReducer.products);
   const dispatch = useDispatch();
 
   const category = [
@@ -33,10 +36,12 @@ const Category = () => {
   ];
 
   const handleToggleCategory = (category) => {
+    dispatch(cleanCategories());
+    dispatch(cleanSizes());
+    dispatch(cleanSubcategories());
     dispatch(toggleCategory(category));
-    };
+  };
 
-    
   return (
     <div className="w-full">
       <NavTitle title="Categoria" icons={true} />

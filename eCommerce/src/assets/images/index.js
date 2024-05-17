@@ -20,7 +20,11 @@ import amex from "./amex.png";
 import mastercard from "./mastercard.png";
 import talles_botines from "./talles-botines.png";
 import talles_camisetas from "./talles-camisetas.png";
-
+import sizes_guia from "./sitio/sizes.png";
+import returning from "./sitio/return.png";
+import shipping_order from "./sitio/shipping.png";
+import follow_order from "./sitio/follow_order.png";
+import credit_card from "./sitio/credit_card.png";
 
 // ============== Products Start here ====================
 import pdf1 from "../pdf/pdf1.pdf";
@@ -111,6 +115,12 @@ import medias3 from "./sitio/medias/medias3.jpeg";
 
 import shipping from "./shipping.svg";
 export {
+  sizes_guia,
+  shipping_order,
+  returning,
+  credit_card,
+  follow_order,
+  
   talles_botines,
   talles_camisetas,
   logo,

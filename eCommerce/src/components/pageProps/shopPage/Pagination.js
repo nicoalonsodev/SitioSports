@@ -1,13 +1,30 @@
-import React, { useState } from "react";
-import ReactPaginate from "react-paginate";
+import React, { useState, useEffect } from "react";
 import Product from "../../home/Products/Product";
 import { useSelector } from "react-redux";
-import { paginationItems } from "../../../constants";
 
 // const items = paginationItems;
 
-function Items({ currentItems, selectedBrands, selectedCategories, selectedSizes, selectedSubcategories }) {
- 
+function Items({
+  currentItems,
+  selectedBrands,
+  selectedCategories,
+  selectedSizes,
+  selectedSubcategories,
+  sort,
+  searchTag,
+  handleEmpty,
+}) {
+  const [searchedProducts, setSearchedProducts] = useState([]);
+  useEffect(() => {
+    if (searchTag) {
+      const filtered = currentItems.filter((product) =>
+        product.productName.toLowerCase().includes(searchTag.toLowerCase())
+      );
+      setSearchedProducts(filtered);
+    } else {
+      setSearchedProducts(currentItems);
+    }
+  }, [searchTag, currentItems]);
 
   const filteredItems = currentItems.filter((item) => {
     const isBrandSelected =
@@ -19,48 +36,87 @@ function Items({ currentItems, selectedBrands, selectedCategories, selectedSizes
       selectedCategories.some((category) => category.title === item.cat);
 
     const isSubcategorySelected =
-    selectedSubcategories.length === 0 ||
-    selectedSubcategories.some((subcategory) => subcategory.title === item.sub_cat);
+      selectedSubcategories.length === 0 ||
+      selectedSubcategories.some(
+        (subcategory) => subcategory.title === item.sub_cat
+      );
 
     const isSizeSelected =
-    selectedSizes.length === 0 ||
-    selectedSizes.some((selectedSize) =>
-      item.variants.some((variant) =>
-        variant.sizes.some(
-          (size) =>
-            selectedSize.title === size.size && size.stock !== 0
+      selectedSizes.length === 0 ||
+      selectedSizes.some((selectedSize) =>
+        item.variants.some((variant) =>
+          variant.sizes.some(
+            (size) => selectedSize.title === size.size && size.stock !== 0
+          )
         )
-      )
+      );
+    return (
+      isBrandSelected &&
+      isCategorySelected &&
+      isSizeSelected &&
+      isSubcategorySelected
     );
-    return isBrandSelected && isCategorySelected && isSizeSelected && isSubcategorySelected;
   });
- 
+
+  const sortedItems = (searchTag ? searchedProducts : filteredItems).sort(
+    (a, b) => {
+      if (sort === "price_asc") {
+        return a.price - b.price;
+      }
+      if (sort === "price_desc") {
+        return b.price - a.price;
+      }
+      if (sort === "popular") {
+        return b.total_sales - a.total_sales;
+      }
+      if (sort === "novedades") {
+        return b.createdAt - a.createdAt;
+      }
+      return 0;
+    }
+  );
+
+  useEffect(() => {
+    if (sortedItems.length === 0) {
+      handleEmpty(true);
+    }
+  }, [sortedItems, handleEmpty]);
+
   return (
     <>
-      {filteredItems.map((item) => (
-        <div key={item._id} className="w-full">
-          <Product
-            _id={item.id}
-            badge={item.badge}
-            img={item.variants[0].imgUrl[0]}
-            productName={item.productName}
-            price={item.price}
-            brand={item.brand}
-            cat={item.cat}
-            sub_cat={item.sub_cat}
-            sizes={item.sizes}
-            variants={item.variants}
-            description={item.description}
-            color={item.color}
-          />
+      {sortedItems.length === 0 ? (
+        <div className="w-full">
+          <h1 className="text-center text-gray-800 font-semibold text-xl ">
+            Tus parámetros de busqueda no concuerdan con ninguno de nuestros
+            productos, sigue buscando!
+          </h1>
         </div>
-      ))}
+      ) : (
+        sortedItems.map((item) => (
+          <div key={item._id} className="w-full">
+            <Product
+              _id={item.id}
+              badge={item.badge}
+              img={item.variants[0].imgUrl[0]}
+              productName={item.productName}
+              price={item.price}
+              brand={item.brand}
+              cat={item.cat}
+              sub_cat={item.sub_cat}
+              sizes={item.sizes}
+              variants={item.variants}
+              description={item.description}
+              color={item.color}
+            />
+          </div>
+        ))
+      )}
     </>
   );
 }
 
-const Pagination = ({ itemsPerPage, commissions }) => {
-  const items = useSelector(state => {
+const Pagination = ({ itemsPerPage, commissions, sort, searchTag, handleChangeSearchTag }) => {
+  const items = useSelector((state) => {
     if (commissions) {
       // Si es así, devolvemos los productos por encargo
       return state.orebiReducer.commissions;
@@ -68,10 +124,12 @@ const Pagination = ({ itemsPerPage, commissions }) => {
       // Si no, devolvemos todos los productos
       return state.orebiReducer.products;
     }
-  });  // Filter items based on selected brands and categories
+  }); // Filter items based on selected brands and categories
 
   const [itemOffset, setItemOffset] = useState(0);
   const [itemStart, setItemStart] = useState(1);
+  const [empty, setEmpty] = useState(false);
+  const [localSearchTag, setLocalSearchTag] = useState("");
 
   const endOffset = itemOffset + itemsPerPage;
   const currentItems = items.slice(itemOffset, endOffset);
@@ -84,9 +142,32 @@ const Pagination = ({ itemsPerPage, commissions }) => {
   const selectedSubcategories = useSelector(
     (state) => state.orebiReducer.checkedSubcategorys
   );
-  const selectedSizes = useSelector(
-    (state) => state.orebiReducer.checkedSizes
-  );
+  const selectedSizes = useSelector((state) => state.orebiReducer.checkedSizes);
+
+  const handleSearchTag = () => {
+    handleChangeSearchTag();
+  }
+  useEffect(() => {
+    if (searchTag) {
+      setLocalSearchTag(searchTag)
+    }
+  }, [searchTag]);
+
+  useEffect(() => {
+    if (empty) {
+      handleEmpty(false);
+    }
+    if (searchTag) {
+      setLocalSearchTag("")
+      handleSearchTag();
+    }
+  }, [
+    selectedBrands,
+    selectedCategories,
+    selectedSubcategories,
+    selectedSizes,
+  ]);
+
   const pageCount = Math.ceil(items.length / itemsPerPage);
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % items.length;
@@ -95,18 +176,35 @@ const Pagination = ({ itemsPerPage, commissions }) => {
     setItemOffset(newOffset);
     setItemStart(newStart);
   };
+  const handleEmpty = (value) => {
+    setEmpty(value);
+  };
+
+
 
   return (
     <div>
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-10 mdl:gap-4 lg:gap-10">
-        <Items
-          currentItems={currentItems}
-          selectedBrands={selectedBrands}
-          selectedCategories={selectedCategories}
-          selectedSizes={selectedSizes}
-          selectedSubcategories={selectedSubcategories}
-        />
-      </div>
+      {empty ? (
+        <div className="w-full">
+          <h1 className="text-center text-gray-800 font-semibold text-xl px-4 lg:px-20 px-32">
+            Tus parámetros de busqueda no concuerdan con <br/>ninguno de nuestros
+            productos, sigue buscando!
+          </h1>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-10 mdl:gap-4 lg:gap-10">
+          <Items
+            currentItems={currentItems}
+            selectedBrands={selectedBrands}
+            selectedCategories={selectedCategories}
+            selectedSizes={selectedSizes}
+            selectedSubcategories={selectedSubcategories}
+            sort={sort}
+            searchTag={localSearchTag}
+            handleEmpty={handleEmpty}
+          />
+        </div>
+      )}
     </div>
   );
 };

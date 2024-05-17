@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSizes } from "../../../../redux/orebiSlice";
 import { TiArrowSortedDown } from "react-icons/ti";
-const SizeCamisetas = () => {
+const SizeMedias = () => {
   const dispatch = useDispatch();
   const checkedSizes = useSelector((state) => state.orebiReducer.checkedSizes);
   const [showColors, setShowColors] = useState(true);
@@ -13,29 +13,21 @@ const SizeCamisetas = () => {
     if (checkedSizes.length !== 0) {
       const hasNonColorSize = checkedSizes.some(size => !colors.find(color => color.title === size.title));
       setShowFilter(!hasNonColorSize);
-    } 
+    }
   }, [checkedSizes]);
 
   const colors = [
     {
-      _id: 9014,
-      title: "S",
+      _id: 9019,
+      title: "39/40",
     },
     {
-      _id: 9015,
-      title: "M",
+      _id: 9020,
+      title: "41/42",
     },
     {
-      _id: 9016,
-      title: "L",
-    },
-    {
-      _id: 9017,
-      title: "XL",
-    },
-    {
-      _id: 9018,
-      title: "XXL",
+      _id: 9021,
+      title: "43/44",
     },
   ];
 
@@ -89,4 +81,4 @@ const SizeCamisetas = () => {
   );
 };
 
-export default SizeCamisetas;
+export default SizeMedias;

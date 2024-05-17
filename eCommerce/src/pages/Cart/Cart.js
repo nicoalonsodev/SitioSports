@@ -15,13 +15,14 @@ const Cart = () => {
   const [totalAmt, setTotalAmt] = useState("");
   const [shippingCharge, setShippingCharge] = useState("");
 
-  const ivaPercentage = 17.356;
+
   let totalWithShipping = 0;
   if (shippingCharge === "Gratis") {
     totalWithShipping = totalAmt;
   } else {
     totalWithShipping = totalAmt + shippingCharge;
   }
+  const ivaPercentage = 17.356;
   const ivaAmount = ((ivaPercentage / 100) * totalWithShipping).toFixed(2);
   useEffect(() => {
     let price = 0;

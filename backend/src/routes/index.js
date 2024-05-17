@@ -1,7 +1,6 @@
 const { Router } = require("express");
 const router = Router();
 const multer = require("multer");
-
 const { getOrdersHandler } = require("../handlers/getOrdersHandler");
 const { getAllProductsHandler } = require("../handlers/getAllProductsHandler");
 const { getProductByIdHandler } = require("../handlers/getProductByIdHandler");
@@ -24,6 +23,7 @@ router.get("/users", getUsersHandler);
 router.get("/users/:id", getUserByIdHandler);
 router.get("/orders", getOrdersHandler);
 router.get("/commissions", getAllCommissionsHandler);
+
 // router.get('/success', (req, res)=> res.send(req.query.payment_id));
 // router.get('/pending', (req, res)=> res.send("pend") );
 // router.get('/failure', (req, res)=> res.send("fail"));
@@ -32,8 +32,6 @@ router.get("/commissions", getAllCommissionsHandler);
 router.post("/products", postProductHandler);
 router.post("/users", postUserHandler);
 router.post("/commissions", postCommissionsHandler);
-
-
 router.post("/create-order", createOrder);
 router.post('/webhook', receiveWebhook);
 router.post('/order', postOrderHandler);

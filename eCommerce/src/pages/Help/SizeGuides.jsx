@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AfterMp = () => {
+const SizeGuides = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const AfterMp = () => {
   )
 }
 
-export default AfterMp
+export default SizeGuides

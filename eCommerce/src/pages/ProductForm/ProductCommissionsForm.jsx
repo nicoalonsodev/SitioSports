@@ -182,7 +182,7 @@ const ProductCommissionsForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3001/products", form);
+      const response = await axios.post("http://localhost:3001/commissions", form);
 
       // Verifica si la solicitud fue exitosa
       if (response.status === 200 || response.status === 201) {
@@ -196,7 +196,7 @@ const ProductCommissionsForm = () => {
           image: "",
           description: "",
         });
-        window.location.href = "http://localhost:3000/producttable";
+        window.location.href = "http://localhost:3000/commissionstable";
       } else {
         console.error("Error al agregar el producto.");
       }
@@ -216,7 +216,7 @@ const ProductCommissionsForm = () => {
       <div class="space-y-12">
         <div class="border-b border-gray-900/10 pb-12">
           <h2 class="text-base font-semibold leading-7 text-gray-900">
-            Nuevo Producto
+            Nuevo Producto Por Encargo
           </h2>
           <p class="mt-1 text-sm leading-6 text-gray-600">
             Esta información va a ser publica, porfavor revisar bien las

@@ -43,7 +43,15 @@ import Help from "./pages/Help/Help";
 import TermsAndCondition from "./pages/TermsAndCondition/TermsAndCondition";
 import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
 import AfterTransfer from "./pages/AfterOrders/AfterTransfer";
-import AfterMp from "./pages/AfterOrders/AfterMp";
+import AfterMp from "./pages/AfterOrders/AfterMpSuccess";
+import AfterMpDenied from "./pages/AfterOrders/AfterMpDenied";
+import AfterMpPendient from "./pages/AfterOrders/AfterMpPendient";
+import ProductCommissionsForm from "./pages/ProductForm/ProductCommissionsForm";
+import Returnings from "./pages/Help/Returnings";
+import Shipping from "./pages/Help/Shipping";
+import Payments from "./pages/Help/Payments";
+import OrdersFollows from "./pages/Help/OrdersFollows";
+import SizeGuides from "./pages/Help/SizeGuides";
 const Layout = () => {
   const location = useLocation();
   const showHeader = location.pathname !== "/paymentgateway";
@@ -95,7 +103,16 @@ const router = createBrowserRouter(
         <Route path="/encargo" element={<CustomMade />}></Route>
         <Route path="/journal" element={<Journal />}></Route>
         <Route path="/orden-transferencia-confirmada" element={<AfterTransfer />}></Route>
-        <Route path="/orden-mp-confirmada" element={<AfterMp />}></Route>
+        <Route path="/orden-mp-confirmada/:orden" element={<AfterMp />}></Route>
+        <Route path="/orden-mp-rechazada/:orden" element={<AfterMpDenied />}></Route>
+        <Route path="/orden-mp-pendiente/:orden" element={<AfterMpPendient />}></Route>
+
+        <Route path="/seguimiento-de-ordenes" element={<OrdersFollows />}></Route>
+        <Route path="/devoluciones" element={<Returnings />}></Route>
+        <Route path="/envios" element={<Shipping />}></Route>
+        <Route path="/metodos-de-pago" element={<Payments />}></Route>
+        <Route path="/guia-de-talles" element={<SizeGuides />}></Route>
+        
         {/* ==================== Header Navlink End here ===================== */}
         <Route path="/category/:category" element={<Offer />}></Route>
         <Route path="/product/:_id" element={<ProductDetails />}></Route>
@@ -118,6 +135,7 @@ const router = createBrowserRouter(
         element={<ProductDetailBdd />}
       ></Route>
       <Route path="/uploadproduct" element={<ProductForm />}></Route>
+      <Route path="/cargar-producto-encargo" element={<ProductCommissionsForm />}></Route>
       <Route path="/admin" element={<Admin />}></Route>
     </Route>
   )
