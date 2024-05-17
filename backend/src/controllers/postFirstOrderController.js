@@ -11,7 +11,8 @@ const postFirstOrderController = async(
         const order = await Order.create({
           order_id,
           order_number: newOrderNumber,
-          email: client_email
+          email: client_email,
+          // shipping_type: shipping_type
         });
        
         return order;

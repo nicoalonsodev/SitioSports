@@ -33,10 +33,11 @@ console.log(products);
       <Banner />
       <BannerBottom />
       <div className="max-w-container mx-auto px-4">
+      <NewArrivals />
         <Sale />
-        <NewArrivals />
+
         <BestSellers />
-        <YearProduct />
+        {/* <YearProduct /> */}
         <SpecialOffers />
       </div>
     </div>

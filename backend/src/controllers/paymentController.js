@@ -3,28 +3,35 @@ const { MercadoPagoConfig, Preference } = require("mercadopago");
 const { cleanData } = require("../helpers/cleanOrder");
 const { postFirstOrderController } = require("./postFirstOrderController");
 const { putOrderController } = require("./putOrderController");
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require("uuid");
 
 // const { MERCADOPAGO_API_KEY } = process.env;
 const MERCADOPAGO_API_KEY =
   "APP_USR-6101811384872882-050519-c4e446af9a14aca7a7dc65a10ce629e8-1800686060";
 const { updateStock } = require("../helpers/updateStock");
 
-
 const createOrder = async (req, res) => {
   const client = new MercadoPagoConfig({ accessToken: MERCADOPAGO_API_KEY });
   const preference = new Preference(client);
   const products = req.body.productInfo;
   const payer = req.body.payerInfo;
+  console.log(payer);
   const order_id = uuidv4();
   try {
+    let firstOrder;
+    if (payer) {
+      const client_email = payer.email;
+      firstOrder = await postFirstOrderController(order_id, client_email);
+    }
+    const order_number = firstOrder.order_number;
+
     const items = products?.map((product) => ({
       title: product.name,
       unit_price: Number(product.price),
       currency_id: "ARS",
       quantity: product.quantity,
       description: product.size,
-      id: product._id,
+      id: product.id,
       category_id: Number(product.variant.id),
     }));
     const body = {
@@ -51,12 +58,12 @@ const createOrder = async (req, res) => {
       },
       external_reference: order_id,
       items: items,
-
-      notification_url: "https://f5e9-131-161-239-212.ngrok-free.app/webhook",
+      //cambiar urls con las de verda!
+      notification_url: "https://d2ea-131-161-239-212.ngrok-free.app/webhook",
       back_urls: {
-        success: "https://www.youtube.com/watch?v=vEXwN9-tKcs&t=496s",
-        failure: "https://www.youtube.com/watch?v=vEXwN9-tKcs&t=496s",
-        pending: "https://www.youtube.com/watch?v=vEXwN9-tKcs&t=496s",
+        success: `https://sitio-sports.vercel.app/orden-mp-confirmada/${order_number}`,
+        failure: `https://sitio-sports.vercel.app/orden-mp-rechazada/${order_number}`,
+        pending: `https://sitio-sports.vercel.app/orden-mp-pendiente/${order_number}`,
       },
       auto_return: "approved",
     };
@@ -64,13 +71,8 @@ const createOrder = async (req, res) => {
     const result = await preference.create({
       body,
     });
-    if (result) {
 
-      const client_email = result.payer.email;
-      const firstOrder = postFirstOrderController(order_id, client_email);
-    }
-    console.log(order_id);
-    res.status(200).json(result);
+    res.status(200).json({ result });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -93,11 +95,18 @@ const receiveWebhook = async (req, res) => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data.external_reference);
+
       const order_id = data.external_reference;
-      console.log(order_id);
+      console.log("separando 1000");
+      console.log(data);
+      console.log("separando1");
       const cleanedItems = cleanData(data);
-      const update = updateStock(cleanedItems.items);
+      console.log(cleanedItems);
+      console.log("separando");
+      const update =
+        cleanedItems.status === "approved"
+          ? updateStock(cleanedItems.items)
+          : "";
       const orderUpdate = putOrderController(order_id, cleanedItems);
     }
 

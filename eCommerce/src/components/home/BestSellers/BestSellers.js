@@ -28,7 +28,7 @@ const BestSellers = () => {
       
       <div className="w-full grid grid-cols-1 md:grid-cols-2 lgl:grid-cols-3 xl:grid-cols-4 gap-10">
       {bestSellersProducts.map((product) => (
-          <div className="px-2">
+          <div key={product.id} className="px-2">
           <Product
             _id={product.id}
             img={product.variants[0].imgUrl[0]}
@@ -37,6 +37,10 @@ const BestSellers = () => {
             color="Black"
             badge={true}
             des={product.description}
+            variants={product.variants}
+            brand={product.brand}
+            cat={product.cat}
+            sub_cat={product.sub_cat}
           />
         </div>
         ))}

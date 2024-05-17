@@ -64,7 +64,7 @@ const putOrderController = async (order_id, cleanedItems ) => {
     }
     if (transaction_amount) {
       order.transaction_amount = transaction_amount;
-    }
+    } 
     if (transaction_details) {
       order.transaction_details = transaction_details;
     }

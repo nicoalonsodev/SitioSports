@@ -25,7 +25,8 @@ import returning from "./sitio/return.png";
 import shipping_order from "./sitio/shipping.png";
 import follow_order from "./sitio/follow_order.png";
 import credit_card from "./sitio/credit_card.png";
-
+import lock from "./sitio/lock.png"
+import shipping_country from "./sitio/shipping_country.png";
 // ============== Products Start here ====================
 import pdf1 from "../pdf/pdf1.pdf";
 // New Arrivals
@@ -115,12 +116,13 @@ import medias3 from "./sitio/medias/medias3.jpeg";
 
 import shipping from "./shipping.svg";
 export {
+  shipping_country,
   sizes_guia,
   shipping_order,
   returning,
   credit_card,
   follow_order,
-  
+  lock,
   talles_botines,
   talles_camisetas,
   logo,

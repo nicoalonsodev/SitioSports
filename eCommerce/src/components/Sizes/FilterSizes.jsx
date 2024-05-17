@@ -5,8 +5,10 @@ import {
   toggleCategory,
   cleanFilters,
 } from "../../redux/orebiSlice";
+import { useNavigate } from "react-router-dom";
 
 const FilterSizes = ({ sizes, cat }) => {
+  const navigate = useNavigate()
   const [selectedSize, setSelectedSize] = useState(null);
   const dispatch = useDispatch();
 
@@ -14,6 +16,7 @@ const FilterSizes = ({ sizes, cat }) => {
     dispatch(cleanFilters());
     dispatch(toggleCategory(cat));
     dispatch(toggleSizes(selectedSize));
+    navigate("/shop")
   };
   const handleSizeSelection = (size) => {
     setSelectedSize(size);
@@ -40,12 +43,12 @@ const FilterSizes = ({ sizes, cat }) => {
             ))}
           </React.Fragment>
         ))}
-          <a href={selectedSize ? `/shop` : ""}
+          <button href={selectedSize ? `/shop` : ""}
           className={`cursor-pointer border w-auto flex justify-center border-gray-300 bg-black text-white overflow-hidden`}
         onClick={selectedSize ? handleFilter : ""}
         >
           <div className="p-1 px-2 ">Buscar</div>
-        </a> 
+        </button> 
       </div>
     </div>
   );

@@ -102,7 +102,7 @@ const router = createBrowserRouter(
         <Route path="/contact" element={<Contact />}></Route>
         <Route path="/encargo" element={<CustomMade />}></Route>
         <Route path="/journal" element={<Journal />}></Route>
-        <Route path="/orden-transferencia-confirmada" element={<AfterTransfer />}></Route>
+        <Route path="/orden-transferencia-confirmada/:orden" element={<AfterTransfer />}></Route>
         <Route path="/orden-mp-confirmada/:orden" element={<AfterMp />}></Route>
         <Route path="/orden-mp-rechazada/:orden" element={<AfterMpDenied />}></Route>
         <Route path="/orden-mp-pendiente/:orden" element={<AfterMpPendient />}></Route>

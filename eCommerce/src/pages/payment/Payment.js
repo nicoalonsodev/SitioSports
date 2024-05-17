@@ -45,15 +45,25 @@ const Payment = (props) => {
       setTotalAmt(price);
     }
   }, [productInfo]);
+  console.log(productInfo);
 
-  useEffect(() => {
-    //aca probamos con un valor corto
+useEffect(() => {
+  let finalAmount;
+
+  if (paymentMethod === "tb") {
+    // Aplica un 15% de descuento
+    finalAmount = (totalAmt + shippmentCharge) * 0.85;
+  } else {
+    // Lógica existente
     if (totalAmt !== "" && totalAmt > 45000) {
-      setShipmentPlusTotal(totalAmt);
+      finalAmount = totalAmt;
     } else {
-      setShipmentPlusTotal(totalAmt + shippmentCharge);
+      finalAmount = totalAmt + shippmentCharge;
     }
-  }, [totalAmt, shippmentCharge]);
+  }
+
+  setShipmentPlusTotal(finalAmount);
+}, [totalAmt, shippmentCharge, paymentMethod]);
 
   const handlePay = async () => {
     if (paymentMethod === "mp") {
@@ -99,12 +109,14 @@ const Payment = (props) => {
             net_received_amount: totalAmt,
             total_paid_amount: shipmentPlusTotal,
           },
+          shipping_type: shipping,
         };
         const responsePost = await axios.post(
           "http://localhost:3001/order",
           postOrder
         );
-        navigate("/orden-transferencia-confirmada");
+        const order_number = responsePost.data.order_number;
+        navigate(`/orden-transferencia-confirmada/${order_number}`);
         dispatch(resetCart());
         setProcessing(false);
       } catch (error) {
@@ -136,12 +148,12 @@ const Payment = (props) => {
 
   const handleClickShippingType = (value) => {
     setShipping(value);
-    if (value === "esp") {
+    if (value === "Domicilio") {
       setShippmentCharge((prevCharge) => prevCharge + 2350);
     }
   };
   return (
-    <div className="flex flex-wrap w-screen justify-start items-start px-32 pb-20 relative">
+    <div className="flex flex-wrap w-screen justify-start items-start lg:px-32 xl:px-44 pb-20 relative">
       <div className="w-2/3 justify-between space-y-6">
         <div className="w-full flex flex-wrap justify-start ">
           <div className="w-1/3">
@@ -238,11 +250,11 @@ const Payment = (props) => {
               </div>
               <div
                 className={`${
-                  shipping === "esp"
+                  shipping === "Domicilio"
                     ? "border-[3px] border-[#e46dc7] shadow-sm"
                     : "border-[1px] border-gray-700"
                 } w-3/5 flex justify-between p-4 cursor-pointer hover:bg-gray-50`}
-                onClick={() => handleClickShippingType("esp")}
+                onClick={() => handleClickShippingType("Domicilio")}
               >
                 <div className="">
                   <div className="h-auto">

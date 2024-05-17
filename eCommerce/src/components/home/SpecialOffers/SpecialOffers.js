@@ -14,7 +14,7 @@ const SpecialOffers = () => {
       setData(specialOffers);
     }
   }, [products]);
- 
+ console.log(data);
   return (
     <div className="w-full pb-20">
       <Heading heading="Ofertas" />
@@ -29,6 +29,10 @@ const SpecialOffers = () => {
             color={product.color}
             badge={true}
             des={product.des}
+            variants={product.variants}
+            brand={product.brand}
+            cat={product.cat}
+            sub_cat={product.sub_cat}
           />
         ))}
       </div>

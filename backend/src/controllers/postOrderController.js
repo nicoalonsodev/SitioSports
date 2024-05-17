@@ -55,9 +55,6 @@ const postOrderController = async (
         transaction_details,
       }
     );
-    console.log("lol");
-   
-    console.log("lolazo");
     return order;
   } catch (error) {
     throw error;

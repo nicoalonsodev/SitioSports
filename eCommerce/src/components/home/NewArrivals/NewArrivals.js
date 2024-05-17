@@ -58,11 +58,12 @@ const NewArrivals = () => {
     ],
   };
   return (
-    <div className="w-full pb-16">
-      <Heading heading="Nuevos ingresos" />
+    <div className="w-full pb-16 space-y-10 py-8">
+      {/* <Heading heading="Nuevos ingresos" /> */}
+      <h1 className="text-left text-4xl font-semibold ">Nuevos Ingresos</h1>
       <Slider {...settings}>
         {newArrivalsProducts.map((product) => (
-          <div className="px-2">
+          <div key={product.id} className="px-2">
           <Product
             _id={product.id}
             img={product.variants[0].imgUrl[0]}
@@ -71,6 +72,10 @@ const NewArrivals = () => {
             color="Black"
             badge={true}
             des={product.description}
+            variants={product.variants}
+            brand={product.brand}
+            cat={product.cat}
+            sub_cat={product.sub_cat}
           />
         </div>
         ))}

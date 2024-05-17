@@ -180,16 +180,12 @@ export const allSubcategories = [
     title: "Futbol 11",
   },
   {
-    _id: 9019,
-    title: "39/40",
+    _id: 10008,
+    title: "24/25",
   },
   {
-    _id: 9020,
-    title: "41/42",
-  },
-  {
-    _id: 9021,
-    title: "43/44",
+    _id: 10009,
+    title: "Retro",
   },
 ];
 

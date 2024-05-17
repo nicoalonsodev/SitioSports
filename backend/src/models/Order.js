@@ -105,5 +105,10 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: "",
     },
+    Shipping_type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "",
+    },
   });
 };

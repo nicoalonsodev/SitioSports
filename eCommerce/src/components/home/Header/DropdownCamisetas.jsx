@@ -7,8 +7,10 @@ import {
   cleanFilters,
   toggleSubcategory,
 } from "../../../redux/orebiSlice";
+import { useNavigate } from "react-router-dom";
 
 const DropdownBotines = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const category = {
@@ -71,6 +73,7 @@ const DropdownBotines = () => {
     if (sub) {
       dispatch(toggleSubcategory(sub));
     }
+    navigate(`/shop`)
   };
   const handleFilter = (cat, brand) => {
     dispatch(cleanFilters());
@@ -78,46 +81,47 @@ const DropdownBotines = () => {
     if (brand) {
       dispatch(toggleBrand(brand));
     }
+    navigate(`/shop`)
   };
   return (
     <div className=" w-full flex  h-auto p-10">
       <div className="border-[1px] flex w-full border-gray-100 space-x-4">
-        <div className="w-[25%] flex flex-col">
+        <div className="w-[25%] flex flex-col justify-start">
           <h1 className="font-bold text-lg">Marca</h1>
-          <a
-            className="hover:underline"
-            href="/shop"
+          <button
+            className="text-left hover:underline"
+             
             onClick={() => handleFilter(category)}
           >
             Todas las camisetas
-          </a>
-          <a
-            className="hover:underline"
-            href="/shop"
+          </button>
+          <button
+            className="text-left hover:underline"
+             
             onClick={() => handleFilter(category, brands[1])}
           >
             Camiseta Adidas
-          </a>
-          <a
-            className="hover:underline"
-            href="/shop"
+          </button>
+          <button
+            className="text-left hover:underline"
+             
             onClick={() => handleFilter(category, brands[0])}
           >
             Camiseta Nike
-          </a>
+          </button>
         </div>
         <div className="w-[25%] flex flex-col">
           <h1 className="font-bold text-lg"> Para</h1>
-          <a className="hover:underline" href="/shop"
+          <button className="text-left hover:underline"  
            onClick={() => handleFilterSub(category, subcategory[1])}
           >
             Camisetas Retro
-          </a>
-          <a className="hover:underline" href="/shop"
+          </button>
+          <button className="text-left hover:underline"  
            onClick={() => handleFilterSub(category, subcategory[0])}
           >
             Camisetas 24/25
-          </a>
+          </button>
         </div>
         <div className=" w-[50%] space-y-1">
           <h1 className="font-bold text-lg"> Busca segun tu talle</h1>

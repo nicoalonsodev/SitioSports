@@ -78,7 +78,7 @@ const Cart = () => {
             <div className="w-1/2 flex flex-wrap justify-start items-start">
               {products.map((item) => (
                 <div className="w-full" key={item._id}>
-                  <ItemCard item={item} />
+                  <ItemCard item={item} /> 
                 </div>
               ))}
             </div>

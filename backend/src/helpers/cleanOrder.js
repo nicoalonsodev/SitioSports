@@ -1,7 +1,7 @@
 const cleanData = (data) => {
   const cleanedData = [];
   console.log("cleaneando");
-  console.log(data);
+  console.log(data.additional_info.items);
 
   const items = data.additional_info.items || "";
   const name = data.additional_info.payer.first_name || "";

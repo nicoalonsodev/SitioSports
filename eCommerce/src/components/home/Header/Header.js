@@ -61,6 +61,7 @@ const Header = () => {
   };
 
   const handleCommissionClick = () => {
+    dispatch(cleanFilters())
     fetchData();
   };
 

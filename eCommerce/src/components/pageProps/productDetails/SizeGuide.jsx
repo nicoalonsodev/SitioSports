@@ -20,10 +20,10 @@ const SizeGuide = ({cat}) => {
       {viewSizeGuide && (
         <div className="fixed -top-4 left-0 w-screen h-screen bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-8 rounded-lg">
-            <h2 className="text-xl font-bold mb-4">Guia de Talels</h2>
+            {/* <h2 className="text-xl font-bold mb-4">Guia de Talles</h2> */}
             {/* Aquí coloca el contenido de los métodos de pago */}
             <button
-              className="bg-blue-500 text-white px-4 py-2 rounded-md"
+              className="bg-pink-500 hover:bg-pink-800 text-white px-4 py-2 rounded-md"
               onClick={handleViewSize}
             >
               Cerrar

@@ -56,10 +56,10 @@ const ProductDetails = () => {
           </div>
           <div className="flex flex-col justify-center lg:flex-row gap-4 lg:items-start ">
             <CarruselDetail productInfo={productInfo} variantImages={images} />
-            <ProductInfo
+            <ProductInfo 
               productInfo={productInfo ? productInfo : ""}
               handleSelectedImages={handleSelectedImages}
-            />
+            /> 
           </div>
           <div className="flex justify-center py-20">
             {/* <div className=" space-x-4  pt-4">

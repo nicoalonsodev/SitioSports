@@ -16,39 +16,16 @@ const Sale = () => {
     <div className="py-20 flex flex-col md:flex-row items-start justify-between gap-4">
       <div className="bg-[#f3f3f3] w-full md:w-2/3 lg:w-1/2 f-full flex flex-col justify-center items-center text-black">
         <div className="relative  h-[610px] aspect-w-4 aspect-h-3 w-full">
-          <Image className="h-full w-full object-cover" imgSrc={saleImgFour} />
-          <div className="absolute bottom-6 left-6 mb-8">
-            <div className="text-left h-140 md:h-200 lg:h-260 w-full mx-4 ">
-              <div className="">
-                {/* <h2 className="text-4xl md:text-5xl lg:text-5xl font-bold mb-6">
-                       Imprimante sales
-                    </h2> */}
-                <p className="text-gray-100 text-lg md:text-xl lg:text-2xl mb-6">
-                  Up to{" "}
-                  <span className="text-4xl md:text-5xl lg:text-5xl font-bold">
-                    30%
-                  </span>{" "}
-                  sales for all impriamnte
-                </p>
-              </div>
-            </div>
-            <ShopNow />
-          </div>
+          <video autoPlay loop muted className="h-full w-full object-cover">
+            <source
+              src="https://res.cloudinary.com/doczyujqf/video/upload/v1715960390/SitioSports/video_jtlzag.mp4"
+              type="video/mp4"
+            />
+           
+            Tu navegador no soporta la reproducción de video.
+          </video>
+          {/* <Image className="h-full w-full object-cover" imgSrc={saleImgFour} /> */}
         </div>
-        {/* <div className="text-left h-140 md:h-200 lg:h-260 w-full mx-4 ">
-          <div className="mx-8">
-             <h2 className="text-4xl md:text-5xl lg:text-5xl font-bold mb-6">
-              Imprimante sales
-            </h2>
-            <p className="text-lg md:text-xl lg:text-2xl mb-6">
-              Up to{" "}
-              <span className="text-4xl md:text-5xl lg:text-5xl font-bold">
-                30%
-              </span>{" "}
-              sales for all impriamnte{" "}
-            </p> 
-          </div>
-        </div> */}
       </div>
 
       <div className=" h-[610px] w-full md:w-2/3 lg:w-1/2 flex flex-col gap-4 overflow-hidden">
@@ -56,7 +33,7 @@ const Sale = () => {
           <Link to="/shop">
             <Image
               className="h-full w-full object-cover"
-              imgSrc={saleImgFive}
+              imgSrc="https://res.cloudinary.com/doczyujqf/image/upload/v1715962807/SitioSports/DSC_6663_tpw8yz.jpg"
             />
           </Link>
         </div>
@@ -64,7 +41,7 @@ const Sale = () => {
           <Link to="/shop">
             <Image
               className="h-full w-full object-cover "
-              imgSrc={saleImgSix}
+              imgSrc="https://res.cloudinary.com/doczyujqf/image/upload/v1715962809/SitioSports/DSC_6695_u8wtdc.jpg"
             />
           </Link>
         </div>
