@@ -10,9 +10,15 @@ const uploadImage = require("./UploadImages.js");
  require('./db.js');
 
 const server = express();
-server.use(cors());
 server.name = 'API';
 
+const corsOptions = {
+  origin: 'https://www.sitiosports.com', // Update to match the domain you will make the request from
+  credentials: true,
+  methods: 'GET,POST,OPTIONS,PUT,DELETE',
+  allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept',
+};
+server.use(cors(corsOptions));
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(cookieParser());
