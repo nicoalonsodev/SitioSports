@@ -119,7 +119,7 @@ const ProductForm = () => {
       )
     );
   };
-  
+
   const handleChangeVariantImg = (img, variantId) => {
     // Actualiza el estado cambiando el valor del variant con el ID dado
     setForm((prevForm) => ({
@@ -141,20 +141,22 @@ const ProductForm = () => {
   };
 
   const handleDeleteImage = (index, variantId) => {
-
-    
     // Actualizar el estado con las imágenes actualizadas
     setVariants((prevVariants) =>
       prevVariants.map((variant) =>
-        variant.id === variantId ? { ...variant, imgUrl: variant.imgUrl.filter((_, i) => i !== index) } : variant
+        variant.id === variantId
+          ? { ...variant, imgUrl: variant.imgUrl.filter((_, i) => i !== index) }
+          : variant
       )
     );
-  
+
     setForm((prevForm) => ({
       ...prevForm,
       variants: prevForm.variants.map((variant) =>
-        variant.id === variantId ? { ...variant, imgUrl: variant.imgUrl.filter((_, i) => i !== index) } : variant
-      )
+        variant.id === variantId
+          ? { ...variant, imgUrl: variant.imgUrl.filter((_, i) => i !== index) }
+          : variant
+      ),
     }));
   };
 
@@ -182,7 +184,7 @@ const ProductForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://sitiosports-production.up.railway.app/products", form);
+      const response = await axios.post("https://sitiosports-production.up.railway.app//products", form);
 
       // Verifica si la solicitud fue exitosa
       if (response.status === 200 || response.status === 201) {
@@ -196,7 +198,7 @@ const ProductForm = () => {
           image: "",
           description: "",
         });
-        window.location.href = "http://localhost:3000/producttable";
+        window.location.href = "https://www.sitiosports.com/producttable";
       } else {
         console.error("Error al agregar el producto.");
       }
@@ -376,12 +378,19 @@ const ProductForm = () => {
             <div className="flex flex-wrap gap-4 sm:col-span-6">
               {variants?.map((vari, index) => (
                 <div key={index}>
-                  <Variant handleChangeVariantImg={handleChangeVariantImg} handleDeleteImage={handleDeleteImage} handleChangeVariantName={handleChangeVariantName} handleDeleteVariant={handleDeleteVariant} cat={form.cat} vari={vari} handleSizes={handleSizes} variants={form.variants} /> 
+                  <Variant
+                    handleChangeVariantImg={handleChangeVariantImg}
+                    handleDeleteImage={handleDeleteImage}
+                    handleChangeVariantName={handleChangeVariantName}
+                    handleDeleteVariant={handleDeleteVariant}
+                    cat={form.cat}
+                    vari={vari}
+                    handleSizes={handleSizes}
+                    variants={form.variants}
+                  />
                 </div>
               ))}
-    
             </div>
-
 
             <div class="sm:col-span-6">
               <label
@@ -428,11 +437,9 @@ const ProductForm = () => {
                 Descripción sobre el producto.
               </p>
             </div>
-
             <UploadImage handleUploadImage={handleUploadImage} />
           </div>
         </div>
-      
       </div>
 
       <div class="mt-6 flex items-center justify-end gap-x-6">

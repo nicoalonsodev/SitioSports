@@ -89,25 +89,22 @@ const ShopSideNav = () => {
         )}
       </div>
       <Category icons={false} />
+      { selectedCategories.length && selectedCategories[0].title === "Botines" ? <Size /> 
+       : selectedCategories.length && selectedCategories[0].title === "Camisetas" ? <SizeCamisetas /> : selectedCategories.length && selectedCategories[0].title === "Medias" ?  <SizeMedias /> : ""}
       <Brand />
      {selectedCategories.length && selectedCategories[0].title === "Botines" ? (
-        <div className="space-y-2">
-          <h1 className="text-2xl font-bold">Botines</h1>
+        // <div className="space-y-2">
+        //   <h1 className="text-2xl font-bold">Botines</h1>
           <Subcategory />
-          <Size />
-        </div>
+          // <Size />
+        // </div>
       ) : selectedCategories.length && selectedCategories[0].title === "Camisetas" ? (
-        <div className="space-y-2">
-          <h1 className="text-2xl font-bold">Camisetas</h1>
+        // <div className="space-y-2">
+        //   <h1 className="text-2xl font-bold">Camisetas</h1>
           <SubcategoryCamisetas />
-          <SizeCamisetas />
-        </div>
-      ) : selectedCategories.length && selectedCategories[0].title === "Medias" ? (
-        <div className="space-y-2">
-          <h1 className="text-2xl font-bold">Medias</h1>
-          <SizeMedias />
-        </div>
-      ) : (
+        //   <SizeCamisetas />
+        // </div>
+      )  : (
         ""
       )} 
 

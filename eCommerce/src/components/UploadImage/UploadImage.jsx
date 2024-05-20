@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-const UploadImage = ({ handleUploadImage, id, handleUploadImageVariant }) => {
+const UploadImage = ({ handleUploadImage, id, handleUploadImageVariant, handleCloseUpload }) => {
   const [loading, setLoading] = useState(false);
   const [url, setUrl] = useState("");
 
@@ -18,11 +18,12 @@ const UploadImage = ({ handleUploadImage, id, handleUploadImageVariant }) => {
       };
     });
   };
-console.log(id);
+
+
   function uploadSingleImage(base64) {
     setLoading(true);
     axios
-      .post("https://sitiosports-production.up.railway.app/uploadImage", { image: base64 })
+      .post("https://sitiosports-production.up.railway.app//uploadImage", { image: base64 })
       .then((res) => {
         setUrl(res.data);
         if (id) {
@@ -31,6 +32,7 @@ console.log(id);
           handleUploadImage(res.data);
         }
         alert("Imagen Cargada Exitosamente");
+        handleCloseUpload();
       })
       .then(() => setLoading(false))
       .catch(console.log);

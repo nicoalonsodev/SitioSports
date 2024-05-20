@@ -52,14 +52,13 @@ const Product = (props) => {
         </div>
       </div>
       <div className="max-w-80 py-2 flex flex-col gap-1 border-[1px] border-t-0 px-4">
-        <div className="flex items-center justify-between gap-3 font-titleFont">
-          <h2 className="text-md text-gray-700 font-semi">
+        <div className="flex items-center justify-between ">
+          <h2 className="text-sm text-gray-700">
             {props.productName}
           </h2>
-          <p className="text-[#767676] text-[14px]">${props.price}</p>
         </div>
         <div>
-          <p className="text-[#767676] text-[14px]">{props.color}</p>
+        <p className="text-[#767676] font-semibold text-[14px]">${props.price}</p>
         </div>
       </div>
     </div>

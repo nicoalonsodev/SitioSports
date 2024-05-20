@@ -31,7 +31,29 @@
   display: none;
 }
 /* ============= NavLink active End here ================ */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
+/* Estilo del checkbox cuando está seleccionado */
+input[type="checkbox"]:checked {
+  background-color: #fc148c;
+  border-color: #fc148c;
+}
+
+/* Estilo adicional para mejorar la accesibilidad y enfoque */
+input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: 0 0 1px #fc148c;
+}
 
 /* Importaciones de estilos de Slick Carousel */
 @import '~slick-carousel/slick/slick.css';

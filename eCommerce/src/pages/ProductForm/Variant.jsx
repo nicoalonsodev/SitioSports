@@ -3,6 +3,7 @@ import UploadImage from "../../components/UploadImage/UploadImage";
 import PostSizeBotines from "../../components/ProductForm/PostSizeBotines";
 import PostSizeCamisetas from "../../components/ProductForm/PostSizeCamisetas";
 import PostSizeMedias from "../../components/ProductForm/PostSizeMedias";
+import { IoIosArrowDown } from "react-icons/io";
 const Variant = ({
   handleChangeVariantImg,
   handleDeleteImage,
@@ -13,15 +14,20 @@ const Variant = ({
   handleSizes,
   variants,
 }) => {
-const [category, setCategory] = useState("")
+  const [category, setCategory] = useState("");
 
   useEffect(() => {
     if (cat) {
-   setCategory(cat)
+      setCategory(cat);
     }
   }, [cat]);
 
   const [uploadImg, setUploadImg] = useState(false);
+
+  const handleCloseUpload = () => {
+    uploadImg(false);
+  };
+
   return (
     <div className="">
       <div
@@ -55,13 +61,18 @@ const [category, setCategory] = useState("")
             ))
           : ""}
       </div>
-      <div onClick={() => setUploadImg(!uploadImg)} className="cursor-pointer">
-        subir imagen
+      <div
+        onClick={() => setUploadImg(!uploadImg)}
+        className="w-1/5 flex items-center justify-center underline cursor-pointer "
+      >
+        <p className="w-">Cargar imagen</p>
+        <IoIosArrowDown className={`${uploadImg ? "rotate-180" : ""} duration-300`} />
       </div>
       {uploadImg ? (
         <UploadImage
           handleUploadImageVariant={handleChangeVariantImg}
           id={vari.id}
+          handleCloseUpload={handleCloseUpload}
         />
       ) : (
         ""

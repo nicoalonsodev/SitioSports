@@ -59,13 +59,13 @@ const putProductController = async (id, updatedFields) => {
     if (description) {
       product.description = description;
     }
-    if (best_sellers) {
+    if (best_sellers !== undefined) {
       product.best_sellers = best_sellers;
     }
-    if (new_arrivals) {
+    if (new_arrivals !== undefined) {
       product.new_arrivals = new_arrivals;
     }
-    if (special_offers) {
+    if (special_offers !== undefined) {
       product.special_offers = special_offers;
     }
 

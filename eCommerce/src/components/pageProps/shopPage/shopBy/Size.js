@@ -69,7 +69,7 @@ const Size = () => {
         className="flex justify-between cursor-pointer pb-2"
         onClick={handleFilterToggle}
       >
-        <h1 icons={true}>Talles</h1>
+        <h1 className="text-xl font-semibold" icons={true}>Talles</h1>
         <TiArrowSortedDown
           className={`text-lg ${
             showFilter ? "rotate-180" : "rotate-0"

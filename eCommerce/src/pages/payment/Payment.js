@@ -47,30 +47,32 @@ const Payment = (props) => {
   }, [productInfo]);
   console.log(productInfo);
 
-useEffect(() => {
-  let finalAmount;
+  useEffect(() => {
+    let finalAmount;
 
-  if (paymentMethod === "tb") {
-    // Aplica un 15% de descuento
-    finalAmount = (totalAmt + shippmentCharge) * 0.85;
-  } else {
-    // Lógica existente
-    if (totalAmt !== "" && totalAmt > 45000) {
-      finalAmount = totalAmt;
+    if (paymentMethod === "tb") {
+      if (shippmentCharge === "Gratis") {
+        finalAmount = totalAmt * 0.85;
+      } else {
+        finalAmount = (totalAmt + shippmentCharge) * 0.85;
+      }
     } else {
-      finalAmount = totalAmt + shippmentCharge;
+      if (totalAmt !== "" && totalAmt > 45000) {
+        finalAmount = totalAmt;
+      } else {
+        finalAmount = totalAmt + shippmentCharge;
+      }
     }
-  }
 
-  setShipmentPlusTotal(finalAmount);
-}, [totalAmt, shippmentCharge, paymentMethod]);
+    setShipmentPlusTotal(finalAmount);
+  }, [totalAmt, shippmentCharge, paymentMethod]);
 
   const handlePay = async () => {
     if (paymentMethod === "mp") {
       try {
         setProcessing(true);
         const response = await axios.post(
-          "https://sitiosports-production.up.railway.app/create-order",
+          "https://sitiosports-production.up.railway.app//create-order",
           order
         );
         const preferenceId = response.data.id;
@@ -87,6 +89,7 @@ useEffect(() => {
     } else {
       try {
         setProcessing(true);
+        console.log("vino aqui");
         const postOrder = {
           items: productInfo,
           name: order.payerInfo.payerName,
@@ -113,7 +116,7 @@ useEffect(() => {
           shipping_type: shipping,
         };
         const responsePost = await axios.post(
-          "https://sitiosports-production.up.railway.app/order",
+          "https://sitiosports-production.up.railway.app//order",
           postOrder
         );
         const order_number = responsePost.data.order_number;
@@ -153,6 +156,8 @@ useEffect(() => {
       setShippmentCharge((prevCharge) => prevCharge + 2350);
     }
   };
+
+  console.log(shipmentPlusTotal);
   return (
     <div className="flex flex-wrap w-screen justify-start items-start lg:px-32 xl:px-44 pb-20 relative">
       <div className="w-2/3 justify-between space-y-6">
@@ -242,8 +247,13 @@ useEffect(() => {
                 <div className="">
                   <div className="h-auto">
                     <h1 className="text-lg font-bold">Entrega Estándar </h1>
-                    <h1 className="text-lg text-gray-600">
-                      Retirar en punto de entrega
+                    <h1 className="text-sm text-gray-600 text-left">
+                      Retirar en punto de Correo Argentino mas cercano de su
+                      domicilio (si alguno es de su preferencia porfavor
+                      comunicarnos por whatsapp con su número de orden)
+                    </h1>
+                    <h1 className="text-md font-semibold text-gray-700 text-left">
+                      3 a 4 días hábiles
                     </h1>
                   </div>
                 </div>
@@ -262,6 +272,9 @@ useEffect(() => {
                     <h1 className="text-lg font-bold">Envío a Domicilio</h1>
                     <h1 className="text-lg text-gray-600">
                       Catamarca 1600 - Yerba Buena
+                    </h1>
+                    <h1 className="text-md font-semibold text-gray-700 text-left">
+                      5 días hábiles
                     </h1>
                   </div>
                 </div>
@@ -311,7 +324,7 @@ useEffect(() => {
                   <div className="font-semibold">15% de descuento</div>
                 </div>
                 {paymentMethod === "tb" ? (
-                  <div className="py-3 text-center text-md text-gray-500">
+                  <div className="py-3 text-left text-md text-gray-500">
                     Cuando termines la compra, vas a ver la información de pago.
                   </div>
                 ) : (

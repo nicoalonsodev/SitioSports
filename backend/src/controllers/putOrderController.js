@@ -1,95 +1,66 @@
-const { Order } = require("../db");
-const { mailHandler } = require('../handlers/postMailHandler');
-const emailTemplate = require("../helpers/mailsTemplate/postOrder");
-const putOrderController = async (order_id, cleanedItems ) => {
-  try {
-    const order = await Order.findOne({ where: { order_id: order_id } });
-    if (!order) {
-      throw new Error("No se encontró el producto");
+const orderTemplate = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificación de Orden</title>
+    <style>
+    /* Estilos CSS */
+    body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #333333; /* Cambia el color del texto a gris oscuro */
     }
 
-    // Desestructurar los campos actualizados del objeto updatedFields
-     const {
-    items,
-    name,
-    phone,
-    shipment,
-    order_type,
-    status,
-    status_detail,
-    payerMp,
-    payment_method,
-    payment_method_id,
-    payment_type_id,
-    shipping_amount,
-    transaction_amount,
-    transaction_details
-     } = cleanedItems;
-    // Actualizar los campos del producto solo si se proporcionan en updatedFields
-    if (items) {
-      order.items = items;
-    }
-    if (name) {
-        order.name = name;
-    }
-    if (phone) {
-        order.phone = phone;
-    }
-    if (shipment) {
-        order.shipment = shipment;
-    }
-    if (order_type) {
-      order.order_type = order_type;
-    }
-    if (status) {
-      order.status = status;
-    }
-    if (status_detail) {
-      order.status_detail = status_detail;
-    }
-    if (payerMp) {
-      order.payerMp = payerMp;
-    }
-    if (payment_method) {
-      order.payment_method = payment_method;
-    }
-    if (payment_method_id) {
-      order.payment_method_id = payment_method_id;
-    }
-    if (payment_type_id) {
-      order.payment_type_id = payment_type_id;
-    }
-    if (shipping_amount) {
-      order.shipping_amount = shipping_amount;
-    }
-    if (transaction_amount) {
-      order.transaction_amount = transaction_amount;
-    } 
-    if (transaction_details) {
-      order.transaction_details = transaction_details;
-    }
-    
-    const client_email = order.email;
-    const order_number = order.order_number;
-    if (!client_email) {
-      throw new Error("No se encontró el email del cliente en la orden");
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
     }
 
-    const asunto = `Orden de compra #${order_number}`;
-    const destinatario = client_email;
-    const cuerpo = emailTemplate.replace('%STATUS%', client_email);
-    await mailHandler(destinatario, asunto, cuerpo);
-    // Guardar los cambios en la base de datos
-    await order.save();
-    
-    
-    return order;
-  } catch (error) {
-    console.error("Error al actualizar la orden:", error);
-    throw error; // Re-lanzar el error para que sea manejado en el contexto externo
-  }
-};
+    h2, p {
+        color: #333333; /* Cambia el color del texto a gris oscuro */
+    }
 
-module.exports = {
-    putOrderController,
-};
+    .button {
+        display: inline-block;
+        background-color: #007bff;
+        color: #ffffff;
+        padding: 10px 20px;
+        border-radius: 4px;
+        text-decoration: none;
+    }
+
+    .button:hover {
+        background-color: #0056b3;
+        color: #ffffff;
+    }
+
+    .logo {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        width: 100px;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://res.cloudinary.com/doczyujqf/image/upload/v1715805937/SitioSports/logoTransparent_xtegdz.png" alt="Logo de la empresa" class="logo">
+        <h2>Su transacción ha sido %STATUS%</h2>
+        <p>Estamos esperando la confirmación del pago para confirmar su compra, en cuanto recibamos el comprobante de pago vía Whatsapp, confirmaremos la misma.</p>
+        <p>Si tiene alguna consulta o necesita más información, no dude en comunicarse con nuestro equipo de atención al cliente respondiendo a esta direccion de correo o a nuestro whatsapp <a href="https://wa.me/+5490446339">haciendo click aqui</a>.</p>
+        <p>Atentamente,</p>
+        <p>El equipo de Sitio Sports</p>
+        <p>© 2024 Sitio Sports S.A.S © </p>      
+    </div>
+</body>
+</html>
+`;
+
+module.exports = orderTemplate;

@@ -38,12 +38,14 @@ const ProductDetailBdd = () => {
       sizes: product.sizes,
       brand: product.brand,
       variants: product.variants,
-      best_sellers: bestSellers,
-      new_arrivals: newArrivals,
-      special_offers: specialOffers,
+      best_sellers: product.best_sellers,
+      new_arrivals: product.new_arrivals,
+      special_offers: product.special_offers,
+      discount_percentage: product.discount_percentage
     };
+    console.log(productChanges);
     axios
-      .put(`https://sitiosports-production.up.railway.app/products/${product.id}`, productChanges)
+      .put(`https://sitiosports-production.up.railway.app//products/${product.id}`, productChanges)
       .then((response) => {
         // Maneja la respuesta de la solicitud, por ejemplo, muestra una notificación de éxito
         alert("Cambios guardados con éxito");
@@ -68,23 +70,15 @@ const ProductDetailBdd = () => {
     }));
     // validate({ ...registro, [name]: value });
   };
+
   const handleChangeCheckbox = (e) => {
     const { name, checked } = e.target;
-    // Actualiza el estado de los checkboxes según el nombre del checkbox
-    switch (name) {
-      case "best_sellers":
-        setBestSellers(checked);
-        break;
-      case "new_arrivals":
-        setNewArrivals(checked);
-        break;
-      case "special_offers":
-        setSpecialOffers(checked);
-        break;
-      default:
-        break;
-    }
+    setProduct((prevProduct) => ({
+      ...prevProduct,
+      [name]: checked,
+    }));
   };
+
   const handleSizes = (size) => {
     setProduct((prevForm) => ({
       ...prevForm,
@@ -126,7 +120,20 @@ const ProductDetailBdd = () => {
       variants: prevForm.variants.filter((variant) => variant.id !== variantId),
     }));
   };
-  console.log(product);
+
+  const handleSelectChange = (event) => {
+    const value = event.target.value;
+    setProduct((prevRegistro) => ({
+      ...prevRegistro,
+      disabled: value,
+    }));
+  };
+
+  const calculateDiscountedPrice = () => {
+    const discountedPrice = product.price * (1 - product.discount_percentage / 100);
+    return discountedPrice.toFixed(2);
+  };
+
   return (
     <>
       <div className="px-32 py-10">
@@ -176,16 +183,16 @@ const ProductDetailBdd = () => {
               <div className="flex justify-start gap-2 text-xl">
                 <h1 className="font-bold">Estado: </h1>
                 {isChanging ? (
-                  <input
-                    type="text"
+                  <select
                     name="disabled"
                     id="disabled"
-                    onChange={handleChange}
+                    onChange={handleSelectChange}
                     value={product.disabled}
-                    autocomplete="disabled"
-                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
-                    placeholder="Nike Ultimate"
-                  />
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
+                  >
+                    <option value={false}>Activo</option>
+                    <option value={true}>Desactivado</option>
+                  </select>
                 ) : (
                   <p>{product.disabled === false ? "Activo" : "Desactivado"}</p>
                 )}
@@ -242,36 +249,6 @@ const ProductDetailBdd = () => {
                   <p>{product.sub_cat}</p>
                 )}
               </div>
-              {/* {isChanging ? (
-              <div>
-                {product.cat === "Botines" ? (
-                  <SizesForm
-                    handleSizes={isChanging ? handleSizes : ""}
-                    selectedSizes={product.sizes}
-                  />
-                ) : (
-                  ""
-                )}
-                {product.cat === "Camisetas" ? (
-                  <SizesFormCamisetas
-                    handleSizes={isChanging ? handleSizes : ""}
-                    selectedSizes={product.sizes}
-                  />
-                ) : (
-                  ""
-                )}
-                {product.cat === "Medias" ? (
-                  <SizesFormMedias
-                    handleSizes={isChanging ? handleSizes : ""}
-                    selectedSizes={product.sizes}
-                  />
-                ) : (
-                  ""
-                )}
-              </div>
-            ) : (
-              ""
-            )} */}
 
               <div className="flex justify-start gap-2 text-xl">
                 <h1 className="font-bold">Marca: </h1>
@@ -297,7 +274,8 @@ const ProductDetailBdd = () => {
                     id="best_sellers"
                     type="checkbox"
                     name="best_sellers"
-                    value={product.best_sellers}
+                    checked={product.best_sellers}
+                    // value={product.best_sellers}
                     onChange={handleChangeCheckbox}
                   />
                   Best Sellers
@@ -308,7 +286,8 @@ const ProductDetailBdd = () => {
                     id="new_arrivals"
                     type="checkbox"
                     name="new_arrivals"
-                    value={product.new_arrivals}
+                    checked={product.new_arrivals}
+                    // value={product.new_arrivals}
                     onChange={handleChangeCheckbox}
                   />
                   New Arrivals
@@ -319,17 +298,38 @@ const ProductDetailBdd = () => {
                     id="special_offers"
                     type="checkbox"
                     name="special_offers"
-                    value={product.special_offers}
+                    checked={product.special_offers}
+                    // value={product.special_offers}
                     onChange={handleChangeCheckbox}
                   />
                   Special Offers
                 </label>
               </div>
-              {/* <div className="flex justify-center w-[270px]">
-                <img src={product.image} alt="" />
-              </div> */}
               <div>
-                <p className="text-pink-600">{product.total_sales > 0 ? `Se vendieron ${product.total_sales} unidades de este producto.` : "Aun no se vendió ninguna unidad."}</p>
+                <p className="text-pink-600">
+                  {product.total_sales > 0
+                    ? `Se vendieron ${product.total_sales} unidades de este producto.`
+                    : "Aun no se vendió ninguna unidad."}
+                </p>
+              </div>
+              <div className="flex justify-start gap-2 text-xl">
+                <h1 className="font-bold">Descuento: </h1>
+                {isChanging ? (
+                  <input
+                    type="number"
+                    name="discount_percentage"
+                    id="discount_percentage"
+                    onChange={handleChange}
+                    value={product.discount_percentage}
+                    autocomplete="discount_percentage"
+                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
+                  />
+                ) : (
+                  <p className="text-lg">
+                    {product.discount_percentage}% de descuento - Precio con
+                    descuento: <span className="font-semibold">${calculateDiscountedPrice()}</span> 
+                  </p>
+                )}
               </div>
             </div>
             <div className="flex flex-wrap gap-8">

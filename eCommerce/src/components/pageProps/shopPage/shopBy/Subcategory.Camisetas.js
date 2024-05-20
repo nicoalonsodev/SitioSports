@@ -46,7 +46,7 @@ const SubcategoryCamisetas = () => {
         className="flex justify-between cursor-pointer pb-2"
         onClick={handleFilterToggle}
       >
-        <h1 icons={true}>Subcategoria</h1>
+        <h1 className="text-xl fotn-normal" icons={true}>Subcategoria</h1>
         <TiArrowSortedDown
           className={`text-lg ${
             showFilter ? "rotate-180" : "rotate-0"
@@ -66,6 +66,7 @@ const SubcategoryCamisetas = () => {
                   id={item._id}
                   checked={checkedSubcategorys.some((b) => b._id === item._id)}
                   onChange={() => handleToggleSubcategory(item)}
+                 
                 />
                 {item.title}
                 {item.icons && (

@@ -140,6 +140,20 @@ const ProductInfo = ({ productInfo, handleSelectedImages }) => {
       title: "XXL",
     },
   ];
+  const sizesMedias = [
+    {
+      _id: 9019,
+      title: "39-40",
+    },
+    {
+      _id: 9020,
+      title: "41-42",
+    },
+    {
+      _id: 9021,
+      title: "43-44",
+    },
+  ];
   const handleSize = (size) => {
     setSelectedSize(size);
     // Buscar el objeto en productInfo.sizes que tiene el tamaño seleccionado
@@ -204,7 +218,7 @@ const ProductInfo = ({ productInfo, handleSelectedImages }) => {
           selectedSize={selectedSize}
           handleSize={handleSize}
           productSizes={availableSizes}
-          sizes={productInfo.cat === "Botines" ? sizesBotines : sizesCamisetas}
+          sizes={productInfo.cat === "Botines" ? sizesBotines : productInfo.cat === "Camisetas" ? sizesCamisetas : sizesMedias}
         />
         <SizeGuide cat={productInfo.cat} />
         <div className="flex flex-row items-center gap-12">
