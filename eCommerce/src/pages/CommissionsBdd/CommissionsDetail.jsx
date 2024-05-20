@@ -34,7 +34,7 @@ const CommissionsDetailBdd = () => {
       variants: product.variants,
     };
     axios
-      .put(`https://sitiosports-production.up.railway.app//commissions/${product.id}`, productChanges)
+      .put(`https://sitiosports-production.up.railway.app/commissions/${product.id}`, productChanges)
       .then((response) => {
         // Maneja la respuesta de la solicitud, por ejemplo, muestra una notificación de éxito
         alert("Cambios guardados con éxito");
