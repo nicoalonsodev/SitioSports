@@ -29,7 +29,7 @@ const ItemCard = ({ item }) => {
                 {item.variant.variant}
               </h1>
             </div>
-            <div className="flex-col items-center text-left justify-start lg:justify-between px-0 lg:px-4 gap-y-6 mdl:gap-0">
+            <div className="flex-col items-center text-left justify-start lg:justify-start  gap-y-6 mdl:gap-0">
               <div className="flex w-1/3 items-center text-lg font-bold">
                 ${item.quantity * item.price}
               </div>

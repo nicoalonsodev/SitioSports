@@ -66,7 +66,7 @@ const Cart = () => {
       </div>
       <Breadcrumbs title="Tu Carrito" />
       {products.length > 0 ? (
-        <div className="flex flex-wrap lg:flex-nowrap pb-20 ">
+        <div className="flex flex-wrap lg:flex-col lg:flex-nowrap pb-20 ">
           <div className="flex  gap-4 items-center">
             <IoIosInformationCircleOutline className="text-4xl text-pink-500" />
             <p className="text-md text-left">
@@ -131,7 +131,7 @@ const Cart = () => {
 
           <button
             onClick={() => dispatch(resetCart())}
-            className="py-2 px-10 bg-red-500 text-white font-semibold uppercase hover:bg-red-700 duration-300"
+            className="w-1/5 py-2 px-10 bg-red-500 text-white font-semibold uppercase hover:bg-red-700 duration-300"
           >
             Resetear
           </button>

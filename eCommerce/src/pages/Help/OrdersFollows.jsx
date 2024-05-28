@@ -16,9 +16,9 @@ const OrdersFollows = () => {
           <p>
             Una vez que tu pedido haya sido despachado vamos a contactarte por
             mail para mandarte tu codigo de seguimiento, y asi entrando en esta
-            pagina
-             <a className="underline text-pink-600" href="https://www.correoargentino.com.ar/formularios/e-commerce"> Seguimiento Correo Argentino </a>{" "}
-             puedas tener el seguimiento de tu compra!
+            pagina&nbsp;
+             <a className="underline text-pink-600" target="_blank" href="https://www.correoargentino.com.ar/formularios/e-commerce">Seguimiento Correo Argentino</a>
+             &nbsp;puedas tener el seguimiento de tu compra!
           </p>
 
           <p>
