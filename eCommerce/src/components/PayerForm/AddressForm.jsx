@@ -25,7 +25,7 @@ export const CustomInput = ({ label, name, value, onChange, placeholder, error }
   };
 
   return (
-    <div className="sm:col-span-4">
+    <div className={` sm:col-span-4`}>
       <div
         className="relative flex flex-wrap cursor-text rounded-md shadow-sm ring-1 ring-inset ring-gray-300 sm:max-w-md"
         onClick={handleContainerClick}
@@ -186,7 +186,7 @@ const AddressForm = ({ handleAddress, email }) => {
         error={formSubmitted && errors.zipCode}
       />
 
-      <div className="flex gap-2">
+      <div className="block lg:flex lg:flex-nowrap w-full space-y-3 lg:space-y-0 gap-2">
         <CustomInput
           label="Provincia"
           name="state"
@@ -194,6 +194,7 @@ const AddressForm = ({ handleAddress, email }) => {
           onChange={handleChange}
           placeholder=""
           error={formSubmitted && errors.state}
+  
         />
 
         <CustomInput
@@ -205,8 +206,7 @@ const AddressForm = ({ handleAddress, email }) => {
           error={formSubmitted && errors.city}
         />
       </div>
-
-      <div className="flex gap-2">
+      <div className="block lg:flex lg:flex-nowrap w-full space-y-3 lg:space-y-0 gap-2">
         <CustomInput
           label="Calle/Avenida"
           name="street"

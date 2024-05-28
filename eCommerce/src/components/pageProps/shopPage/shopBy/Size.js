@@ -69,7 +69,7 @@ const Size = () => {
         className="flex justify-between cursor-pointer pb-2"
         onClick={handleFilterToggle}
       >
-        <h1 className="text-xl font-semibold" icons={true}>Talles</h1>
+        <h1 className="text-lg lg:text-xl font-semibold" icons={true}>Talles</h1>
         <TiArrowSortedDown
           className={`text-lg ${
             showFilter ? "rotate-180" : "rotate-0"
@@ -82,7 +82,7 @@ const Size = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <ul className="flex flex-col gap-4 text-sm lg:text-base text-[#767676]">
+          <ul className="flex flex-col gap-4 text-sm lg:text-base text-gray-100 lg:text-[#767676]">
             {colors.map((item) => (
               <li
                 key={item._id}

@@ -13,7 +13,7 @@ import ShopNow from "../../designLayouts/buttons/ShopNow";
 
 const Sale = () => {
   return (
-    <div className="py-20 flex flex-col md:flex-row items-start justify-between gap-4">
+    <div className="py-0 lg:py-20 flex flex-col md:flex-row items-start justify-between gap-4">
       <div className="bg-[#f3f3f3] w-full md:w-2/3 lg:w-1/2 f-full flex flex-col justify-center items-center text-black">
         <div className="relative  h-[610px] aspect-w-4 aspect-h-3 w-full">
           <video autoPlay loop muted className="h-full w-full object-cover">

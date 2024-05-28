@@ -61,7 +61,7 @@ const Header = () => {
   };
 
   const handleCommissionClick = () => {
-    dispatch(cleanFilters())
+    dispatch(cleanFilters());
     fetchData();
   };
 
@@ -106,12 +106,15 @@ const Header = () => {
     underlineOffset: "4px",
   };
   return (
-    <div className="w-full  h-28 bg-white sticky top-0 z-50 border-b-[1px] border-b-gray-200">
+    <div className="w-full h-auto lg:h-28 bg-white sticky top-0 z-50 border-b-[1px] border-b-gray-200">
       <nav className="h-full px-4 max-w-container mx-auto relative">
-        <Flex className="flex items-center justify-between h-full mx-10">
-          <Link to="/">
+        <Flex className="flex flex-wrap lg:flex-nowrap items-center justify-between h-full mx-10 py-2 lg:py-0">
+          <Link className="w-full flex justify-center" to="/">
             <div>
-              <Image className="w-24 object-cover" imgSrc={logoTransparent} />
+              <Image
+                className="w-14 lg:w-24 object-cover"
+                imgSrc={logoTransparent}
+              />
             </div>
           </Link>
           <div className="w-3/5">
@@ -123,22 +126,6 @@ const Header = () => {
                 className="flex items-center justify-center w-full z-50 p-0 gap-2"
               >
                 <>
-                  {/* <div className="relative">
-                    <NavLink
-                      key={1001}
-                      className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
-                      to={"/"}
-                      state={{ data: location.pathname.split("/")[1] }}
-                      // onClick={() => {
-                      //   if (_id === 1003) {
-                      //     const cat = allCategories[0];
-                      //     dispatch(toggleCategory(cat));
-                      //   }
-                      // }}
-                    >
-                      <li>Inicio</li>
-                    </NavLink>
-                  </div> */}
                   <div
                     className="relative"
                     onMouseEnter={() => handleHover(1002)}
@@ -248,7 +235,6 @@ const Header = () => {
                       className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
                       to={"/ayuda"}
                       state={{ data: location.pathname.split("/")[1] }}
-                     
                     >
                       <li>Ayuda</li>
                     </NavLink>
@@ -256,10 +242,6 @@ const Header = () => {
                 </>
               </motion.ul>
             )}
-            <HiMenuAlt2
-              onClick={() => setSidenav(!sidenav)}
-              className="inline-block md:hidden cursor-pointer w-8 h-6 absolute top-6 right-4"
-            />
             {sidenav && (
               <div className="fixed top-0 left-0 w-full h-screen bg-black text-gray-200 bg-opacity-80 z-50">
                 <motion.div
@@ -290,7 +272,7 @@ const Header = () => {
                         </li>
                       ))}
                     </ul>
-                    <div className="mt-4">
+                    {/* <div className="mt-4">
                       <h1
                         onClick={() => setCategory(!category)}
                         className="flex justify-between text-base cursor-pointer items-center font-titleFont mb-2"
@@ -310,8 +292,8 @@ const Header = () => {
                         <li className="headerSedenavLi">Electronics</li>
                         <li className="headerSedenavLi">Others</li>
                       </motion.ul>
-                    </div>
-                    <div className="mt-4">
+                    </div> */}
+                    {/* <div className="mt-4">
                       <h1
                         onClick={() => setBrand(!brand)}
                         className="flex justify-between text-base cursor-pointer items-center font-titleFont mb-2"
@@ -333,7 +315,7 @@ const Header = () => {
                           <li className="headerSedenavLi">Others</li>
                         </motion.ul>
                       )}
-                    </div>
+                    </div> */}
                   </div>
                   <span
                     onClick={() => setSidenav(false)}
@@ -345,7 +327,14 @@ const Header = () => {
               </div>
             )}
           </div>
-          <div className="flex w-auto  gap-4 mt-2 lg:mt-0 items-center cursor-pointer relative">
+
+          <div className="flex w-auto gap-0 lg:gap-4 mt-2 lg:mt-0 items-center cursor-pointer relative">
+            <div className="flex lg:hidden mr-4  -ml-4">
+              <HiMenuAlt2
+                className="text-4xl"
+                onClick={() => setSidenav(!sidenav)}
+              />
+            </div>
             <div className="justify-end flex">
               <HeaderBottom />
             </div>

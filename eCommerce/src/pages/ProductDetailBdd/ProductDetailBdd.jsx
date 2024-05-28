@@ -43,9 +43,9 @@ const ProductDetailBdd = () => {
       special_offers: product.special_offers,
       discount_percentage: product.discount_percentage
     };
-    console.log(productChanges);
+console.log(productChanges);
     axios
-      .put(`https://sitiosports-production.up.railway.app/products/${product.id}`, productChanges)
+      .put(`http://localhost:3001/products/${product.id}`, productChanges)
       .then((response) => {
         // Maneja la respuesta de la solicitud, por ejemplo, muestra una notificación de éxito
         alert("Cambios guardados con éxito");

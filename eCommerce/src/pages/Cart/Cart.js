@@ -56,8 +56,8 @@ const Cart = () => {
   }
 
   return (
-    <div className="max-w-container mx-auto px-32 relative">
-      <div className="absolute top-10 right-24 flex items-center gap-3 w-[200px]">
+    <div className="flex flex-col max-w-container mx-auto px-2 lg:px-32 relative">
+      <div className="absolute top-10 right-4 lg:right-24 flex items-center gap-3 w-[200px]">
         <img className="w-10 rounded-md" src="https://d1zxmlch3z83cq.cloudfront.net/production/2.3.41/_next/server/static/img/safe-shopping.svg" />
         <div className="flex flex-col">
           <p className="text-sm font-semibold">COMPRA SEGURA</p>
@@ -66,7 +66,7 @@ const Cart = () => {
       </div>
       <Breadcrumbs title="Tu Carrito" />
       {products.length > 0 ? (
-        <div className="pb-20 ">
+        <div className="flex flex-wrap lg:flex-nowrap pb-20 ">
           <div className="flex  gap-4 items-center">
             <IoIosInformationCircleOutline className="text-4xl text-pink-500" />
             <p className="text-md text-left">
@@ -74,15 +74,15 @@ const Cart = () => {
               Terminá el proceso de compra ahora para hacerte con ellos.
             </p>
           </div>
-          <div className="flex justify-between items-start flex-wrap mt-5">
-            <div className="w-1/2 flex flex-wrap justify-start items-start">
+          <div className="flex flex-wrap lg:flex-nowrap justify-between items-start mt-5">
+            <div className="w-full lg:w-1/2 flex flex-wrap justify-start items-start">
               {products.map((item) => (
                 <div className="w-full" key={item._id}>
                   <ItemCard item={item} /> 
                 </div>
               ))}
             </div>
-            <div className="w-1/3 gap-4 flex">
+            <div className="w-full lg:w-1/3 gap-4 flex">
               <div className="w-full flex flex-col gap-4">
                 <h1 className="text-2xl font-semibold text-left">
                   Resumen Del Pedido

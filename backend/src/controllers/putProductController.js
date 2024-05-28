@@ -23,6 +23,7 @@ const putProductController = async (id, updatedFields) => {
       best_sellers,
       new_arrivals,
       special_offers,
+      discount_percentage
     } = updatedFields;
 
     // Actualizar los campos del producto solo si se proporcionan en updatedFields
@@ -58,6 +59,9 @@ const putProductController = async (id, updatedFields) => {
     }
     if (description) {
       product.description = description;
+    }
+    if (discount_percentage) {
+      product.discount_percentage = discount_percentage;
     }
     if (best_sellers !== undefined) {
       product.best_sellers = best_sellers;

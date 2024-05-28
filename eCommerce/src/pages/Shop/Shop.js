@@ -31,14 +31,13 @@ const Shop = () => {
   return (
     <div className="max-w-container mx-auto px-4">
       {searchTag ? (
-        <h1 className="pt-3 text-center text-semibold text-3xl">
+        <h1 className="pt-3 text-center text-semibold text-xl lg:text-3xl">
           Resultado de búsqueda: {searchTag}
         </h1>
       ) : (
         ""
       )}
       <Breadcrumbs title="" />
-      {/* ================= Products Start here =================== */}
       <div className="w-full h-full flex pb-20 gap-10">
         <div className="w-[20%] lgl:w-[25%] hidden mdl:inline-flex h-full">
           <ShopSideNav />

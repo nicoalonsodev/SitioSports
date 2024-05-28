@@ -17,8 +17,8 @@ server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(cookieParser());
 server.use(morgan('dev'));
-server.use((req, res, next) => {   //https://www.sitiosports.com   http://localhost:3000
-  res.header('Access-Control-Allow-Origin', 'https://www.sitiosports.com'); // update to match the domain you will make the request from
+server.use((req, res, next) => {   //https://www.sitiosports.com   http://localhost:3000   --omit=dev  https://sitiosports-production.up.railway.app/
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000'); // update to match the domain you will make the request from
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
@@ -26,7 +26,7 @@ server.use((req, res, next) => {   //https://www.sitiosports.com   http://localh
 });
 
 
-
+ 
 server.use('/', routes);
 
 server.post("/uploadImage", (req, res) => {

@@ -45,7 +45,7 @@ const HeaderBottom = () => {
     }
   };
   return (
-    <Flex className="flex flex-col lg:flex-row items-start lg:items-center justify-end w-2/3 h-full lg:h-14">
+    <Flex className="flex flex-col lg:flex-row items-start lg:items-center justify-end w-full lg:w-2/3 h-full lg:h-14">
       <div className="relative w-full lg:w-auto h-[40px] text-base text-primeColor bg-white flex items-center gap-2 justify-between px-6 rounded-xl shadow-sm">
         <input
           className=" h-full outline-none placeholder:text-[#C4C4C4] placeholder:text-[14px]"

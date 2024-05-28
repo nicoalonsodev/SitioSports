@@ -44,14 +44,7 @@ const handleDeleteImage = (index) => {
       return newVariant;
   });
 };
-  
-    // setForm((prevForm) => ({
-    //   ...prevForm,
-    //   variants: prevForm.variants.map((variant) =>
-    //     variant.id === variantId ? { ...variant, imgUrl: variant.imgUrl.filter((_, i) => i !== index) } : variant
-    //   )
-    // }));
-  // };
+
 
   const handleChangeVariantName = (id, newValue) => {
     setLocalVariant((prevForm) => ({
@@ -62,35 +55,13 @@ const handleDeleteImage = (index) => {
   };
 
   const handleDeleteVariant = (variantId) => {
-    // Filtra las variantes para mantener solo aquellas cuyo ID no coincide con el ID dado
     handleDelete(variantId)
   };
 
   const handleSizesVariants = (size, id) => {
-    // Encuentra el índice del objeto en variants con el mismo id
-    // const variantFormIndex = form.variants.findIndex(
-    //   (variant) => variant.id === id
-    // );
-    // const variantIndex = variants.findIndex((variant) => variant.id === id);
 
-    // // Si el índice es válido, actualiza el estado
-    // if (variantFormIndex !== -1) {
-    //   setForm((prevForm) => {
-    //     const updatedVariants = [...prevForm.variants];
-    //     updatedVariants[variantFormIndex] = {
-    //       ...updatedVariants[variantFormIndex],
-    //       sizes: size,
-    //     };
-
-    //     return {
-    //       ...prevForm,
-    //       variants: updatedVariants,
-    //     };
-    //   });
-    // }
   };
 
-  console.log(variant);
   return (
     <div>
       {isChanging === false ? (

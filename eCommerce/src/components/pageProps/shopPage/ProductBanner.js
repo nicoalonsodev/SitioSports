@@ -1,48 +1,49 @@
 import React, { useEffect, useState } from "react";
-import { BsGridFill } from "react-icons/bs";
-import { ImList } from "react-icons/im";
+import { FiFilter } from "react-icons/fi";
 import { GoTriangleDown } from "react-icons/go";
-
+import { motion } from "framer-motion";
+import { MdClose } from "react-icons/md";
+import { logoTransparent } from "../../../assets/images";
+import Category from "../shopPage/shopBy/Category";
+import Subcategory from "../shopPage/shopBy/Subcategory";
+import Size from "../shopPage/shopBy/Size";
+import SizeCamisetas from "../shopPage/shopBy/SizeCamisetas";
+import SubcategoryCamisetas from "../shopPage/shopBy/Subcategory.Camisetas";
+import SizeMedias from "../shopPage/shopBy/SizeMedias";
+import Brand from "../shopPage/shopBy/Brand";
+import { useSelector, useDispatch } from "react-redux";
+import { cleanFilters } from "../../../redux/orebiSlice";
 const ProductBanner = ({ itemsPerPageFromBanner, handleSort }) => {
-  const [selected, setSelected] = useState('');
+  const dispatch = useDispatch();
+  const [showFilters, setShowFilters] = useState(false);
+  const [selected, setSelected] = useState("");
+
+  const selectedCategories = useSelector(
+    (state) => state.orebiReducer.checkedCategorys
+  );
+  const selectedSubcategories = useSelector(
+    (state) => state.orebiReducer.checkedSubcategorys
+  );
+  const selectedSizes = useSelector((state) => state.orebiReducer.checkedSizes);
+  const selectedBrands = useSelector(
+    (state) => state.orebiReducer.checkedBrands
+  );
+
   const handleChange = (e) => {
     const value = e.target.value;
     setSelected(value);
     handleSort(value);
   };
+
+  const handleClick = () => {
+    setShowFilters(!showFilters);
+  };
+  const handleCleanFilters = () => {
+    dispatch(cleanFilters());
+  };
   return (
     <div className="w-full flex flex-col md:flex-row md:items-center justify-end">
-      {/* =========================================================
-                            Left Part Start here
-        ======================================================== */}
-
-      {/* <div className="flex items-center gap-4">
-        <span
-          className={`${
-            girdViewActive
-              ? "bg-primeColor text-white"
-              : "border-[1px] border-gray-300 text-[#737373]"
-          } w-8 h-8 text-lg flex items-center justify-center cursor-pointer gridView`}
-        >
-          <BsGridFill />
-        </span> */}
-        {/* <span
-          className={`${
-            listViewActive
-              ? "bg-primeColor text-white"
-              : "border-[1px] border-gray-300 text-[#737373]"
-          } w-8 h-8 text-base flex items-center justify-center cursor-pointer listView`}
-        >
-           <ImList />
-        </span> */}
-      {/* </div> */}
-      {/* =========================================================
-                            Left Part End here
-        ======================================================== */}
-      {/* =========================================================
-                            Right Part STart here
-        ======================================================== */}
-      <div className="flex items-center gap-2 md:gap-6 mt-4 md:mt-0">
+      <div className="flex justify-between lg:justify-center items-center px-4 gap-2 md:gap-6 mt-4 md:mt-0">
         <div className="flex items-center gap-2 text-base text-[#767676] relative">
           <label className="block">Ordenar Por:</label>
           <select
@@ -59,26 +60,61 @@ const ProductBanner = ({ itemsPerPageFromBanner, handleSort }) => {
             <GoTriangleDown />
           </span>
         </div>
-        {/* <div className="flex items-center gap-2 text-[#767676] relative">
-          <label className="block">Show:</label>
-          <select
-            onChange={(e) => itemsPerPageFromBanner(+e.target.value)}
-            id="countries"
-            className="w-16 md:w-20 border-[1px] border-gray-200 py-1 px-4 cursor-pointer text-primeColor text-base block dark:placeholder-gray-400 appearance-none focus-within:outline-none focus-visible:border-primeColor"
-          >
-            <option value="12">12</option>
-            <option value="24">24</option>
-            <option value="36">36</option>
-            <option value="48">48</option>
-          </select>
-          <span className="absolute text-sm right-3 top-2.5">
-            <GoTriangleDown />
-          </span>
-        </div> */}
+        <div className="block lg:hidden">
+          <button onClick={handleClick}>
+            <FiFilter className="text-3xl text-[#fc148c]" />
+          </button>
+        </div>
+        {showFilters && (
+          <div className="fixed top-0 left-0 w-full h-screen bg-black text-gray-200 bg-opacity-80 z-50">
+            <motion.div
+              initial={{ x: -300, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              className="w-[80%] h-full relative"
+            >
+              <div className="w-full h-full bg-primeColor p-6">
+                <div>
+                  <h1 className="text-2xl">Filtrar por:</h1>
+                  <button onClick={handleCleanFilters}>Borrar todo</button>
+                </div>
+
+                <div className="mt-4 space-y-2">
+                  <Category icons={false} />
+                  {selectedCategories.length &&
+                  selectedCategories[0].title === "Botines" ? (
+                    <Size />
+                  ) : selectedCategories.length &&
+                    selectedCategories[0].title === "Camisetas" ? (
+                    <SizeCamisetas />
+                  ) : selectedCategories.length &&
+                    selectedCategories[0].title === "Medias" ? (
+                    <SizeMedias />
+                  ) : (
+                    ""
+                  )}
+                  <Brand />
+                  {selectedCategories.length &&
+                  selectedCategories[0].title === "Botines" ? (
+                    <Subcategory />
+                  ) : selectedCategories.length &&
+                    selectedCategories[0].title === "Camisetas" ? (
+                    <SubcategoryCamisetas />
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </div>
+              <span
+                onClick={handleClick}
+                className="w-8 h-8 border-[1px] border-gray-300 absolute top-2 -right-10 text-gray-300 text-2xl flex justify-center items-center cursor-pointer hover:border-red-500 hover:text-red-500 duration-300"
+              >
+                <MdClose />
+              </span>
+            </motion.div>
+          </div>
+        )}
       </div>
-      {/* =========================================================
-                            Right Part End here
-        ======================================================== */}
     </div>
   );
 };

@@ -14,13 +14,13 @@ const ItemCard = ({ item }) => {
       <div className="flex justify-between col-span-3 gap-4">
         <div className="flex gap-4">
           <img
-            className="w-auto h-[200px] object-cover"
+            className="w-auto h-[120px] lg:h-[200px] object-cover"
             src={item.image}
             alt="productImage"
           />
           <div className="py-4">
             <div className="flex items-start ">
-              <h1 className="font-light uppercase text-lg">
+              <h1 className="font-light uppercase text-md lg:text-lg">
                 {item.name}
               </h1>
             </div>
@@ -29,7 +29,7 @@ const ItemCard = ({ item }) => {
                 {item.variant.variant}
               </h1>
             </div>
-            <div className=" flex-col items-center justify-between px-4 mdl:px-0 gap-y-6 mdl:gap-0">
+            <div className="flex-col items-center text-left justify-start lg:justify-between px-0 lg:px-4 gap-y-6 mdl:gap-0">
               <div className="flex w-1/3 items-center text-lg font-bold">
                 ${item.quantity * item.price}
               </div>

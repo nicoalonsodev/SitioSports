@@ -2,8 +2,8 @@ import React from "react";
 
 const OrdersFollows = () => {
   return (
-    <div className="px-20 flex justify-center">
-      <div className="flex flex-col justify-center items-start py-20 w-2/3 gap-6">
+    <div className="px-2 lg:px-20 flex justify-center">
+      <div className="flex flex-col justify-center items-start py-20 w-full lg:w-2/3 gap-6">
         <h1 className="text-3xl font-semibold">Seguimiento de pedidos</h1>
         <div className="flex flex-col justify-start items-start space-y-6">
           <p className="text-xl">

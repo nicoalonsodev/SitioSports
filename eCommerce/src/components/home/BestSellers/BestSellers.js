@@ -23,7 +23,7 @@ const BestSellers = () => {
   }, [products]);
 
   return (
-    <div className="w-full pb-20">
+    <div className="w-full py-14">
       <Heading heading="Lo Más Vendido" />
       
       <div className="w-full grid grid-cols-1 md:grid-cols-2 lgl:grid-cols-3 xl:grid-cols-4 gap-10">
@@ -41,10 +41,11 @@ const BestSellers = () => {
             brand={product.brand}
             cat={product.cat}
             sub_cat={product.sub_cat}
+            discount={product.discount_percentage}
           />
         </div>
         ))}
-        <Product
+        {/* <Product
           _id="1011"
           img={nike1}
           productName="Flower Base"
@@ -70,7 +71,7 @@ const BestSellers = () => {
           color="Mixed"
           badge={true}
           des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
-        />
+        /> */}
       </div>
     </div>
   );

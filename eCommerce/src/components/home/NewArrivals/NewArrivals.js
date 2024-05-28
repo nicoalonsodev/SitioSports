@@ -58,9 +58,9 @@ const NewArrivals = () => {
     ],
   };
   return (
-    <div className="w-full pb-16 space-y-10 py-8">
+    <div className="w-full pb-0 lg:pb-16 space-y-10 py-8">
       {/* <Heading heading="Nuevos ingresos" /> */}
-      <h1 className="text-left text-4xl font-semibold ">Nuevos Ingresos</h1>
+      <h1 className="text-left text-2xl lg:text-4xl font-semibold ">Nuevos Ingresos</h1>
       <Slider {...settings}>
         {newArrivalsProducts.map((product) => (
           <div key={product.id} className="px-2">
@@ -76,64 +76,10 @@ const NewArrivals = () => {
             brand={product.brand}
             cat={product.cat}
             sub_cat={product.sub_cat}
+            discount={product.discount_percentage}
           />
         </div>
         ))}
-        <div className="px-2">
-          <Product
-            _id="100001"
-            img={river}
-            productName="Round Table Clock"
-            price="44.00"
-            color="Black"
-            badge={true}
-            des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
-          />
-        </div>
-        <div className="px-2">
-          <Product
-            _id="100002"
-            img={boca}
-            productName="Smart Watch"
-            price="250.00"
-            color="Black"
-            badge={true}
-            des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
-          />
-        </div>
-        <div className="px-2">
-          <Product
-            _id="100003"
-            img={arg2}
-            productName="cloth Basket"
-            price="80.00"
-            color="Mixed"
-            badge={true}
-            des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
-          />
-        </div>
-        <div className="px-2">
-          <Product
-            _id="100004"
-            img={puma1}
-            productName="Funny toys for babies"
-            price="60.00"
-            color="Mixed"
-            badge={false}
-            des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
-          />
-        </div>
-        <div className="px-2">
-          <Product
-            _id="100005"
-            img={adidas3}
-            productName="Funny toys for babies"
-            price="60.00"
-            color="Mixed"
-            badge={false}
-            des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
-          />
-        </div>
       </Slider>
     </div>
   );

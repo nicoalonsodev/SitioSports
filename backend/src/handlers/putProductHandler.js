@@ -19,6 +19,7 @@ const putProductHandler = async (req, res) => {
     best_sellers,
     new_arrivals,
     special_offers,
+    discount_percentage,
   } = req.body;
   const updatedFields = {
     productName,
@@ -35,6 +36,7 @@ const putProductHandler = async (req, res) => {
     best_sellers,
     new_arrivals,
     special_offers,
+    discount_percentage
   };
   try {
     await putProductController(id, updatedFields);

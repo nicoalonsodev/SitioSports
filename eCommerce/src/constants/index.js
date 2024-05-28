@@ -100,6 +100,11 @@ export const navBarList = [
     title: "Encargo",
     link: "/encargo",
   },
+  {
+    _id: 1008,
+    title: "Ayuda",
+    link: "/ayuda",
+  },
 ];
 export const allSizes = [
   {

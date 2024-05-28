@@ -107,6 +107,7 @@ function Items({
               variants={item.variants}
               description={item.description}
               color={item.color}
+              discount={item.discount_percentage}
             />
           </div>
         ))

@@ -7,7 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import ContactForm from "../../components/PayerForm/ContactForm";
 import { tarjetas, otherPaymentMethods } from "../../constants";
 import { resetCart } from "../../redux/orebiSlice";
+import { motion } from "framer-motion";
+import { IoIosArrowDown } from "react-icons/io";
+
 const Payment = (props) => {
+  const [showDetails, setShowDetails] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const products = useSelector((state) => state.orebiReducer.cartProducts);
@@ -72,7 +76,7 @@ const Payment = (props) => {
       try {
         setProcessing(true);
         const response = await axios.post(
-          "https://sitiosports-production.up.railway.app/create-order",
+          "http://localhost:3001/create-order",
           order
         );
         const preferenceId = response.data.id;
@@ -116,7 +120,7 @@ const Payment = (props) => {
           shipping_type: shipping,
         };
         const responsePost = await axios.post(
-          "https://sitiosports-production.up.railway.app/order",
+          "http://localhost:3001/order",
           postOrder
         );
         const order_number = responsePost.data.order_number;
@@ -159,10 +163,87 @@ const Payment = (props) => {
 
   console.log(shipmentPlusTotal);
   return (
-    <div className="flex flex-wrap w-screen justify-start items-start lg:px-32 xl:px-44 pb-20 relative">
-      <div className="w-2/3 justify-between space-y-6">
+    <div className="flex flex-wrap w-screen justify-start items-start px-2 lg:px-32 xl:px-44 pb-20 relative">
+      <div className="lg:hidden w-full lg:w-1/3 p-2 gap-4 flex flex-col">
+        <button
+          className="flex justify-between items-center text-left  text-gray-700 py-2  rounded"
+          onClick={() => setShowDetails(!showDetails)}
+        >
+          <div className="flex items-center  gap-2">
+            <IoIosArrowDown
+              className={`${showDetails ? "rotate-180" : ""} text-[#fc148c] duration-300`}
+            />
+            {showDetails
+              ? "Ocultar Detalle de Compra"
+              : "Ver Detalle de Compra"}
+          </div>
+          <span className="font-bold tracking-wide text-xl text-[#fc148c]">
+            ${shipmentPlusTotal}
+          </span>
+        </button>
+
+        <motion.div
+          initial={{ height: 0, opacity: 0 }}
+          animate={{
+            height: showDetails ? "auto" : 0,
+            opacity: showDetails ? 1 : 0,
+          }}
+          className="overflow-hidden lg:overflow-visible lg:h-auto lg:opacity-100  "
+        >
+          <div className="sticky top-0 border-gray-700 w-full flex flex-col gap-4 mb-10">
+            <h1 className="text-2xl font-semibold text-left">
+              Resumen Del Pedido
+            </h1>
+            <div className="w-full gap-y-4">
+              {products?.map((product) => (
+                <div key={product.id} className="flex justify-between gap-6">
+                  <div className="w-24">
+                    <img
+                      className="w-full"
+                      src={product.image}
+                      alt={product.name}
+                    />
+                  </div>
+                  <div className="w-full text-gray-800">
+                    <p>
+                      {product.name} {product.variant.variant}
+                      <span>
+                        ({product.size}) x{product.quantity}
+                      </span>
+                    </p>
+                    <p>${product.price} c/u</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div>
+              <p className="flex items-center justify-between border-b-0 py-1.5 text-lg font-medium">
+                Subtotal
+                <span className="font-semibold tracking-wide font-titleFont">
+                  ${totalAmt}
+                </span>
+              </p>
+              <p className="flex items-center justify-between py-1.5 text-lg font-medium">
+                Costo de envío
+                <span className="font-semibold tracking-wide font-titleFont">
+                  {shipping === "estandar" ? "Gratis" : `$${shippmentCharge}`}
+                </span>
+              </p>
+              <p className="flex items-center justify-between text-pink-600 py-1.5 text-xl font-bold">
+                Total
+                <span className="font-bold tracking-wide text-xl font-titleFont">
+                  ${shipmentPlusTotal}
+                </span>
+              </p>
+              <p className="text-sm">(IVA incluido ${ivaAmount})</p>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      <div className="w-full lg:w-2/3 justify-between space-y-6">
         <div className="w-full flex flex-wrap justify-start ">
-          <div className="w-1/3">
+          <div className="w-full lg:w-1/3">
             <p className="font-bold text-2xl text-left uppercase">
               Tu Contacto
             </p>
@@ -170,7 +251,7 @@ const Payment = (props) => {
               {!readyToPay ? (
                 <ContactForm handleSubmitContact={handleSubmitContact} />
               ) : (
-                <div className="w-1/2  p-3">
+                <div className="w-full lg:w-1/2  p-3">
                   <p className="font-bold">
                     <span className="font-normal">{email}</span>
                   </p>
@@ -193,7 +274,7 @@ const Payment = (props) => {
         </div>
 
         <div className="w-full flex justify-start ">
-          <div className="w-3/5">
+          <div className="w-full lg:w-3/5">
             <hr className="border-[1.5px] border-[#e279c84d]" />
           </div>
         </div>
@@ -227,7 +308,7 @@ const Payment = (props) => {
         </div>
 
         <div className="w-full flex justify-start ">
-          <div className="w-3/5">
+          <div className="w-full lg:w-3/5">
             <hr className="border-[1.5px] border-[#e279c84d]" />
           </div>
         </div>
@@ -241,7 +322,7 @@ const Payment = (props) => {
                   shipping === "estandar"
                     ? "border-[3px] border-[#e46dc7] shadow-sm"
                     : "border-[1px] border-gray-700"
-                } w-3/5 flex justify-between p-4 cursor-pointer hover:bg-gray-50`}
+                } w-full lg:w-3/5 flex justify-between p-4 cursor-pointer hover:bg-gray-50`}
                 onClick={() => handleClickShippingType("estandar")}
               >
                 <div className="">
@@ -264,7 +345,7 @@ const Payment = (props) => {
                   shipping === "Domicilio"
                     ? "border-[3px] border-[#e46dc7] shadow-sm"
                     : "border-[1px] border-gray-700"
-                } w-3/5 flex justify-between p-4 cursor-pointer hover:bg-gray-50`}
+                } w-full lg:w-3/5 flex justify-between p-4 cursor-pointer hover:bg-gray-50`}
                 onClick={() => handleClickShippingType("Domicilio")}
               >
                 <div className="">
@@ -298,7 +379,7 @@ const Payment = (props) => {
           )}
         </div>
         <div className="w-full flex justify-start ">
-          <div className="w-3/5">
+          <div className="w-full lg:w-3/5">
             <hr className="border-[1.5px] border-[#e279c84d]" />
           </div>
         </div>
@@ -312,7 +393,7 @@ const Payment = (props) => {
                   paymentMethod === "tb"
                     ? "border-[3px] border-[#e46dc7] shadow-sm"
                     : "border-[1px] border-gray-700"
-                } w-3/5 flex flex-wrap  p-4 cursor-pointer hover:bg-gray-50`}
+                } w-full lg:w-3/5 flex flex-wrap  p-4 cursor-pointer hover:bg-gray-50`}
                 onClick={() => setPaymentMethod("tb")}
               >
                 <div className="w-full flex justify-between">
@@ -336,7 +417,7 @@ const Payment = (props) => {
                   paymentMethod === "mp"
                     ? "border-[3px] border-[#e46dc7] shadow-sm"
                     : "border-[1px] border-gray-700"
-                } w-3/5 flex flex-wrap p-4 cursor-pointer hover:bg-gray-50`}
+                } w-full lg:w-3/5 flex flex-wrap p-4 cursor-pointer hover:bg-gray-50`}
                 onClick={() => setPaymentMethod("mp")}
               >
                 <div className="w-full flex justify-between">
@@ -391,7 +472,7 @@ const Payment = (props) => {
         </div>
       </div>
 
-      <div className="w-1/3 border-2 border-gray-300 p-4  gap-4 flex">
+      <div className="hidden lg:flex w-full lg:w-1/3 border-2 border-gray-300 p-4  gap-4">
         <div className="sticky top-0 border-gray-700 w-full flex flex-col gap-4">
           <h1 className="text-2xl font-semibold text-left">
             Resumen Del Pedido

@@ -46,7 +46,7 @@ const SubcategoryCamisetas = () => {
         className="flex justify-between cursor-pointer pb-2"
         onClick={handleFilterToggle}
       >
-        <h1 className="text-xl fotn-normal" icons={true}>Subcategoria</h1>
+        <h1 className="text-lg lg:text-xl fotn-normal" icons={true}>Subcategoria</h1>
         <TiArrowSortedDown
           className={`text-lg ${
             showFilter ? "rotate-180" : "rotate-0"
@@ -55,11 +55,11 @@ const SubcategoryCamisetas = () => {
       </div>
       <div>
         {showFilter ? (
-          <ul className="flex flex-col gap-4 text-sm lg:text-base text-[#767676]">
+          <ul className="flex flex-col gap-4 text-sm lg:text-base text-gray-100 lg:text-[#767676]">
             {subcategory.map((item) => (
               <li
                 key={item._id}
-                className="border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300"
+                className="border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2 lg:hover:text-primeColor hover:border-gray-400 duration-300"
               >
                 <input
                   type="checkbox"

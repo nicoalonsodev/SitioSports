@@ -112,7 +112,7 @@ const router = createBrowserRouter(
         <Route path="/envios" element={<Shipping />}></Route>
         <Route path="/metodos-de-pago" element={<Payments />}></Route>
         <Route path="/guia-de-talles" element={<SizeGuides />}></Route>
-        
+         
         {/* ==================== Header Navlink End here ===================== */}
         <Route path="/category/:category" element={<Offer />}></Route>
         <Route path="/product/:_id" element={<ProductDetails />}></Route>
