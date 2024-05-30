@@ -37,7 +37,7 @@ const OrderForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3001/order", form);
+      const response = await axios.post("https://sitiosports-production.up.railway.app/order", form);
 
       // Verifica si la solicitud fue exitosa
       if (response.status === 200 || response.status === 201) {
