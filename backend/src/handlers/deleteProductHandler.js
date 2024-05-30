@@ -1,12 +1,12 @@
 const {
-    deleteUserController,
+  deleteProductController,
   } = require("../controllers/deleteProductController.js");
   
   const deleteProductHandler = async (req, res) => {
     const id = req.params.id;
    
     try {
-      await deleteUserController(id);
+      await deleteProductController(id);
       res.send("Producto destruido");
     } catch (error) {
       console.error(error);

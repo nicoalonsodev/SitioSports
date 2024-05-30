@@ -167,7 +167,7 @@ const ProductTable = () => {
       <div className="my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 pr-10 lg:px-8">
         <div className="align-middle rounded-tl-lg rounded-tr-lg inline-block w-full py-6 mt-4 overflow-hidden bg-white shadow-lg px-12">
           <div className="flex justify-start space-x-6 items-center pb-4">
-            <img className="w-20" src={logoTransparent} alt="" />
+          <a href="/admin"><img className="w-20" src={logoTransparent} alt="" /></a> 
             <h1 className="text-3xl font-bold text-gray-700">
               Productos Sitio Sports
             </h1>
@@ -248,9 +248,6 @@ const ProductTable = () => {
                   Precio
                 </th>
                 <th className="px-1 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
-                  Stock
-                </th>
-                <th className="px-1 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
                   Marca
                 </th>
                 <th className="px-1 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
@@ -315,9 +312,6 @@ const ProductTable = () => {
                   </td>
                   <td className="text-center px-1 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
                     {product.price}
-                  </td>
-                  <td className="text-center px-1 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
-                    {product.stock}
                   </td>
                   <td className="text-center px-1 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
                     {product.brand}

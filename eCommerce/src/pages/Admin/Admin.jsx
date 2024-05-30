@@ -11,8 +11,8 @@ const Admin = () => {
       <div className="w-full flex justify-center items-center space-x-4">
         <a href="/producttable" className="flex justify-center items-center p-[30px] border-[2px] border-[#e5e7eb] text-2xl hover:bg-[#fc148c] duration-300 hover:text-white">Gestionar Productos</a>
         <a href="/orderstable" className="flex justify-center items-center p-[30px] border-[2px] border-[#e5e7eb] text-2xl hover:bg-[#fc148c] duration-300 hover:text-white">Gestionar Pedidos</a>
-        <a href="/orderstable" className="flex justify-center items-center p-[30px] border-[2px] border-[#e5e7eb] text-2xl hover:bg-[#fc148c] duration-300 hover:text-white">Colecciones</a>
-        <a href="/orderstable" className="flex justify-center items-center p-[30px] border-[2px] border-[#e5e7eb] text-2xl hover:bg-[#fc148c] duration-300 hover:text-white">Productos Por Encargo</a>
+        {/* <a href="/orderstable" className="flex justify-center items-center p-[30px] border-[2px] border-[#e5e7eb] text-2xl hover:bg-[#fc148c] duration-300 hover:text-white">Colecciones</a> */}
+        <a href="/commissionstable" className="flex justify-center items-center p-[30px] border-[2px] border-[#e5e7eb] text-2xl hover:bg-[#fc148c] duration-300 hover:text-white">Productos Por Encargo</a>
       </div>
     </div>
   );
