@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
-import Heading from "../Products/Heading";
 import Product from "../Products/Product";
-import {
-  river,
-  boca,
-  adidas3,
-  puma1,
-  arg2,
-} from "../../../assets/images/index";
 import SampleNextArrow from "./SampleNextArrow";
 import SamplePrevArrow from "./SamplePrevArrow";
 import { useSelector } from "react-redux";

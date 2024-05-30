@@ -38,4 +38,4 @@ export const fetchCommissionsFromBackend = async () => {
 
 //https://sitiosports-production.up.railway.app/
 
-//http://localhost:3001/
+//https://sitiosports-production.up.railway.app/
