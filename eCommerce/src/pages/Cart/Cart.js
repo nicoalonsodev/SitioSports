@@ -7,7 +7,7 @@ import { resetCart } from "../../redux/orebiSlice";
 import { emptyCart } from "../../assets/images/index";
 import ItemCard from "./ItemCard";
 import { IoIosInformationCircleOutline } from "react-icons/io";
-
+import RecommendProducts from "../../components/pageProps/RecommendProducts/RecommendProducts";
 const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -165,6 +165,9 @@ const Cart = () => {
           </div>
         </motion.div>
       )}
+      <div>
+        <RecommendProducts />
+      </div>
     </div>
   );
 };
