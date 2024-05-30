@@ -49,7 +49,7 @@ const Payment = (props) => {
       setTotalAmt(price);
     }
   }, [productInfo]);
-  console.log(productInfo);
+
 
   useEffect(() => {
     let finalAmount;
@@ -80,10 +80,10 @@ const Payment = (props) => {
           order
         );
         const preferenceId = response.data.id;
-        console.log(preferenceId);
+
         const redirectUrl = `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=${preferenceId}`;
         dispatch(resetCart());
-        window.open(redirectUrl, "_blank");
+        window.open(redirectUrl);
         setProcessing(false);
       } catch (error) {
         // Manejar errores si la solicitud falla
@@ -93,11 +93,12 @@ const Payment = (props) => {
     } else {
       try {
         setProcessing(true);
-        console.log("vino aqui");
+   
         const postOrder = {
           items: productInfo,
           name: order.payerInfo.payerName,
           email: order.payerInfo.email,
+          client_id: order.payerInfo.client_id,
           phone: order.payerInfo.phone,
           shipment: {
             zipCode: order.payerInfo.zipCode,
@@ -161,7 +162,7 @@ const Payment = (props) => {
     }
   };
 
-  console.log(shipmentPlusTotal);
+ 
   return (
     <div className="flex flex-wrap w-screen justify-start items-start px-2 lg:px-32 xl:px-44 pb-20 relative">
       <div className="lg:hidden w-full lg:w-1/3 p-2 gap-4 flex flex-col">
@@ -209,7 +210,7 @@ const Payment = (props) => {
                       {product.name} {product.variant.variant}
                       <span>
                         ({product.size}) x{product.quantity}
-                      </span>
+                      </span> 
                     </p>
                     <p>${product.price} c/u</p>
                   </div>
@@ -267,9 +268,9 @@ const Payment = (props) => {
               >
                 Editar
               </button>
-            ) : (
-              ""
-            )}
+             ) : (
+               ""
+             )}
           </div>
         </div>
 
@@ -282,7 +283,7 @@ const Payment = (props) => {
           <p className="font-bold text-2xl pb-3 uppercase">Tu Dirección</p>
           <div className="">
             {!addressReady && contactReady ? (
-              <AddressForm handleAddress={handleAddress} email={email} />
+              <AddressForm handleAddress={handleAddress} email={email} payerInfo={order.payerInfo ? order.payerInfo : ""} />
             ) : (
               ""
             )}
@@ -300,6 +301,7 @@ const Payment = (props) => {
                 <p>{order.payerInfo.streetNumber}</p>
                 <p>{order.payerInfo.floor}</p>
                 <p>{order.payerInfo.aclaration}</p>
+                <p>{order.payerInfo.id}</p>
               </div>
             ) : (
               ""
@@ -451,7 +453,7 @@ const Payment = (props) => {
           <div className="">
             {readyToPay ? (
               <button
-                className={`w-auto h-10 px-4 uppercase bg-primeColor text-white text-lg mt-4 hover:bg-black duration-300 ${
+                className={`w-auto h-auto px-4  py-2 uppercase bg-primeColor text-white text-lg mt-4 hover:bg-black duration-300 ${
                   !paymentMethod ? "cursor-not-allowed opacity-50" : ""
                 }`}
                 onClick={paymentMethod ? handlePay : null}
@@ -462,7 +464,7 @@ const Payment = (props) => {
                   : paymentMethod === "mp"
                   ? "Pagar a través de Mercado Pago"
                   : paymentMethod === "tb"
-                  ? "Realizar pedido"
+                  ? "Realizar pedido con Transferencia"
                   : "Seleccione una forma de pago"}
               </button>
             ) : (

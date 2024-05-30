@@ -59,7 +59,8 @@ const Subcategory = () => {
             {subcategory.map((item) => (
               <li
                 key={item._id}
-                className="border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2 lg:hover:text-primeColor hover:border-gray-400 duration-300"
+                className="border-b-[1px] cursor-pointer border-b-[#F0F0F0] pb-2 flex items-center gap-2 lg:hover:text-primeColor hover:border-gray-400 duration-300"
+                onClick={() => handleToggleSubcategory(item)}
               >
                 <input
                   type="checkbox"

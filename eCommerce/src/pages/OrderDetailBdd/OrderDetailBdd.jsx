@@ -12,7 +12,6 @@ const OrderDetailBdd = () => {
   const [changes, setChanges] = useState({});
   const [laoding, setLoading] = useState(false);
   useEffect(() => {
-   
     if (orders) {
       const foundOrder = orders.find((order) => order.id === id);
       if (foundOrder) {
@@ -25,11 +24,12 @@ const OrderDetailBdd = () => {
       }
     }
   }, [orders]);
-  console.log(order);
-  console.log(changes);
+
   const handleSaveChanges = () => {
     if (changes.status === "Enviado" && !changes.track_id) {
-      alert("Debes ingresar el código de seguimiento asi el cliente puede rastrear su pedido")
+      alert(
+        "Debes ingresar el código de seguimiento asi el cliente puede rastrear su pedido"
+      );
     } else {
       setLoading(true);
       axios
@@ -97,13 +97,22 @@ const OrderDetailBdd = () => {
               onClick={!isChanging ? handleChanging : handleSaveChanges}
               className="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none"
             >
-              {!isChanging ? "Realizar Cambios" : laoding ? "cargando..." : "Guardar"}
+              {!isChanging
+                ? "Realizar Cambios"
+                : laoding
+                ? "cargando..."
+                : "Guardar"}
             </button>
           </div>
         </div>
         {order ? (
           <div className="flex justify-center gap-32 mx-20 border-[1px] shadow-md border-gray-500 rounded-lg p-4">
             <div className="flex flex-col gap-4 justify-center ">
+              <div>
+                <h1 className="font-bold text-[#fc148c]">
+                  Orden #{order.order_number}
+                </h1>
+              </div>
               <div className="flex flex-col justify-start text-md">
                 <h1 className="font-semibold text-lg">Cliente</h1>
                 <p>{order.name ? order.name : ""}</p>
@@ -155,6 +164,7 @@ const OrderDetailBdd = () => {
                 </h1>
                 <p>{order.email}</p>
                 <p>{order.phone}</p>
+                <p>Id: {order.client_id}</p>
               </div>
               <div className="flex flex-col justify-start text-md">
                 <h1 className="font-semibold text-lg"> Dirección de Envío </h1>
@@ -170,28 +180,47 @@ const OrderDetailBdd = () => {
                 <p>{order.shipment.apartment}</p>
               </div>
             </div>
-            <div className="w-1/2  ">
-              <div className="w-2/3 h-auto border-[1px] border-gray-300 space-y-4 p-4 flex flex-wrap justify-center items-center">
+            <div className="w-1/2 space-y-2">
+              <div className="w-2/3 h-auto border-[1px] border-gray-500 rounded-lg space-y-4 p-4 flex flex-wrap justify-center items-center">
                 {order.items?.map((item) => (
                   <div className="w-full flex justify-between ">
                     <div className="w-20 ">
-                      <img
-                        className="w-full"
-                        src="https://res.cloudinary.com/doczyujqf/image/upload/v1713884190/dulbbsbsikhlxpuay55i.png"
-                      />
+                      <img className="w-full" src={item.variant.imgUrl[0]} />
                     </div>
                     <div className="w-auto text-gray-800">
                       <p>
-                        {item.title}{" "}
+                        {item.name}
                         <span>
                           ({item.description}) x{item.quantity}
                         </span>
                       </p>
-                      <p>${item.unit_price} c/u</p>
+                      <p className="text-[#fc148c]">${item.price} c/u</p>
                     </div>
                   </div>
                 ))}
               </div>
+              {isChanging ? (
+                <div>
+                  <label htmlFor="admin_comment">Comentarios: </label>
+                  <textarea
+                    name="admin_comment"
+                    id="admin_comment"
+                    onChange={handleChange}
+                    value={order.admin_comment}
+                    autoComplete="admin_comment"
+                    className="border-[1px] border-gray-400 rounded-lg p-1"
+                    rows="4" 
+                    cols="50" 
+                  />
+                </div>
+              ) : order.admin_comment ? (
+                <div>
+                  <h1>Comentarios:</h1>
+                  <p>{order.admin_comment}</p>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         ) : (

@@ -58,7 +58,7 @@ const NewArrivals = () => {
     ],
   };
   return (
-    <div className="w-full pb-0 lg:pb-16 space-y-10 py-8">
+    <div className="w-full pb-4 lg:pb-16 space-y-10 py-8">
       {/* <Heading heading="Nuevos ingresos" /> */}
       <h1 className="text-left text-2xl lg:text-4xl font-semibold ">Nuevos Ingresos</h1>
       <Slider {...settings}>

@@ -24,6 +24,7 @@ const Product = (props) => {
     navigate(`/product/${rootId}`, {
       state: {
         item: productItem,
+        discountedPrice:discountedPrice,
       },
     });
   };
@@ -32,6 +33,7 @@ const Product = (props) => {
     return discountedPrice.toFixed(2);
   };
 
+  const discountedPrice = calculateDiscountedPrice();
   return (
     <div className="w-full relative group">
       <div className="max-w-80 max-h-80 relative overflow-y-hidden cursor-pointer">

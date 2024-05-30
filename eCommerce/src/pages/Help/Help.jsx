@@ -13,8 +13,10 @@ const Help = () => {
       <div className="flex flex-col justify-center px-0 lg:px-32 w-full">
         <div className="flex flex-wrap justify-center gap-x-6 gap-y-4">
           <a href="/envios" className="w-1/3 lg:w-1/4 flex flex-col justify-center items-start bg-[#fc148c] rounded-lg hover:scale-110 duration-300">
-            <div>
-              <img src={shipping_order} />
+          <div className="py-2">
+              <img 
+              className=""
+              src={shipping_order} />
             </div>
             <div className="w-full flex justify-center">
               <h1 className="text-center text-lg lg:text-2xl font-semibold text-white">
@@ -23,7 +25,7 @@ const Help = () => {
             </div>
           </a>
           <a href="/metodos-de-pago" className="w-1/3 lg:w-1/4 flex flex-col justify-center items-start bg-[#fc148c] rounded-lg hover:scale-110 duration-300">
-            <div>
+          <div className="py-2">
               <img src={credit_card} />
             </div>
             <div className="w-full flex justify-center">
@@ -33,7 +35,7 @@ const Help = () => {
             </div>
           </a>
           <a href="/seguimiento-de-ordenes" className="w-1/3 lg:w-1/4 flex flex-col justify-center items-start bg-[#fc148c] rounded-lg hover:scale-110 duration-300">
-            <div>
+          <div className="py-2">
               <img src={follow_order} />
             </div>
             <div className="w-full flex justify-center">
@@ -43,7 +45,7 @@ const Help = () => {
             </div>
           </a>
           <a href="/devoluciones" className="w-1/3 lg:w-1/4 flex flex-col justify-center items-start bg-[#fc148c] rounded-lg hover:scale-110 duration-300">
-            <div>
+          <div className="py-2">
               <img src={returning} />
             </div>
             <div className="w-full flex justify-center">
@@ -53,7 +55,7 @@ const Help = () => {
             </div>
           </a>
           <a href="/guia-de-talles" className="w-1/3 lg:w-1/4 flex flex-col justify-center items-start bg-[#fc148c] rounded-lg p-3 hover:scale-110 duration-300">
-            <div className="">
+            <div className="py-2">
               <img src={sizes_guia} />
             </div>
             <div className="w-full flex justify-center">

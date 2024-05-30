@@ -46,7 +46,7 @@ const SizeMedias = () => {
         className="flex justify-between cursor-pointer pb-2"
         onClick={handleFilterToggle}
       >
-        <h1 icons={true}>Talles</h1>
+        <h1 className="text-lg lg:text-xl font-semibold" icons={true}>Talles</h1>
         <TiArrowSortedDown
           className={`text-lg ${
             showFilter ? "rotate-180" : "rotate-0"
@@ -63,7 +63,8 @@ const SizeMedias = () => {
             {colors.map((item) => (
               <li
                 key={item._id}
-                className="border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2"
+                className="border-b-[1px] cursor-pointer border-b-[#F0F0F0] pb-2 flex items-center gap-2"
+                onClick={() => handleToggleSize(item)}
               >
                 <input
                   type="checkbox"

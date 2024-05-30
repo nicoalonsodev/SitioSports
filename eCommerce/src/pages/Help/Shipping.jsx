@@ -21,7 +21,7 @@ const Shipping = () => {
             <p>
               Tu pedido es despachado y enviado a la sucursal de Correo
               Argentino mas cercana a tu domicilio, tardando de 3 a 4 días
-              hábiles.{" "}
+              hábiles.
             </p>
           </div>
 

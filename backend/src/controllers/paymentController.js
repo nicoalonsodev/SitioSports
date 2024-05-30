@@ -15,13 +15,14 @@ const createOrder = async (req, res) => {
   const preference = new Preference(client);
   const products = req.body.productInfo;
   const payer = req.body.payerInfo;
-  console.log(payer);
+
   const order_id = uuidv4();
   try {
     let firstOrder;
     if (payer) {
       const client_email = payer.email;
-      firstOrder = await postFirstOrderController(order_id, client_email);
+      const client_id = payer.client_id;
+      firstOrder = await postFirstOrderController(order_id, client_email, client_id, products);
     }
     const order_number = firstOrder.order_number;
 
@@ -59,7 +60,7 @@ const createOrder = async (req, res) => {
       external_reference: order_id,
       items: items,
       //cambiar urls con las de verda!
-      notification_url: "https://4c35-131-161-239-212.ngrok-free.app/webhook",
+      notification_url: "https://1d1e-131-161-239-212.ngrok-free.app/webhook",
       back_urls: {
         success: `https://www.sitiosports.com/orden-mp-confirmada/${order_number}`,
         failure: `https://www.sitiosports.com/orden-mp-rechazada/${order_number}`,
@@ -71,7 +72,7 @@ const createOrder = async (req, res) => {
     const result = await preference.create({
       body,
     });
-console.log(result);
+
     res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -97,12 +98,8 @@ const receiveWebhook = async (req, res) => {
       const data = await response.json();
 
       const order_id = data.external_reference;
-      console.log("separando 1000");
-      console.log(data);
-      console.log("separando1");
       const cleanedItems = cleanData(data);
-      console.log(cleanedItems);
-      console.log("separando");
+
       const update =
         cleanedItems.status === "approved"
           ? updateStock(cleanedItems.items)

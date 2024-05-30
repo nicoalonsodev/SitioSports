@@ -12,14 +12,13 @@ import {
 import Image from "../designLayouts/Image";
 import CustomSlide from "./CustomSlide";
 
-
- 
 const Banner = () => {
   const [dotActive, setDocActive] = useState(0);
   const settings = {
     dots: true,
     infinite: true,
     autoplay: true,
+    autoplaySpeed: 9000,
     slidesToShow: 1,
     slidesToScroll: 1,
     adaptiveHeight: true,
@@ -45,6 +44,7 @@ const Banner = () => {
           i === dotActive
             ? {
                 width: "30px",
+                height: "45px",
                 color: "#262626",
                 borderRight: "3px #262626 solid",
                 padding: "8px 0",
@@ -52,6 +52,7 @@ const Banner = () => {
               }
             : {
                 width: "30px",
+                height: "45px",
                 color: "transparent",
                 borderRight: "3px white solid",
                 padding: "8px 0",
@@ -59,7 +60,7 @@ const Banner = () => {
               }
         }
       >
-        0{i + 1}
+        {/* 0{i + 1} */}
       </div>
     ),
     responsive: [
@@ -109,6 +110,15 @@ const Banner = () => {
 
   const slides = [
     {
+      imgSrc:
+        "https://res.cloudinary.com/doczyujqf/image/upload/v1716923510/SitioSports/NUESTRA_CAMISETA_1_qlqhux.jpg",
+      text: "Quality Printing Solutions",
+      Subtext:
+        "Discover our wide range of printers and consumables designed for professional printing needs.",
+      buttonLink: "/shop",
+      buttonText: "Comprar Ahora",
+    },
+    {
       imgSrc: bannerImgFour,
       text: "Enhance Your Printing Experience",
       Subtext:
@@ -116,14 +126,7 @@ const Banner = () => {
       buttonLink: "/shop",
       buttonText: "Comprar Ahora",
     },
-    {
-      imgSrc: bannerImgSix,
-      text: "Quality Printing Solutions",
-      Subtext:
-        "Discover our wide range of printers and consumables designed for professional printing needs.",
-      buttonLink: "/shop",
-      buttonText: "Comprar Ahora",
-    },
+
     {
       imgSrc: bannerImgFive,
       text: "Efficiency Redefined",

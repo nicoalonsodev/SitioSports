@@ -137,21 +137,17 @@ export const orebiSlice = createSlice({
     },
     setBackendProducts: (state, action) => {
       state.products = action.payload;
-      // console.log(action.payload);
     },
     setBackendCommissions: (state, action) => {
       state.commissions = action.payload;
-      console.log(action.payload);
     },
     setBackendUsers: (state, action) => {
       const usersObject = action.payload;
       const count = usersObject.users?.length;
       state.users = { users: usersObject.users, count: count };
-      // console.log(usersObject.users);
     },
     setBackendOrders: (state, action) => {
-      state.orders = action.payload.orders;
-      // console.log(usersObject.users);
+      state.orders = action.payload.orders.sort((a, b) => a.order_number - b.order_number);
     },
   },
 });

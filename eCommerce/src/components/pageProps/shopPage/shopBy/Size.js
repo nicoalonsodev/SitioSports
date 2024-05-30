@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSizes } from "../../../../redux/orebiSlice";
 import { TiArrowSortedDown } from "react-icons/ti";
-const Size = () => {
+const Size = () => { 
   const dispatch = useDispatch();
   const checkedSizes = useSelector((state) => state.orebiReducer.checkedSizes);
   const [showColors, setShowColors] = useState(true);
@@ -86,8 +86,9 @@ const Size = () => {
             {colors.map((item) => (
               <li
                 key={item._id}
-                className="border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2"
-              >
+                className="border-b-[1px] cursor-pointer border-b-[#F0F0F0] pb-2 flex items-center gap-2"
+                onClick={() => handleToggleSize(item)}
+             >
                 <input
                   type="checkbox"
                   id={item._id}

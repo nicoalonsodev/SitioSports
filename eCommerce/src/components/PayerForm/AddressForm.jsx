@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export const CustomInput = ({ label, name, value, onChange, placeholder, error }) => {
   const [focus, setFocus] = useState(false);
@@ -57,7 +57,7 @@ export const CustomInput = ({ label, name, value, onChange, placeholder, error }
   );
 };
 
-const AddressForm = ({ handleAddress, email }) => {
+const AddressForm = ({ handleAddress, email, payerInfo }) => {
   const [nombre, setNombre] = useState("");
   const [mostrarNombre, setMostrarNombre] = useState(false);
   const [focus, setFocus] = useState(false);
@@ -73,6 +73,7 @@ const AddressForm = ({ handleAddress, email }) => {
     streetNumber: "",
     floor: "",
     aclaration: "",
+    client_id: "",
   });
 
   const [errors, setErrors] = useState({
@@ -84,7 +85,27 @@ const AddressForm = ({ handleAddress, email }) => {
     city: "Completar con su ciudad.",
     street: "Completar con su calle",
     streetNumber: "Completar con su numero de calle.",
+    client_id: "Completar con su DNI, Cuil o Cuit",
   });
+
+  useEffect(() => {
+    if (payerInfo) {
+      setForm({
+        payerName: payerInfo.payerName || "",
+        email: payerInfo.email || email || "",
+        phone: payerInfo.phone || "",
+        zipCode: payerInfo.zipCode || "",
+        state: payerInfo.state || "",
+        city: payerInfo.city || "",
+        street: payerInfo.street || "",
+        streetNumber: payerInfo.streetNumber || "",
+        floor: payerInfo.floor || "",
+        aclaration: payerInfo.aclaration || "",
+        client_id: payerInfo.client_id || "",
+      });
+    }
+  }, [payerInfo, email]);
+
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const handleChange = (e) => {
@@ -128,6 +149,9 @@ const AddressForm = ({ handleAddress, email }) => {
     }
     if (!form.streetNumber) {
       errors.streetNumber = "Debe ingresar su numero de calle.";
+    }
+    if (!form.client_id) {
+      errors.client_id = "Debe ingresar su DNI, Cuil o Cuit.";
     }
     setErrors(errors);
   };
@@ -238,6 +262,13 @@ const AddressForm = ({ handleAddress, email }) => {
         label=" Aclaracion sobre este domicilio (opcional)"
         name="aclaration"
         value={form.aclaration}
+        onChange={handleChange}
+        placeholder=""
+      />
+      <CustomInput
+        label=" DNI, Cuil o Cuit"
+        name="client_id"
+        value={form.client_id}
         onChange={handleChange}
         placeholder=""
       />
