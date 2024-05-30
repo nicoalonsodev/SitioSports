@@ -7,11 +7,11 @@ const Contact = () => {
     <div className="max-w-container mx-auto px-32 py-14 space-y-8">
       <h1 className="text-gray-700 font-bold text-4xl">SERVICIO AL CLIENTE</h1>
       <p>Servicio disponible de Lun - Vie: 9:00 AM a 9:00 PM y Sab: 10:00 AM a 6:00 PM</p>
-      <div className="flex items-start gap-4">
-        <div>
+      <div className="flex flex-wrap lg:flex-nowrap items-start gap-4">
+        <div className="w-full lg:w-auto">
           <FaWhatsapp className="text-8xl" />
         </div>
-        <div className="space-y-4 text-left w-2/3">
+        <div className="space-y-4 text-left w-full lg:w-2/3">
           <h1 className="text-gray-700 font-bold text-xl">Whatsapp</h1>
           <p className="text-lg">
             Añade +54 11 6842 0923 a la lista de contactos en tu smartphone y

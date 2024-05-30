@@ -6,7 +6,11 @@ import PaymentMethods from "./PaymentMethods";
 import { FaRulerHorizontal, FaLock } from "react-icons/fa";
 import SizeGuide from "./SizeGuide";
 
-const ProductInfo = ({ productInfo, handleSelectedImages }) => {
+const ProductInfo = ({
+  productInfo,
+  handleSelectedImages,
+  discountedPrice,
+}) => {
   const [selectedSize, setSelectedSize] = useState(null);
   const [sizeMaxQuantity, setSizeMaxQuantity] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState({
@@ -186,9 +190,18 @@ const ProductInfo = ({ productInfo, handleSelectedImages }) => {
         <div>
           <span className=" text-[#fc148c] font-semibold">Fútbol</span>
           <h1 className="text-3xl font-normal">{productInfo.productName}</h1>
-          <h6 className="text-3xl font-extrabold text-gray-700">
-            $ {productInfo.price}
-          </h6>
+          <div className="flex items-center space-x-4">
+            {discountedPrice !== 0 ? (
+              <p className="text-3xl font-extrabold text-gray-700">
+                ${discountedPrice}
+              </p>
+            ) : (
+              ""
+            )}
+            <h6 className={`${discountedPrice ? "text-xl line-through font-normal text-gray-700 " : "text-3xl font-extrabold text-gray-700"}`}>
+              $ {productInfo.price}
+            </h6>
+          </div>
         </div>
         <p className="text-gray-700">
           {productInfo.description ? productInfo.description : ""}
@@ -209,7 +222,6 @@ const ProductInfo = ({ productInfo, handleSelectedImages }) => {
                 <img className="w-20" src={variant.imgUrl[0]} />
               </div>
             ))}
-           
           </div>
         ) : (
           ""
@@ -218,7 +230,13 @@ const ProductInfo = ({ productInfo, handleSelectedImages }) => {
           selectedSize={selectedSize}
           handleSize={handleSize}
           productSizes={availableSizes}
-          sizes={productInfo.cat === "Botines" ? sizesBotines : productInfo.cat === "Camisetas" ? sizesCamisetas : sizesMedias}
+          sizes={
+            productInfo.cat === "Botines"
+              ? sizesBotines
+              : productInfo.cat === "Camisetas"
+              ? sizesCamisetas
+              : sizesMedias
+          }
         />
         <SizeGuide cat={productInfo.cat} />
         <div className="flex flex-row items-center gap-12">
@@ -233,9 +251,10 @@ const ProductInfo = ({ productInfo, handleSelectedImages }) => {
                   size: selectedSize,
                   image: selectedVariant.imgUrl[0],
                   badge: productInfo.badge,
-                  price: productInfo.price,
+                  price: discountedPrice ? discountedPrice : productInfo.price,
                   color: productInfo.color,
                   variant: selectedVariant,
+             
                 })
               )
             }
@@ -248,7 +267,9 @@ const ProductInfo = ({ productInfo, handleSelectedImages }) => {
           <FaLock className="text-2xl" />
           <div className="flex flex-col">
             <p className="font-semibold">Compra Protegida</p>
-            <p className="text-sm">Tus datos cuidados durante toda la compra.</p>
+            <p className="text-sm">
+              Tus datos cuidados durante toda la compra.
+            </p>
           </div>
         </div>
         <p className="text-sm">

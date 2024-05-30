@@ -26,6 +26,7 @@ const tabs = [
 const ProductDetails = () => {
   const location = useLocation();
   const [prevLocation, setPrevLocation] = useState("");
+  const [discountedPrice, setDiscountedPrice] = useState("");
   const [productInfo, setProductInfo] = useState([]);
   const [activeTab, setActiveTab] = useState(tabs[0].id);
 
@@ -35,6 +36,7 @@ const ProductDetails = () => {
 
   useEffect(() => {
     setProductInfo(location.state.item);
+    setDiscountedPrice(location.state.discountedPrice);
     setPrevLocation(location.pathname);
   }, [location]);
   console.log(productInfo);
@@ -59,6 +61,7 @@ const ProductDetails = () => {
             <ProductInfo 
               productInfo={productInfo ? productInfo : ""}
               handleSelectedImages={handleSelectedImages}
+              discountedPrice={discountedPrice}
             /> 
           </div>
           <div className="flex justify-center py-20">

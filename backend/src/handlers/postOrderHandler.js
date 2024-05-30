@@ -6,6 +6,7 @@ const postOrderHandler = async (req, res) => {
         items,
         name,
         email,
+        client_id,
         phone,
         shipment,
         order_type,
@@ -17,12 +18,13 @@ const postOrderHandler = async (req, res) => {
         payment_type_id,
         shipping_amount,
         transaction_amount,
-        transaction_details
+        transaction_details,
     } = req.body;
     const userPosted = await postOrderController(
         items,
         name,
         email,
+        client_id,
         phone,
         shipment,
         order_type,

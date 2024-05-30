@@ -22,7 +22,6 @@ const OrdersTable = () => {
 
   const orders = useSelector((state) => state.orebiReducer.orders);
   const count = orders?.length;
-  console.log(orders);
   const [currentPage, setCurrentPage] = useState(1);
   const [changes, setChanges] = useState({});
   const [isChanging, setIsChanging] = useState(false);
@@ -252,7 +251,7 @@ const OrdersTable = () => {
                 </th>
 
                 <th className="px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
-                  Status
+                  Estado
                 </th>
                 {/* <th className="flex px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
                   Estado
@@ -305,7 +304,7 @@ const OrdersTable = () => {
                     </div>
                   </td>
                   <td className="text-center px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
-                    {order.phone}
+                    {order.email}
                   </td>
                   <td className="text-center px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
                     ${order.transaction_amount}

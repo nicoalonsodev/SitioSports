@@ -76,7 +76,9 @@ const ProductBanner = ({ itemsPerPageFromBanner, handleSort }) => {
               <div className="w-full h-full bg-primeColor p-6">
                 <div>
                   <h1 className="text-2xl">Filtrar por:</h1>
-                  <button onClick={handleCleanFilters}>Borrar todo</button>
+                  <button 
+                  className="bg-[#fc148c] px-2 py-2 rounded-lg my-2"
+                  onClick={handleCleanFilters}>Borrar todo</button>
                 </div>
 
                 <div className="mt-4 space-y-2">

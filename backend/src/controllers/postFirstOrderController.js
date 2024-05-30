@@ -1,7 +1,7 @@
 const { Order } = require("../db");
 const { getLastOrderNumber } = require("../helpers/getLastNumber");
 const postFirstOrderController = async(
-    order_id, client_email) => {
+    order_id, client_email, client_id, products) => {
       try {
         // Obtener el número de la última orden
         const lastOrderNumber = await getLastOrderNumber();
@@ -12,6 +12,8 @@ const postFirstOrderController = async(
           order_id,
           order_number: newOrderNumber,
           email: client_email,
+          client_id: client_id,
+          items: products,
           // shipping_type: shipping_type
         });
        

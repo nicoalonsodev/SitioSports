@@ -29,6 +29,11 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: "",
     },
+    client_id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "",
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
