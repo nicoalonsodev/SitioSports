@@ -53,7 +53,7 @@ const NewArrivals = () => {
   return (
     <div className="w-full pb-4 lg:pb-16 space-y-10 py-8">
      
-      <h1 className="text-left text-2xl lg:text-4xl font-semibold ">Nuevos Ingresos</h1>
+      <h1 className="text-left text-2xl lg:text-4xl font-normal ">Nuevos Ingresos</h1>
       <Slider {...settings}>
         {newArrivalsProducts.map((product) => (
           <div key={product.id} className="px-2">
