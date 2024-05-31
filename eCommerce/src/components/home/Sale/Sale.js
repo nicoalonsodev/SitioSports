@@ -33,7 +33,7 @@ const Sale = () => {
           <Link to="/shop">
             <Image
               className="h-full w-full object-cover"
-              imgSrc="https://res.cloudinary.com/doczyujqf/image/upload/v1717156481/SitioSports/6cd0f650-a6dc-4dc4-b4ba-b9a5f27f226f_q4je6h.jpg"
+              imgSrc="https://res.cloudinary.com/doczyujqf/image/upload/v1717163903/SitioSports/IMG_5181_mihxdj.jpg"
             />
           </Link>
         </div>
