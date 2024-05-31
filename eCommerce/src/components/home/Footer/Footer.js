@@ -109,10 +109,11 @@ const Footer = () => {
           <FooterListTitle title="Contáctanos" />
           <ul className="flex flex-col gap-2">
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              sitiosports@gmail.com
+              <a href="mailto:sitiosports.contacto@gmail.com"
+                target="_blank">sitiosports.contacto@gmail.com</a>
             </li>
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              3453344345
+           <a href="https://wa.me/+5493813624693" target="_blank">+54 9 3813 62-4693</a> 
             </li>
             
           </ul>
