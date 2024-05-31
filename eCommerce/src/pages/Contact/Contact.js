@@ -40,7 +40,7 @@ const Contact = () => {
       </div>
       <div className="flex items-start gap-4">
         <div>
-          <FaInstagram className="text-8xl" />
+          <a href="https://www.instagram.com/sitiosports.ar/"  target="_blank"> <FaInstagram className="text-8xl" /></a>
         </div>
         <div className="space-y-4 text-left ">
           <h1 className="text-gray-700 font-bold text-xl">Instagram</h1>
