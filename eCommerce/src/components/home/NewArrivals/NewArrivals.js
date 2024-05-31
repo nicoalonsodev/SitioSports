@@ -14,11 +14,12 @@ const NewArrivals = () => {
       setNewArrivalsProducts(newArrivals);
     }
   }, [products]);
+  const productsLength = newArrivalsProducts ? newArrivalsProducts.length : "";
 
   const settings = {
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: productsLength === 1 ? 1 : productsLength === 2 ? 2 : productsLength === 3 ? 3 : 4,
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
@@ -26,7 +27,7 @@ const NewArrivals = () => {
       {
         breakpoint: 1025,
         settings: {
-          slidesToShow: 4,
+          slidesToShow: 3,
           slidesToScroll: 1,
           infinite: true,
         },
@@ -51,8 +52,8 @@ const NewArrivals = () => {
   };
   return (
     <div className="w-full pb-4 lg:pb-16 space-y-10 py-8">
-      {/* <Heading heading="Nuevos ingresos" /> */}
-      <h1 className="text-left text-2xl lg:text-4xl font-semibold ">Nuevos Ingresos</h1>
+     
+      <h1 className="text-left text-2xl lg:text-4xl font-normal ">Nuevos Ingresos</h1>
       <Slider {...settings}>
         {newArrivalsProducts.map((product) => (
           <div key={product.id} className="px-2">

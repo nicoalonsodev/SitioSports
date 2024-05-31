@@ -5,6 +5,8 @@ import Sizes from "../../Sizes/Sizes";
 import PaymentMethods from "./PaymentMethods";
 import { FaRulerHorizontal, FaLock } from "react-icons/fa";
 import SizeGuide from "./SizeGuide";
+import { motion, AnimatePresence } from "framer-motion";
+import formatPrice from "../../../utils/formatPrice";
 
 const ProductInfo = ({
   productInfo,
@@ -184,6 +186,30 @@ const ProductInfo = ({
     })
     .filter((size) => size !== undefined && size !== null);
 
+  const [showAlert, setShowAlert] = useState(false);
+
+  const handleAddToCart = () => {
+    if (!selectedSize) {
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000);
+      return;
+    }
+
+    dispatch(
+      addToCart({
+        id: productInfo._id,
+        name: productInfo.productName,
+        quantity: 1,
+        maxQuantity: sizeMaxQuantity,
+        size: selectedSize,
+        image: selectedVariant.imgUrl[0],
+        badge: productInfo.badge,
+        price: discountedPrice ? discountedPrice : productInfo.price,
+        color: productInfo.color,
+        variant: selectedVariant,
+      })
+    );
+  };
   return (
     <>
       <div className="flex flex-col items-start gap-4 lg:w-[40%]">
@@ -193,13 +219,19 @@ const ProductInfo = ({
           <div className="flex items-center space-x-4">
             {discountedPrice !== 0 ? (
               <p className="text-3xl font-extrabold text-gray-700">
-                ${discountedPrice}
+               ${formatPrice(discountedPrice)}
               </p>
             ) : (
               ""
             )}
-            <h6 className={`${discountedPrice ? "text-xl line-through font-normal text-gray-700 " : "text-3xl font-extrabold text-gray-700"}`}>
-              $ {productInfo.price}
+            <h6
+              className={`${
+                discountedPrice
+                  ? "text-xl line-through font-normal text-gray-700 "
+                  : "text-3xl font-extrabold text-gray-700"
+              }`}
+            >
+             ${formatPrice(productInfo.price)}  
             </h6>
           </div>
         </div>
@@ -239,30 +271,31 @@ const ProductInfo = ({
           }
         />
         <SizeGuide cat={productInfo.cat} />
-        <div className="flex flex-row items-center gap-12">
+
+        <div className="flex flex-col items-center gap-2">
           <button
-            onClick={() =>
-              dispatch(
-                addToCart({
-                  id: productInfo._id,
-                  name: productInfo.productName,
-                  quantity: 1,
-                  maxQuantity: sizeMaxQuantity,
-                  size: selectedSize,
-                  image: selectedVariant.imgUrl[0],
-                  badge: productInfo.badge,
-                  price: discountedPrice ? discountedPrice : productInfo.price,
-                  color: productInfo.color,
-                  variant: selectedVariant,
-             
-                })
-              )
-            }
-            className="bg-[#fc148c] text-white font-semibold py-3 px-4 lg:px-16 rounded-sm w-auto h-auto lg:h-full text-xl"
+            onClick={handleAddToCart}
+            className={`bg-[#fc148c] flex justify-start text-white font-semibold py-3 px-4 lg:px-16 rounded-sm w-auto h-auto lg:h-full text-xl 
+
+        `}
+            // disabled={!selectedSize}
           >
             Agregar al Carrito
           </button>
+          <AnimatePresence>
+            {showAlert && (
+              <motion.div
+                className="alert border flex justify-start text'left bg-[#fc148c] text-white p-2 text-sm lg:text-lg rounded-sm mt-2"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+              >
+                Por favor, selecciona un talle.
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
+
         <div className="flex items-center justify-start gap-4">
           <FaLock className="text-2xl" />
           <div className="flex flex-col">

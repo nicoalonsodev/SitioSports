@@ -10,11 +10,10 @@ const SpecialOffers = () => {
   const [data, setData] = useState([]);
   useEffect(() => {
     if (products) {
-      const specialOffers = products.filter(product => product.new_arrivals);
+      const specialOffers = products.filter(product => product.special_offers);
       setData(specialOffers);
     }
   }, [products]);
- console.log(data);
   return (
     <div className="w-full pb-20">
       <Heading heading="Ofertas" />
@@ -27,7 +26,7 @@ const SpecialOffers = () => {
             productName={product.productName}
             price={product.price}
             color={product.color}
-            badge={true}
+            // badge={true}
             des={product.des}
             variants={product.variants}
             brand={product.brand}

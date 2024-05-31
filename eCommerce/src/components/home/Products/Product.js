@@ -9,8 +9,10 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../redux/orebiSlice";
 import { toast } from "react-toastify";
+import formatPrice from "../../../utils/formatPrice";
 
 const Product = (props) => {
+
   const dispatch = useDispatch();
   const _id = props.productName;
   const idString = (_id) => {
@@ -34,6 +36,7 @@ const Product = (props) => {
   };
 
   const discountedPrice = calculateDiscountedPrice();
+
   return (
     <div className="w-full relative group">
       <div className="max-w-80 max-h-80 relative overflow-y-hidden cursor-pointer">
@@ -68,7 +71,7 @@ const Product = (props) => {
         <div className="flex gap-x-2">
           {props.discount !== 0 ? (
             <p className="text-[#767676] font-bold text-[14px]">
-              ${calculateDiscountedPrice()}
+              ${formatPrice(discountedPrice)}
             </p>
           ) : (
             ""
@@ -78,7 +81,7 @@ const Product = (props) => {
               props.discount !== 0 ? "line-through" : ""
             } text-[#767676] font-semibold text-[14px]`}
           >
-            ${props.price}
+           ${formatPrice(props.price)}
           </p>
         </div>
       </div>
