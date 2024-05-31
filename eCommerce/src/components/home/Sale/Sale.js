@@ -16,9 +16,9 @@ const Sale = () => {
     <div className="py-0 lg:py-20 flex flex-col md:flex-row items-start justify-between gap-4">
       <div className="bg-[#f3f3f3] w-full md:w-2/3 lg:w-1/2 f-full flex flex-col justify-center items-center text-black">
         <div className="relative  h-[610px] aspect-w-4 aspect-h-3 w-full">
-          <video autoPlay loop muted className="h-full w-full object-cover">
+          <video autoPlay loop muted playsInline className="h-full w-full object-cover">
             <source
-              src="https://res.cloudinary.com/doczyujqf/video/upload/v1715960390/SitioSports/video_jtlzag.mp4"
+              src="https://res.cloudinary.com/doczyujqf/video/upload/v1717157423/SitioSports/Feed_sitio.sport_Argentina_1_kln9hk.mp4"
               type="video/mp4"
             />
            
@@ -33,7 +33,7 @@ const Sale = () => {
           <Link to="/shop">
             <Image
               className="h-full w-full object-cover"
-              imgSrc="https://res.cloudinary.com/doczyujqf/image/upload/v1715962807/SitioSports/DSC_6663_tpw8yz.jpg"
+              imgSrc="https://res.cloudinary.com/doczyujqf/image/upload/v1717156481/SitioSports/6cd0f650-a6dc-4dc4-b4ba-b9a5f27f226f_q4je6h.jpg"
             />
           </Link>
         </div>
@@ -41,7 +41,7 @@ const Sale = () => {
           <Link to="/shop">
             <Image
               className="h-full w-full object-cover "
-              imgSrc="https://res.cloudinary.com/doczyujqf/image/upload/v1715962809/SitioSports/DSC_6695_u8wtdc.jpg"
+              imgSrc="https://res.cloudinary.com/doczyujqf/image/upload/v1717156481/SitioSports/IMG_5182_otok2w.jpg"
             />
           </Link>
         </div>

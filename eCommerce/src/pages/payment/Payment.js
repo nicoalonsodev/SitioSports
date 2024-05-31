@@ -9,6 +9,7 @@ import { tarjetas, otherPaymentMethods } from "../../constants";
 import { resetCart } from "../../redux/orebiSlice";
 import { motion } from "framer-motion";
 import { IoIosArrowDown } from "react-icons/io";
+import formatPrice from "../../utils/formatPrice";
 
 const Payment = (props) => {
   const [showDetails, setShowDetails] = useState(false);
@@ -49,7 +50,6 @@ const Payment = (props) => {
       setTotalAmt(price);
     }
   }, [productInfo]);
-
 
   useEffect(() => {
     let finalAmount;
@@ -93,7 +93,7 @@ const Payment = (props) => {
     } else {
       try {
         setProcessing(true);
-   
+
         const postOrder = {
           items: productInfo,
           name: order.payerInfo.payerName,
@@ -157,12 +157,26 @@ const Payment = (props) => {
 
   const handleClickShippingType = (value) => {
     setShipping(value);
-    if (value === "Domicilio") {
-      setShippmentCharge((prevCharge) => prevCharge + 2350);
+    if (value === "Domicilio" && shipping !== "Domicilio") {
+      setShippmentCharge(shippmentCharge + 2350);
+    } else if (value === "Domicilio" && shipping === "Domicilio") {
+      setShippmentCharge(shippmentCharge);
+    } else if (value === "estandar") {
+      setShippmentCharge(0);
     }
+    setPaymentMethod("");
   };
 
- 
+  useEffect(() => {
+    let finalAmount;
+    if (shippmentCharge !== 0) {
+      finalAmount = totalAmt + shippmentCharge;
+    } else {
+      finalAmount = totalAmt;
+    }
+    setShipmentPlusTotal(finalAmount);
+  }, [totalAmt, shippmentCharge]);
+
   return (
     <div className="flex flex-wrap w-screen justify-start items-start px-2 lg:px-32 xl:px-44 pb-20 relative">
       <div className="lg:hidden w-full lg:w-1/3 p-2 gap-4 flex flex-col">
@@ -172,7 +186,9 @@ const Payment = (props) => {
         >
           <div className="flex items-center  gap-2">
             <IoIosArrowDown
-              className={`${showDetails ? "rotate-180" : ""} text-[#fc148c] duration-300`}
+              className={`${
+                showDetails ? "rotate-180" : ""
+              } text-[#fc148c] duration-300`}
             />
             {showDetails
               ? "Ocultar Detalle de Compra"
@@ -210,7 +226,7 @@ const Payment = (props) => {
                       {product.name} {product.variant.variant}
                       <span>
                         ({product.size}) x{product.quantity}
-                      </span> 
+                      </span>
                     </p>
                     <p>${product.price} c/u</p>
                   </div>
@@ -221,22 +237,22 @@ const Payment = (props) => {
               <p className="flex items-center justify-between border-b-0 py-1.5 text-lg font-medium">
                 Subtotal
                 <span className="font-semibold tracking-wide font-titleFont">
-                  ${totalAmt}
+                  ${formatPrice(totalAmt)}
                 </span>
               </p>
               <p className="flex items-center justify-between py-1.5 text-lg font-medium">
                 Costo de envío
                 <span className="font-semibold tracking-wide font-titleFont">
-                  {shipping === "estandar" ? "Gratis" : `$${shippmentCharge}`}
+                  {shipping === "estandar" ? "Gratis" : `$${formatPrice(shippmentCharge)}`}
                 </span>
               </p>
               <p className="flex items-center justify-between text-pink-600 py-1.5 text-xl font-bold">
                 Total
                 <span className="font-bold tracking-wide text-xl font-titleFont">
-                  ${shipmentPlusTotal}
+                  ${formatPrice(shipmentPlusTotal)}
                 </span>
               </p>
-              <p className="text-sm">(IVA incluido ${ivaAmount})</p>
+              {/* <p className="text-sm">(IVA incluido ${ivaAmount})</p> */}
             </div>
           </div>
         </motion.div>
@@ -268,9 +284,9 @@ const Payment = (props) => {
               >
                 Editar
               </button>
-             ) : (
-               ""
-             )}
+            ) : (
+              ""
+            )}
           </div>
         </div>
 
@@ -283,7 +299,11 @@ const Payment = (props) => {
           <p className="font-bold text-2xl pb-3 uppercase">Tu Dirección</p>
           <div className="">
             {!addressReady && contactReady ? (
-              <AddressForm handleAddress={handleAddress} email={email} payerInfo={order.payerInfo ? order.payerInfo : ""} />
+              <AddressForm
+                handleAddress={handleAddress}
+                email={email}
+                payerInfo={order.payerInfo ? order.payerInfo : ""}
+              />
             ) : (
               ""
             )}
@@ -353,8 +373,10 @@ const Payment = (props) => {
                 <div className="">
                   <div className="h-auto">
                     <h1 className="text-lg font-bold">Envío a Domicilio</h1>
-                    <h1 className="text-lg text-gray-600">
-                      Catamarca 1600 - Yerba Buena
+                    <h1 className="text-lg  text-gray-600 ">
+                      {order.payerInfo.zipCode}, AR {" "}
+                      {order.payerInfo.street}{" "}
+                      {order.payerInfo.streetNumber}
                     </h1>
                     <h1 className="text-md font-semibold text-gray-700 text-left">
                       5 días hábiles
@@ -501,22 +523,26 @@ const Payment = (props) => {
             <p className="flex items-center justify-between border-b-0 py-1.5 text-lg font-medium">
               Subtotal
               <span className="font-semibold tracking-wide font-titleFont">
-                ${totalAmt}
+                ${formatPrice(totalAmt)}
               </span>
             </p>
             <p className="flex items-center justify-between py-1.5 text-lg font-medium">
               Costo de envío
               <span className="font-semibold tracking-wide font-titleFont">
-                {shipping === "estandar" ? "Gratis" : `$${shippmentCharge}`}
+                {shipping === "estandar"
+                  ? "Gratis"
+                  : shippmentCharge === 0
+                  ? "Gratis"
+                  : `$${formatPrice(shippmentCharge)}`}
               </span>
             </p>
             <p className="flex items-center justify-between text-pink-600  py-1.5 text-xl font-bold">
               Total
               <span className="font-bold tracking-wide text-xl font-titleFont">
-                ${shipmentPlusTotal}
+                ${formatPrice(shipmentPlusTotal)}
               </span>
             </p>
-            <p className="text-sm">(IVA incluido ${ivaAmount})</p>
+            {/* <p className="text-sm">(IVA incluido ${ivaAmount})</p> */}
           </div>
         </div>
       </div>

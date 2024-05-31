@@ -6,6 +6,7 @@ import {
   drecreaseQuantity,
   increaseQuantity,
 } from "../../redux/orebiSlice";
+import formatPrice from "../../utils/formatPrice";
 
 const ItemCard = ({ item }) => {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const ItemCard = ({ item }) => {
             </div>
             <div className="flex-col items-center text-left justify-start lg:justify-start  gap-y-6 mdl:gap-0">
               <div className="flex w-1/3 items-center text-lg font-bold">
-                ${item.quantity * item.price}
+                ${formatPrice(item.quantity * item.price)}
               </div>
               <div className="flex w-2/3 items-center justify-start text-md font-normal">
                 Talle {item.size}

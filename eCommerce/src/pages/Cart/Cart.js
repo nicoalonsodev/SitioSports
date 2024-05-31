@@ -8,6 +8,8 @@ import { emptyCart } from "../../assets/images/index";
 import ItemCard from "./ItemCard";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import RecommendProducts from "../../components/pageProps/RecommendProducts/RecommendProducts";
+import formatPrice from "../../utils/formatPrice";
+
 const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,7 +38,7 @@ const Cart = () => {
     if (totalAmt <= 45000) {
       setShippingCharge(5000);
     }  else if (totalAmt > 45000) {
-      setShippingCharge("Gratis");
+      setShippingCharge(0);
     }
   }, [totalAmt]);
 
@@ -93,15 +95,15 @@ const Cart = () => {
                       ? "1 Producto"
                       : `${numberOfProducts} productos`}
                     <span className="font-normal tracking-wide font-titleFont">
-                      ${totalAmt}
+                      ${formatPrice(totalAmt)}
                     </span>
                   </p>
                   <p className="flex items-center justify-between py-1.5 text-lg font-medium">
                     Envio
                     <span className="font-normal tracking-wide font-titleFont">
-                      {shippingCharge === "Gratis"
-                        ? shippingCharge
-                        : `$${shippingCharge}`}
+                      {shippingCharge === 0
+                        ? "Gratis"
+                        : `$${formatPrice(shippingCharge)}`}
                     </span>
                   </p>
                   <p className="flex items-center font-bold justify-between  py-1.5 text-lg ">
@@ -109,18 +111,18 @@ const Cart = () => {
                     <span className="font-bold tracking-wide text-lg font-titleFont">
                       $
                       {shippingCharge === "Gratis"
-                        ? totalAmt
-                        : totalAmt + shippingCharge}
+                        ? formatPrice(totalAmt)
+                        : formatPrice(totalAmt + shippingCharge)}
                     </span>
                   </p>
-                  <p className="">(IVA incluido ${ivaAmount})</p>
+                  {/* <p className="">(IVA incluido ${ivaAmount})</p> */}
                 </div>
                 <div className="w-full flex justify-end">
                   <button
                     className="w-full"
                     onClick={() => handlePaymentGateway()}
                   >
-                    <button className="w-full h-10 bg-primeColor text-white hover:bg-gray-700 duration-300">
+                    <button className="w-full h-10 bg-[#fc148c] text-white hover:bg-[#a73771] hover:scale-105 duration-300">
                       CONTINUAR COMPRA
                     </button>
                   </button>
@@ -131,7 +133,7 @@ const Cart = () => {
 
           <button
             onClick={() => dispatch(resetCart())}
-            className="w-1/5 py-2 px-10 bg-red-500 text-white font-semibold uppercase hover:bg-red-700 duration-300"
+            className="w-1/5 py-2 px-10 bg-gray-800 text-white font-semibold uppercase hover:bg-red-700 duration-300"
           >
             Resetear
           </button>

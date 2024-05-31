@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsFromBackend } from "../../utils/api";
 import { setBackendProducts } from "../../redux/orebiSlice";
 
-
 const Home = () => {
   const products = useSelector((state) => state.orebiReducer.products);
   const dispatch = useDispatch();
@@ -27,15 +26,14 @@ const Home = () => {
     fetchData();
   }, [dispatch]);
 
-console.log(products);
+  console.log(products);
   return (
     <div className="w-full mx-auto overflow-hidden">
       <Banner />
       <BannerBottom />
       <div className="max-w-container mx-auto px-4">
-      <NewArrivals />
+        <NewArrivals />
         <Sale />
-
         <BestSellers />
         {/* <YearProduct /> */}
         <SpecialOffers />
