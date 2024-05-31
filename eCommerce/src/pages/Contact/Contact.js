@@ -45,7 +45,7 @@ const Contact = () => {
         <div className="space-y-4 text-left ">
           <h1 className="text-gray-700 font-bold text-xl">Instagram</h1>
           <p className="text-lg">
-            Comunicate con nosotros a travez de nuestro instagram.
+            Comunicate con nosotros a travez de nuestro instagram. 
           </p>
         </div>
       </div>
