@@ -36,10 +36,10 @@ const BestSellers = () => {
             price={product.price}
             color="Black"
             badge={true}
-            des={product.description}
             variants={product.variants}
             brand={product.brand}
             cat={product.cat}
+            description={product.description}
             sub_cat={product.sub_cat}
             discount={product.discount_percentage}
           />

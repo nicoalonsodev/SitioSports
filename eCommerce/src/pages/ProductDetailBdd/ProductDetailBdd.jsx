@@ -41,9 +41,10 @@ const ProductDetailBdd = () => {
       best_sellers: product.best_sellers,
       new_arrivals: product.new_arrivals,
       special_offers: product.special_offers,
-      discount_percentage: product.discount_percentage
+      discount_percentage: product.discount_percentage,
+      description: product.description,
     };
-console.log(productChanges);
+
     axios
       .put(`https://sitiosports-production.up.railway.app/products/${product.id}`, productChanges)
       .then((response) => {
@@ -130,7 +131,8 @@ console.log(productChanges);
   };
 
   const calculateDiscountedPrice = () => {
-    const discountedPrice = product.price * (1 - product.discount_percentage / 100);
+    const discountedPrice =
+      product.price * (1 - product.discount_percentage / 100);
     return discountedPrice.toFixed(2);
   };
 
@@ -162,9 +164,9 @@ console.log(productChanges);
         </div>
         {product ? (
           <div className="flex justify-center items-start gap-32 mx-20">
-            <div className="flex flex-col gap-4 justify-center ">
-              <div className="flex justify-start gap-2 text-xl">
-                <h1 className="font-bold">Nombre de Producto: </h1>
+            <div className="flex flex-col gap-2 justify-center ">
+              <div className="flex justify-start items-center gap-2 ">
+                <h1 className="w-auto font-semibold">Nombre de Producto: </h1>
                 {isChanging ? (
                   <input
                     type="text"
@@ -177,11 +179,11 @@ console.log(productChanges);
                     placeholder="Nike Ultimate"
                   />
                 ) : (
-                  <p>{product.productName}</p>
+                  <p className="text-sm">{product.productName}</p>
                 )}
               </div>
-              <div className="flex justify-start gap-2 text-xl">
-                <h1 className="font-bold">Estado: </h1>
+              <div className="flex justify-start items-center gap-2">
+                <h1 className="w-auto font-bold">Estado: </h1>
                 {isChanging ? (
                   <select
                     name="disabled"
@@ -194,11 +196,13 @@ console.log(productChanges);
                     <option value={true}>Desactivado</option>
                   </select>
                 ) : (
-                  <p>{product.disabled === false ? "Activo" : "Desactivado"}</p>
+                  <p className="text-sm">
+                    {product.disabled === false ? "Activo" : "Desactivado"}
+                  </p>
                 )}
               </div>
-              <div className="flex justify-start gap-2 text-xl">
-                <h1 className="font-bold">Precio: </h1>
+              <div className="flex justify-start items-center gap-2 ">
+                <h1 className="w-auto font-semibold">Precio: </h1>
                 {isChanging ? (
                   <input
                     type="number"
@@ -211,12 +215,12 @@ console.log(productChanges);
                     placeholder="janesmith"
                   />
                 ) : (
-                  <p>{product.price}</p>
+                  <p className="text-sm">{product.price}</p>
                 )}
               </div>
 
-              <div className="flex justify-start gap-2 text-xl">
-                <h1 className="font-bold"> Categoria: </h1>
+              <div className="flex justify-start items-center gap-2 ">
+                <h1 className="w-auto font-semibold"> Categoria: </h1>
                 {isChanging ? (
                   <input
                     type="text"
@@ -229,11 +233,11 @@ console.log(productChanges);
                     placeholder="Nike Ultimate"
                   />
                 ) : (
-                  <p>{product.cat}</p>
+                  <p className="text-sm">{product.cat}</p>
                 )}
               </div>
-              <div className="flex justify-start gap-2 text-xl">
-                <h1 className="font-bold">Subcategoria: </h1>
+              <div className="flex justify-start items-center gap-2 ">
+                <h1 className="w-auto font-semibold">Subcategoria: </h1>
                 {isChanging ? (
                   <input
                     type="text"
@@ -246,12 +250,12 @@ console.log(productChanges);
                     placeholder="Nike Ultimate"
                   />
                 ) : (
-                  <p>{product.sub_cat}</p>
+                  <p className="text-sm">{product.sub_cat}</p>
                 )}
               </div>
 
-              <div className="flex justify-start gap-2 text-xl">
-                <h1 className="font-bold">Marca: </h1>
+              <div className="flex justify-start items-center gap-2 ">
+                <h1 className="w-auto font-semibold">Marca: </h1>
                 {isChanging ? (
                   <input
                     type="text"
@@ -264,46 +268,67 @@ console.log(productChanges);
                     placeholder="Nike Ultimate"
                   />
                 ) : (
-                  <p text-lg>{product.brand}</p>
+                  <p className="text-sm">{product.brand}</p>
                 )}
               </div>
-              <div className="">
+
+              <div className="flex justify-start items-center gap-2 mb-8">
+                <h1 className="w-auto font-semibold">Descripcion: </h1>
+                {isChanging ? (
+                  <input
+                    type="text"
+                    name="description"
+                    id="description"
+                    onChange={handleChange}
+                    value={product.description}
+                    autocomplete="description"
+                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
+                    placeholder="description"
+                  />
+                ) : (
+                  <p className="text-sm">{product.description}</p>
+                )}
+              </div>
+              <div className="space-y-1">
                 <h1 className="font-semibold">Colecciones:</h1>
-                <label>
+                <div className="flex items-center justify-start">
                   <input
                     id="best_sellers"
                     type="checkbox"
                     name="best_sellers"
                     checked={product.best_sellers}
-                    // value={product.best_sellers}
+                    disabled={!isChanging}
                     onChange={handleChangeCheckbox}
+                    className="mr-1"
                   />
                   Best Sellers
-                </label>
-                <br />
-                <label>
+                </div>
+
+                <div className="flex items-center justify-start">
                   <input
                     id="new_arrivals"
                     type="checkbox"
                     name="new_arrivals"
                     checked={product.new_arrivals}
-                    // value={product.new_arrivals}
+                    disabled={!isChanging}
                     onChange={handleChangeCheckbox}
+                    className="mr-1"
                   />
                   New Arrivals
-                </label>
-                <br />
-                <label>
+                </div>
+
+                <div className="flex items-center justify-start">
                   <input
                     id="special_offers"
                     type="checkbox"
                     name="special_offers"
                     checked={product.special_offers}
-                    // value={product.special_offers}
+                    disabled={!isChanging}
                     onChange={handleChangeCheckbox}
+                    className="mr-1"
                   />
                   Special Offers
-                </label>
+                </div>
               </div>
               <div>
                 <p className="text-pink-600">
@@ -312,8 +337,8 @@ console.log(productChanges);
                     : "Aun no se vendió ninguna unidad."}
                 </p>
               </div>
-              <div className="flex justify-start gap-2 text-xl">
-                <h1 className="font-bold">Descuento: </h1>
+              <div className="flex justify-start items-center gap-2 ">
+                <h1 className="w-auto font-semibold">Descuento: </h1>
                 {isChanging ? (
                   <input
                     type="number"
@@ -325,9 +350,12 @@ console.log(productChanges);
                     class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
                   />
                 ) : (
-                  <p className="text-lg">
+                  <p className="text-sm">
                     {product.discount_percentage}% de descuento - Precio con
-                    descuento: <span className="font-semibold">${calculateDiscountedPrice()}</span> 
+                    descuento:{" "}
+                    <span className="font-semibold">
+                      ${calculateDiscountedPrice()}
+                    </span>
                   </p>
                 )}
               </div>

@@ -27,7 +27,7 @@ const SpecialOffers = () => {
             price={product.price}
             color={product.color}
             // badge={true}
-            des={product.des}
+            description={product.description}
             variants={product.variants}
             brand={product.brand}
             cat={product.cat}
