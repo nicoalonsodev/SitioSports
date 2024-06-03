@@ -18,8 +18,9 @@ import up from "./up.svg";
 import visa from "./visa.png";
 import amex from "./amex.png";
 import mastercard from "./mastercard.png";
-import talles_botines from "./talles-botines.png";
+import talles_botines from "./talles-calzado.png";
 import talles_camisetas from "./talles-camisetas.png";
+import talles_calzado_puma from "./talles-calzado-puma.png";
 import sizes_guia from "./sitio/sizes.png";
 import returning from "./sitio/return.png";
 import shipping_order from "./sitio/shipping.png";
@@ -125,6 +126,7 @@ export {
   lock,
   talles_botines,
   talles_camisetas,
+  talles_calzado_puma,
   logo,
   logoTransparent,
   logoLight,

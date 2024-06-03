@@ -5,9 +5,8 @@ const { postFirstOrderController } = require("./postFirstOrderController");
 const { putOrderController } = require("./putOrderController");
 const { v4: uuidv4 } = require("uuid");
 
-// const { MERCADOPAGO_API_KEY } = process.env;
-const MERCADOPAGO_API_KEY =
-  "APP_USR-6101811384872882-050519-c4e446af9a14aca7a7dc65a10ce629e8-1800686060";
+const { MERCADOPAGO_API_KEY } = process.env;
+
 const { updateStock } = require("../helpers/updateStock");
 
 const createOrder = async (req, res) => {
@@ -15,6 +14,7 @@ const createOrder = async (req, res) => {
   const preference = new Preference(client);
   const products = req.body.productInfo;
   const payer = req.body.payerInfo;
+  const shippingCost = req.body.shipment;
 
   const order_id = uuidv4();
   try {
@@ -35,6 +35,15 @@ const createOrder = async (req, res) => {
       id: product.id,
       category_id: Number(product.variant.id),
     }));
+
+    if(shippingCost){
+      items.push({
+        title: "Costo de envío",
+        unit_price: Number(shippingCost),
+        currency_id: "ARS",
+        quantity: 1,
+      });
+    }
     const body = {
       shipments: {
         receiver_address: {
@@ -60,6 +69,7 @@ const createOrder = async (req, res) => {
       external_reference: order_id,
       items: items,
       //cambiar urls con las de verda!
+      // notification_url: "https://724a-131-161-239-212.ngrok-free.app/webhook",
       notification_url: "https://sitiosports-production.up.railway.app/webhook",
       back_urls: {
         success: `https://www.sitiosports.com/orden-mp-confirmada/${order_number}`,

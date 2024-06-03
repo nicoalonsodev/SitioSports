@@ -67,7 +67,6 @@ const ProductInfo = ({
       setSelectedVariant(productInfo.variants[0]);
     }
   }, [productInfo]);
-  console.log(selectedVariant);
 
   useEffect(() => {
     if (selectedVariant) {
@@ -91,7 +90,6 @@ const ProductInfo = ({
     return <>{description}</>;
   };
   const dispatch = useDispatch();
-  const [amount, setAmount] = useState(1);
 
   const sizesBotines = [
     {
@@ -270,7 +268,7 @@ const ProductInfo = ({
               : sizesMedias
           }
         />
-        <SizeGuide cat={productInfo.cat} />
+        <SizeGuide cat={productInfo.cat} brand={productInfo.brand}/>
 
         <div className="flex flex-col items-center gap-2">
           <button

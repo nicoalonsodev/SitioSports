@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaRulerHorizontal } from "react-icons/fa";
-import { talles_botines, talles_camisetas } from "../../../assets/images";
-const SizeGuide = ({cat}) => {
+import { talles_botines, talles_camisetas, talles_calzado_puma } from "../../../assets/images";
+const SizeGuide = ({cat, brand}) => {
   const [viewSizeGuide, setViewSizeGuide] = useState(false);
 
   const handleViewSize = () => {
@@ -28,7 +28,7 @@ const SizeGuide = ({cat}) => {
             >
               Cerrar
             </button>
-            <img src={cat === "Botines" ? talles_botines : talles_camisetas} alt="" />
+            <img src={cat === "Botines" ? talles_botines : brand === "Puma" ? talles_calzado_puma : talles_camisetas} alt="guia de talle" />
           </div>
         </div>
       )}

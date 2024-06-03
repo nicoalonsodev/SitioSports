@@ -7,8 +7,8 @@ import {
   increaseQuantity,
 } from "../../redux/orebiSlice";
 import formatPrice from "../../utils/formatPrice";
-
 const ItemCard = ({ item }) => {
+  console.log(item);
   const dispatch = useDispatch();
   return (
     <div className="w-full mb-4 border ">
