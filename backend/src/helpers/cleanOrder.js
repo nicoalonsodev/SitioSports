@@ -1,9 +1,8 @@
 const cleanData = (data) => {
-  const cleanedData = [];
-  console.log("cleaneando");
-  console.log(data.additional_info.items);
 
-  const items = data.additional_info.items || "";
+  const items = data.additional_info.items || [];
+  const filteredItems = items.filter(item => item.title !== "Costo de envío");
+
   const name = data.additional_info.payer.first_name || "";
   const phone = data.additional_info.payer.phone.number || "";
 
@@ -39,7 +38,7 @@ const cleanData = (data) => {
   //   const payer_info = additional_info.;
 
   const cleanedObject = {
-    items: items,
+    items: filteredItems,
     name: name,
     phone: phone,
     shipment: {

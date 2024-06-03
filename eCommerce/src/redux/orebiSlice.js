@@ -20,7 +20,7 @@ export const orebiSlice = createSlice({
     addToCart: (state, action) => {
       const item = state.cartProducts.find(
         (item) =>
-          item._id === action.payload._id && item.size === action.payload.size
+          item.id === action.payload.id && item.size === action.payload.size
       );
       if (item) {
         item.quantity += action.payload.quantity;
@@ -36,7 +36,6 @@ export const orebiSlice = createSlice({
       );
       if (item) {
         item.quantity++;
-        // Dispatch a success toast
       }
     },
     drecreaseQuantity: (state, action) => {

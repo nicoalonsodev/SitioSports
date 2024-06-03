@@ -72,7 +72,7 @@ const Layout = () => {
       {showHeader ? (
         <div className="bg-black w-screen h-10 flex justify-center items-center overflow-hidden">
           <p className="text-[13px] text-gray-200">
-            🚚 ENVÍO GRATIS A PARTIR DE $45.000
+            🚚 ENVÍO GRATIS A TODO EL PAÍS 🚚
           </p>
         </div>
       ) : (

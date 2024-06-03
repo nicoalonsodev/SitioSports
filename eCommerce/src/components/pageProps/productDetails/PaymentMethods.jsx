@@ -41,20 +41,20 @@ const PaymentMethods = () => {
           superando los $45.000,00
         </p>
       </div>
-      {/* Modal */}
-      {viewPaymentMethods && (
+    
+      {/* {viewPaymentMethods && (
         <div className="fixed -top-4 left-0 w-screen h-screen bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-8 rounded-lg">
             <h2 className="text-xl font-bold mb-4">Medios de Pago</h2>
             {/* Aquí coloca el contenido de los métodos de pago */}
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-md"
+            {/* <button className="bg-blue-500 text-white px-4 py-2 rounded-md"
             onClick={handleViewPayment}
             >
               Cerrar
             </button>
           </div>
         </div>
-      )}
+      )} */} 
     </div>
   );
 };

@@ -32,6 +32,7 @@ const Payment = (props) => {
   const [order, setOrder] = useState({
     productInfo: "",
     payerInfo: "",
+    shipment: "",
   });
 
   useEffect(() => {
@@ -175,6 +176,10 @@ const Payment = (props) => {
       finalAmount = totalAmt;
     }
     setShipmentPlusTotal(finalAmount);
+    setOrder(prevOrder => ({
+      ...prevOrder,
+      shipment: shippmentCharge,
+    }));
   }, [totalAmt, shippmentCharge]);
 
   return (
@@ -339,7 +344,7 @@ const Payment = (props) => {
           <p className="font-bold text-2xl uppercase">Opciones de Entrega</p>
           {order.payerInfo ? (
             <>
-              <div
+              {/* <div
                 className={`${
                   shipping === "estandar"
                     ? "border-[3px] border-[#e46dc7] shadow-sm"
@@ -361,14 +366,15 @@ const Payment = (props) => {
                   </div>
                 </div>
                 <div>Gratis</div>
-              </div>
+              </div> */}
               <div
                 className={`${
-                  shipping === "Domicilio"
+                  shipping === "estandar"
                     ? "border-[3px] border-[#e46dc7] shadow-sm"
                     : "border-[1px] border-gray-700"
                 } w-full lg:w-3/5 flex justify-between p-4 cursor-pointer hover:bg-gray-50`}
-                onClick={() => handleClickShippingType("Domicilio")}
+                onClick={() => handleClickShippingType("estandar")}
+             //   onClick={() => handleClickShippingType("Domicilio")}
               >
                 <div className="">
                   <div className="h-auto">
@@ -383,7 +389,7 @@ const Payment = (props) => {
                     </h1>
                   </div>
                 </div>
-                <div>$2.350</div>
+                <div>Gratis</div>
               </div>
             </>
           ) : (

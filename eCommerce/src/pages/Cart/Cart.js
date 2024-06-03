@@ -18,11 +18,12 @@ const Cart = () => {
   const [shippingCharge, setShippingCharge] = useState("");
 
 
+
   let totalWithShipping = 0;
   if (shippingCharge === "Gratis") {
     totalWithShipping = totalAmt;
   } else {
-    totalWithShipping = totalAmt + shippingCharge;
+    totalWithShipping = totalAmt; //+ shippingCharge;
   }
   const ivaPercentage = 17.356;
   const ivaAmount = ((ivaPercentage / 100) * totalWithShipping).toFixed(2);
@@ -103,7 +104,8 @@ const Cart = () => {
                     <span className="font-normal tracking-wide font-titleFont">
                       {shippingCharge === 0
                         ? "Gratis"
-                        : `$${formatPrice(shippingCharge)}`}
+                        : "Gratis"}
+                       {/* : `$${formatPrice(shippingCharge)}`} */}
                     </span>
                   </p>
                   <p className="flex items-center font-bold justify-between  py-1.5 text-lg ">
@@ -133,7 +135,7 @@ const Cart = () => {
 
           <button
             onClick={() => dispatch(resetCart())}
-            className="w-1/5 py-2 px-10 bg-gray-800 text-white font-semibold uppercase hover:bg-red-700 duration-300"
+            className="w-full lg:w-1/5 py-2 px-10 bg-gray-800 text-white font-semibold uppercase hover:bg-red-700 duration-300"
           >
             Resetear
           </button>
