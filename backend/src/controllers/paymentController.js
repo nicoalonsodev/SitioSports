@@ -5,8 +5,9 @@ const { postFirstOrderController } = require("./postFirstOrderController");
 const { putOrderController } = require("./putOrderController");
 const { v4: uuidv4 } = require("uuid");
 
-const { MERCADOPAGO_API_KEY } = process.env;
-
+//const { MERCADOPAGO_API_KEY } = process.env;
+const MERCADOPAGO_API_KEY =
+  "APP_USR-6101811384872882-050519-c4e446af9a14aca7a7dc65a10ce629e8-1800686060";
 const { updateStock } = require("../helpers/updateStock");
 
 const createOrder = async (req, res) => {
