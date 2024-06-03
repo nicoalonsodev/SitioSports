@@ -86,7 +86,7 @@ const Variant = ({
       )}
       {category === "Camisetas" && (
         <PostSizeCamisetas
-          id={vari.id}
+          id={vari.id} 
           handleSizes={handleSizes}
           variants={variants}
         />

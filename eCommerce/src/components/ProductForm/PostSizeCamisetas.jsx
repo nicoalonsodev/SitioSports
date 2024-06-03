@@ -22,6 +22,7 @@ const PostSizeCamisetas = ({ id, handleSizes, variants }) => {
           { size: "XL", stock: 0, sold: 0 },
           { size: "XXL", stock: 0, sold: 0 },
         ]);
+        
       } else {
         setSizes(variant.sizes);
       }
