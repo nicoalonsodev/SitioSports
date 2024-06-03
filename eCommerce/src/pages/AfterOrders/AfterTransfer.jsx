@@ -1,8 +1,15 @@
 import React from "react";
 import { GiSandsOfTime } from "react-icons/gi";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from 'react-router-dom';
+import formatPrice from "../../utils/formatPrice";
+const useQuery = () => {
+    return new URLSearchParams(useLocation().search);
+};
 const AfterTransfer = () => {
   const { orden } = useParams();
+  const query = useQuery();
+  const precio = query.get('monto');
+
   return (
     <div className="px-20 flex justify-center">
       <div className="flex flex-col justify-center items-start py-20 w-2/3 gap-6">
@@ -12,7 +19,7 @@ const AfterTransfer = () => {
             <GiSandsOfTime className="text-5xl text-pink-600" />
           </div>
           <div className="flex flex-col justify-start items-start space-y-6">
-            <h1 className="text-3xl font-semibold">En espera de pago</h1>
+            <h1 className="text-3xl font-semibold">En espera de pago por el monto de  ${formatPrice(precio)} ars.</h1>
             <p>Hola como estas?</p>
             <p>
               Podes hacer la trasnferencia o depósito en la siguiente cuenta.

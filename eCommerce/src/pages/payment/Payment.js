@@ -125,7 +125,7 @@ const Payment = (props) => {
           postOrder
         );
         const order_number = responsePost.data.order_number;
-        navigate(`/orden-transferencia-confirmada/${order_number}`);
+        navigate(`/orden-transferencia-confirmada/${order_number}?monto=${totalAmt}`);
         dispatch(resetCart());
         setProcessing(false);
       } catch (error) {

@@ -60,7 +60,7 @@ const createOrder = async (req, res) => {
       external_reference: order_id,
       items: items,
       //cambiar urls con las de verda!
-      notification_url: "https://1d1e-131-161-239-212.ngrok-free.app/webhook",
+      notification_url: "https://sitiosports-production.up.railway.app/webhook",
       back_urls: {
         success: `https://www.sitiosports.com/orden-mp-confirmada/${order_number}`,
         failure: `https://www.sitiosports.com/orden-mp-rechazada/${order_number}`,
