@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const SizesForm = ({ handleSizes, selectedSizes, cat }) => {
+const SizesForm = ({ handleSizes, selectedSizes, cat,  }) => {
   const [sizes, setSizes] = useState([
     "39",
     "39.5",

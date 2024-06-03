@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import UploadImage from "../../components/UploadImage/UploadImage";
 import PostSizeBotines from "../../components/ProductForm/PostSizeBotines";
@@ -6,7 +6,6 @@ import PostSizeCamisetas from "../../components/ProductForm/PostSizeCamisetas";
 import PostSizeMedias from "../../components/ProductForm/PostSizeMedias";
 import Variant from "./Variant";
 const ProductForm = () => {
-  // const [selectedSizes, setSelectedSizes] = useState([]);
   const [variants, setVariants] = useState([
     { variant: "", id: 1, sizes: [], imgUrl: [] },
   ]);
@@ -24,16 +23,65 @@ const ProductForm = () => {
     sub_cat: "",
   });
 
+
+  const camisetasSizes = [
+    { size: "S", stock: 0 },
+    { size: "M", stock: 0 },
+    { size: "L", stock: 0 },
+    { size: "XL", stock: 0 },
+    { size: "XXL", stock: 0 },
+  ];
+
+  const botinesSizes = [
+    { size: "39", stock: 0 },
+    { size: "40", stock: 0 },
+    { size: "41", stock: 0 },
+    { size: "42", stock: 0 },
+    { size: "43", stock: 0 },
+    { size: "44", stock: 0 },
+    { size: "45", stock: 0 },
+  ];
+
+  const mediasSizes = [
+    { size: "39-40", stock: 0 },
+    { size: "41-42", stock: 0 },
+    { size: "43-44", stock: 0 },
+  ];
+
+  const getSizesByCategory = (category) => {
+    switch (category) {
+      case "Botines":
+        return botinesSizes;
+      case "Camisetas":
+        return camisetasSizes;
+      case "Medias":
+        return mediasSizes;
+      default:
+        return [];
+    }
+  };
+
+  useEffect(() => {
+    if (form.cat) {
+      const newSizes = getSizesByCategory(form.cat);
+      const newVariant = { variant: "", id: 1, sizes: newSizes, imgUrl: [] };
+      setForm((prevForm) => ({
+        ...prevForm,
+        variants: [newVariant],
+      }));
+    }
+  }, [form.cat]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "cat") {
-      // Limpiar el estado de sizes si cambia la categoría
+      const newSizes = getSizesByCategory(value);
+      const newVariant = { variant: "", id: 1, sizes: newSizes, imgUrl: [] };
       setForm((prevForm) => ({
         ...prevForm,
         [name]: value,
-        sizes: [],
-        variants: variants,
         sub_cat: "",
+        variants: [newVariant],
       }));
     } else {
       setForm((prevForm) => ({
@@ -42,7 +90,6 @@ const ProductForm = () => {
       }));
     }
   };
-
   const handleSizes = (size, id) => {
     // Encuentra el índice del objeto en variants con el mismo id
     const variantFormIndex = form.variants.findIndex(
@@ -160,20 +207,6 @@ const ProductForm = () => {
     }));
   };
 
-  // const handleSizes = (size) => {
-  //   if (form.sizes.includes(size)) {
-  //     setForm((prevForm) => ({
-  //       ...prevForm,
-  //       sizes: prevForm.sizes.filter((selectedSize) => selectedSize !== size),
-  //     }));
-  //   } else {
-  //     setForm((prevForm) => ({
-  //       ...prevForm,
-  //       sizes: [...prevForm.sizes, size],
-  //     }));
-  //   }
-  // };
-
   const handleUploadImage = (url) => {
     setForm((prevRegistro) => ({
       ...prevRegistro,
@@ -206,13 +239,7 @@ const ProductForm = () => {
       console.error("Error al realizar la solicitud:", error);
     }
   };
-  console.log();
-  // const handleSizes = (size) => {
-  //   if (selectedSizes.includes(size)) {
-  //     setSelectedSizes(selectedSizes.filter((selectedSize) => selectedSize !== size));
-  //   } else {
-  //     setSelectedSizes([...selectedSizes, size]);
-  // }}
+
   return (
     <form class="px-4 md:px-8 max-w-3xl mx-auto py-12" onSubmit={handleSubmit}>
       <div class="space-y-12">
