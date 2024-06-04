@@ -16,6 +16,9 @@ const { putCommissionsHandler } = require("../handlers/putCommissionsHandler");
 const { putUserHandler } = require("../handlers/putUserHandler");
 const { putProductHandler } = require("../handlers/putProductHandler");
 const { putOrderHandler } = require("../handlers/putOrderHAndler");
+const { authenticateToken } = require('../helpers/authenticateToken');
+const {loginHandler} = require('../handlers/authHandler');
+const {protectedRouteHandler} = require('../handlers/authHandler');
 
 router.get("/products", getAllProductsHandler);
 router.get("/products/:id", getProductByIdHandler);
@@ -28,6 +31,8 @@ router.get("/commissions", getAllCommissionsHandler);
 // router.get('/pending', (req, res)=> res.send("pend") );
 // router.get('/failure', (req, res)=> res.send("fail"));
 
+router.post('/login', loginHandler);
+router.get('/admin', authenticateToken, protectedRouteHandler);
 
 router.post("/products", postProductHandler);
 router.post("/users", postUserHandler);

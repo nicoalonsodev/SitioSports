@@ -25,27 +25,27 @@ const ProductForm = () => {
 
 
   const camisetasSizes = [
-    { size: "S", stock: 0 },
-    { size: "M", stock: 0 },
-    { size: "L", stock: 0 },
-    { size: "XL", stock: 0 },
-    { size: "XXL", stock: 0 },
+    { size: "S", stock: 0, sold: 0 },
+    { size: "M", stock: 0, sold: 0 },
+    { size: "L", stock: 0, sold: 0 },
+    { size: "XL", stock: 0, sold: 0 },
+    { size: "XXL", stock: 0, sold: 0 },
   ];
 
   const botinesSizes = [
-    { size: "39", stock: 0 },
-    { size: "40", stock: 0 },
-    { size: "41", stock: 0 },
-    { size: "42", stock: 0 },
-    { size: "43", stock: 0 },
-    { size: "44", stock: 0 },
-    { size: "45", stock: 0 },
+    { size: "39", stock: 0, sold: 0 },
+    { size: "40", stock: 0, sold: 0 },
+    { size: "41", stock: 0, sold: 0 },
+    { size: "42", stock: 0, sold: 0 },
+    { size: "43", stock: 0, sold: 0 },
+    { size: "44", stock: 0,sold: 0 },
+    { size: "45", stock: 0,sold: 0 },
   ];
 
   const mediasSizes = [
-    { size: "39-40", stock: 0 },
-    { size: "41-42", stock: 0 },
-    { size: "43-44", stock: 0 },
+    { size: "39-40", stock: 0, sold: 0 },
+    { size: "41-42", stock: 0, sold: 0 },
+    { size: "43-44", stock: 0, sold: 0 },
   ];
 
   const getSizesByCategory = (category) => {
@@ -240,6 +240,9 @@ const ProductForm = () => {
     }
   };
 
+  const handleWheel = (e) => {
+    e.preventDefault();
+  };
   return (
     <form class="px-4 md:px-8 max-w-3xl mx-auto py-12" onSubmit={handleSubmit}>
       <div class="space-y-12">
@@ -292,6 +295,7 @@ const ProductForm = () => {
                     id="price"
                     value={form.price}
                     onChange={handleChange}
+                    onWheel={handleWheel}
                     autocomplete="price"
                     class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="janesmith"

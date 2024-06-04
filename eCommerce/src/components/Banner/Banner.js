@@ -119,7 +119,7 @@ const Banner = () => {
       buttonText: "Comprar Ahora",
     },
     {
-      imgSrc: bannerImgFour,
+      imgSrc: "https://res.cloudinary.com/doczyujqf/image/upload/v1717530904/SitioSports/voqxmi1920x871.png",
       text: "Enhance Your Printing Experience",
       Subtext:
         "Explore our premium printers and consumables for exceptional results",
@@ -127,16 +127,15 @@ const Banner = () => {
       buttonText: "Comprar Ahora",
     },
 
-    {
-      imgSrc: bannerImgFive,
-      text: "Efficiency Redefined",
-      Subtext:
-        "Maximize productivity with our advanced printers and high-quality consumables. ",
-      buttonLink: "/shop",
-      buttonText: "Comprar Ahora",
-    },
+    // {
+    //   imgSrc: bannerImgFive,
+    //   text: "Efficiency Redefined",
+    //   Subtext:
+    //     "Maximize productivity with our advanced printers and high-quality consumables. ",
+    //   buttonLink: "/shop",
+    //   buttonText: "Comprar Ahora",
+    // },
 
-    // Add more slides as needed
   ];
   return (
     <div className="w-full bg-white overflow-hidden">

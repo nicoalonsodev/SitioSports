@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -52,6 +53,9 @@ import Shipping from "./pages/Help/Shipping";
 import Payments from "./pages/Help/Payments";
 import OrdersFollows from "./pages/Help/OrdersFollows";
 import SizeGuides from "./pages/Help/SizeGuides";
+import Login from "./components/AdminLogin/AdminLogin";
+import { getProtectedData } from "./utils/api";
+
 const Layout = () => {
   const location = useLocation();
   const showHeader = location.pathname !== "/paymentgateway";
@@ -79,7 +83,7 @@ const Layout = () => {
         ""
       )}
       {showHeader ? <Header /> : <HeaderPayment />}
-     { showHeader ? <SpecialCase /> : ""}
+      {showHeader ? <SpecialCase /> : ""}
       <ScrollRestoration />
       <Outlet />
       <Footer />
@@ -87,67 +91,123 @@ const Layout = () => {
     </div>
   );
 };
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route>
-      <Route path="/" element={<Layout />}>
-        {/* ==================== Header Navlink Start here =================== */}
-        <Route index element={<Home />}></Route>
-        <Route path="/shop" element={<Shop />}></Route>
-        <Route path="/encargo" element={<ShopByCommissions />}></Route>
-        <Route path="/about" element={<About />}></Route>
-        <Route path="/ayuda" element={<Help />}></Route>
-        <Route path="/terminos-y-condiciones" element={<TermsAndCondition />}></Route>
-        <Route path="/politicas-de-privacidad" element={<PrivacyPolicy />}></Route>
-        <Route path="/contact" element={<Contact />}></Route>
-        <Route path="/encargo" element={<CustomMade />}></Route>
-        <Route path="/journal" element={<Journal />}></Route>
-        <Route path="/orden-transferencia-confirmada/:orden" element={<AfterTransfer />}></Route>
-        <Route path="/orden-mp-confirmada/:orden" element={<AfterMp />}></Route>
-        <Route path="/orden-mp-rechazada/:orden" element={<AfterMpDenied />}></Route>
-        <Route path="/orden-mp-pendiente/:orden" element={<AfterMpPendient />}></Route>
 
-        <Route path="/seguimiento-de-ordenes" element={<OrdersFollows />}></Route>
-        <Route path="/devoluciones" element={<Returnings />}></Route>
-        <Route path="/envios" element={<Shipping />}></Route>
-        <Route path="/metodos-de-pago" element={<Payments />}></Route>
-        <Route path="/guia-de-talles" element={<SizeGuides />}></Route>
-         
-        {/* ==================== Header Navlink End here ===================== */}
-        <Route path="/category/:category" element={<Offer />}></Route>
-        <Route path="/product/:_id" element={<ProductDetails />}></Route>
-        <Route path="/cart" element={<Cart />}></Route>
-        <Route path="/paymentgateway" element={<Payment />}></Route>
+const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      try {
+        await getProtectedData();
+        setIsAuthenticated(true);
+      } catch (error) {
+        setIsAuthenticated(false);
+      }
+    };
+
+    checkAuthentication();
+  }, []);
+
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route>
+        <Route path="/" element={<Layout />}>
+          {/* ==================== Header Navlink Start here =================== */}
+          <Route index element={<Home />}></Route>
+          <Route path="/shop" element={<Shop />}></Route>
+          <Route path="/encargo" element={<ShopByCommissions />}></Route>
+          <Route path="/about" element={<About />}></Route>
+          <Route path="/ayuda" element={<Help />}></Route>
+          <Route
+            path="/terminos-y-condiciones"
+            element={<TermsAndCondition />}
+          ></Route>
+          <Route
+            path="/politicas-de-privacidad"
+            element={<PrivacyPolicy />}
+          ></Route>
+          <Route path="/contact" element={<Contact />}></Route>
+          <Route path="/encargo" element={<CustomMade />}></Route>
+          <Route path="/journal" element={<Journal />}></Route>
+          <Route
+            path="/orden-transferencia-confirmada/:orden"
+            element={<AfterTransfer />}
+          ></Route>
+          <Route
+            path="/orden-mp-confirmada/:orden"
+            element={<AfterMp />}
+          ></Route>
+          <Route
+            path="/orden-mp-rechazada/:orden"
+            element={<AfterMpDenied />}
+          ></Route>
+          <Route
+            path="/orden-mp-pendiente/:orden"
+            element={<AfterMpPendient />}
+          ></Route>
+
+          <Route
+            path="/seguimiento-de-ordenes"
+            element={<OrdersFollows />}
+          ></Route>
+          <Route path="/devoluciones" element={<Returnings />}></Route>
+          <Route path="/envios" element={<Shipping />}></Route>
+          <Route path="/metodos-de-pago" element={<Payments />}></Route>
+          <Route path="/guia-de-talles" element={<SizeGuides />}></Route>
+
+          {/* ==================== Header Navlink End here ===================== */}
+          <Route path="/category/:category" element={<Offer />}></Route>
+          <Route path="/product/:_id" element={<ProductDetails />}></Route>
+          <Route path="/cart" element={<Cart />}></Route>
+          <Route path="/paymentgateway" element={<Payment />}></Route>
+        </Route>
+        <Route path="/signup" element={<SignUp />}></Route>
+        <Route path="/signin" element={<SignIn />}></Route>
+
+        <Route path="/usertable" element={isAuthenticated ? <UserTable /> : <Login />}></Route>
+        <Route path="/orderstable" element={isAuthenticated ? <OrdersTable /> : <Login />}></Route>
+        <Route
+          exact
+          path="/orderdetailbdd/:id"
+          element={isAuthenticated ? <OrderDetailBdd /> : <Login />}
+        ></Route>
+        <Route path="/uploadorder" element={isAuthenticated ? <OrderForm /> : <Login />}></Route>
+        <Route exact path="/producttable" element={isAuthenticated ? <ProductTable /> : <Login />}></Route>
+        <Route
+          exact
+          path="/commissionstable"
+          element={isAuthenticated ? <CommissionsTableBdd /> : <Login />}
+        ></Route>
+        <Route
+          exact
+          path="/commissionsdetail/:id"
+          element={isAuthenticated ? <CommissionsDetailBdd /> : <Login />}
+        ></Route>
+        <Route
+          exact
+          path="/productdetailbdd/:id"
+          element={isAuthenticated ? <ProductDetailBdd /> : <Login />}
+        ></Route>
+        <Route path="/uploadproduct" element={isAuthenticated ? <ProductForm /> : <Login />}></Route>
+        <Route
+          path="/cargar-producto-encargo"
+          element={isAuthenticated ? <ProductCommissionsForm /> : <Login />}
+        ></Route>
+
+        <Route path="/login" element={<Login />}></Route>
+        <Route
+          path="/admin"
+          element={isAuthenticated ? <Admin /> : <Login />}
+        />
       </Route>
-      <Route path="/signup" element={<SignUp />}></Route>
-      <Route path="/signin" element={<SignIn />}></Route>
+    )
+  );
 
-      <Route path="/usertable" element={<UserTable />}></Route>
-      <Route path="/orderstable" element={<OrdersTable />}></Route>
-      <Route exact path="/orderdetailbdd/:id" element={<OrderDetailBdd />}></Route>
-      <Route path="/uploadorder" element={<OrderForm />}></Route>
-      <Route exact path="/producttable" element={<ProductTable />}></Route>
-      <Route exact path="/commissionstable" element={<CommissionsTableBdd />}></Route>
-      <Route exact path="/commissionsdetail/:id" element={<CommissionsDetailBdd />}></Route>
-      <Route
-        exact
-        path="/productdetailbdd/:id"
-        element={<ProductDetailBdd />}
-      ></Route>
-      <Route path="/uploadproduct" element={<ProductForm />}></Route>
-      <Route path="/cargar-producto-encargo" element={<ProductCommissionsForm />}></Route>
-      <Route path="/admin" element={<Admin />}></Route>
-    </Route>
-  )
-);
-
-function App() {
   return (
     <div className="font-bodyFont">
       <RouterProvider router={router} />
-      <WhatsAppButton />
     </div>
   );
-}
+};
 
 export default App;
