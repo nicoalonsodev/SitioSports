@@ -28,7 +28,7 @@ const Sale = () => {
         </div>
       </div>
 
-      <div className=" h-[610px] w-full md:w-2/3 lg:w-1/2 flex flex-col gap-4 overflow-hidden">
+      <div className="hidden h-[610px] w-full md:w-2/3 lg:w-1/2 lg:flex flex-col gap-4 overflow-hidden">
         <div className="h-1/2 w-full">
           <Link to="/shop">
             <Image

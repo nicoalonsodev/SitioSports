@@ -119,7 +119,7 @@ const Banner = () => {
       buttonText: "Comprar Ahora",
     },
     {
-      imgSrc: "https://res.cloudinary.com/doczyujqf/image/upload/v1717526386/SitioSports/Dise%C3%B1o_sin_t%C3%ADtulo_2_sgtos7.jpg",
+      imgSrc: "https://res.cloudinary.com/doczyujqf/image/upload/v1717530904/SitioSports/voqxmi1920x871.png",
       text: "Enhance Your Printing Experience",
       Subtext:
         "Explore our premium printers and consumables for exceptional results",
