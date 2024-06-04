@@ -19,6 +19,7 @@ const { putOrderHandler } = require("../handlers/putOrderHAndler");
 const { authenticateToken } = require('../helpers/authenticateToken');
 const {loginHandler} = require('../handlers/authHandler');
 const {protectedRouteHandler} = require('../handlers/authHandler');
+const {deleteUserHandler} = require('../handlers/deleteUserHandler');
 
 router.get("/products", getAllProductsHandler);
 router.get("/products/:id", getProductByIdHandler);
@@ -47,5 +48,6 @@ router.put("/commissions/:id", putCommissionsHandler);
 router.put("/order/:id", putOrderHandler);
 
 router.delete("/product/:id", deleteProductHandler);
+router.delete("/user/:id", deleteUserHandler);
 
 module.exports = router;
