@@ -39,3 +39,36 @@ export const fetchCommissionsFromBackend = async () => {
 //https://sitiosports-production.up.railway.app/
 
 //https://sitiosports-production.up.railway.app/
+
+const API_URL = 'http://localhost:3001'; // Cambia esto a tu URL del backend
+
+export const login = async (username, password) => {
+  try {
+    const response = await axios.post(`${API_URL}/login`, { username, password });
+    if (response.data.token) {
+      localStorage.setItem('userToken', response.data.token);
+    }
+    return response.data;
+  } catch (error) {
+    throw new Error('Invalid credentials');
+  }
+};
+
+
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('userToken');
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+};
+
+export const getProtectedData = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/admin`, getAuthHeaders());
+    return response.data;
+  } catch (error) {
+    throw new Error('Failed to fetch protected data');
+  }
+};
