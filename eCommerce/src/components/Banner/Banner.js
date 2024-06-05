@@ -111,7 +111,7 @@ const Banner = () => {
   const slides = [
     {
       imgSrc:
-        "https://res.cloudinary.com/doczyujqf/image/upload/v1716923510/SitioSports/NUESTRA_CAMISETA_1_qlqhux.jpg",
+        "https://res.cloudinary.com/dtf3dfpnw/image/upload/v1717595311/NUESTRA_CAMISETA_1_efphhh.jpg",
       text: "Quality Printing Solutions",
       Subtext:
         "Discover our wide range of printers and consumables designed for professional printing needs.",
@@ -119,7 +119,7 @@ const Banner = () => {
       buttonText: "Comprar Ahora",
     },
     {
-      imgSrc: "https://res.cloudinary.com/doczyujqf/image/upload/v1717530904/SitioSports/voqxmi1920x871.png",
+      imgSrc: "https://res.cloudinary.com/dtf3dfpnw/image/upload/v1717595294/Dise%C3%B1o_sin_t%C3%ADtulo_39_ejjava.png",
       text: "Enhance Your Printing Experience",
       Subtext:
         "Explore our premium printers and consumables for exceptional results",
