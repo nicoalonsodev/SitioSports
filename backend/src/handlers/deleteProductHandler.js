@@ -4,7 +4,6 @@ const {
   
   const deleteProductHandler = async (req, res) => {
     const id = req.params.id;
-   
     try {
       await deleteProductController(id);
       res.send("Producto destruido");
