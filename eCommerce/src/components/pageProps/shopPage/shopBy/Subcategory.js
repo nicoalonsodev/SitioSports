@@ -66,7 +66,7 @@ const Subcategory = () => {
                   type="checkbox"
                   id={item._id}
                   checked={checkedSubcategorys.some((b) => b._id === item._id)}
-                  onChange={() => handleToggleSubcategory(item)}
+  
                 />
                 {item.title}
                 {item.icons && (

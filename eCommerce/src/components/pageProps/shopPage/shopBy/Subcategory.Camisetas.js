@@ -59,13 +59,14 @@ const SubcategoryCamisetas = () => {
             {subcategory.map((item) => (
               <li
                 key={item._id}
-                className="border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2 lg:hover:text-primeColor hover:border-gray-400 duration-300"
+                className="cursor-pointer border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2 lg:hover:text-primeColor hover:border-gray-400 duration-300"
+                onClick={() => handleToggleSubcategory(item)}
               >
                 <input
                   type="checkbox"
                   id={item._id}
                   checked={checkedSubcategorys.some((b) => b._id === item._id)}
-                  onChange={() => handleToggleSubcategory(item)}
+      
                  
                 />
                 {item.title}

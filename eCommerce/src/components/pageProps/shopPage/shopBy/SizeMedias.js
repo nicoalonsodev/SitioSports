@@ -70,7 +70,7 @@ const SizeMedias = () => {
                   type="checkbox"
                   id={item._id}
                   checked={checkedSizes.some((b) => b._id === item._id)}
-                  onChange={() => handleToggleSize(item)}
+           
                 />
                 {item.title}
               </li>

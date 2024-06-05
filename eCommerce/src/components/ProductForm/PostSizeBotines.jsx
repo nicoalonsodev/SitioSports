@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 
 const PostSizeBotines = ({ id, handleSizes, variants }) => {
   const [sizes, setSizes] = useState([
-    { size: "39", stock: 0 },
-    { size: "40", stock: 0 },
-    { size: "41", stock: 0 },
-    { size: "42", stock: 0 },
-    { size: "43", stock: 0 },
-    { size: "44", stock: 0 },
-    { size: "45", stock: 0 },
+    { size: "39", stock: 0, sold: 0 },
+    { size: "40", stock: 0, sold: 0 },
+    { size: "41", stock: 0, sold: 0 },
+    { size: "42", stock: 0, sold: 0 },
+    { size: "43", stock: 0, sold: 0 },
+    { size: "44", stock: 0, sold: 0 },
+    { size: "45", stock: 0, sold: 0 },
   ]);
 
   useEffect(() => {
