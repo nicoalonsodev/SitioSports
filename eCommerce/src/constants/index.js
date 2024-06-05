@@ -226,20 +226,20 @@ export const allCategories = [
 ];
 
 export const botinesSizes = [
-  { size: "39", stock: 0 },
-  { size: "40", stock: 0 },
-  { size: "41", stock: 0 },
-  { size: "42", stock: 0 },
-  { size: "43", stock: 0 },
-  { size: "44", stock: 0 },
-  { size: "45", stock: 0 },
+  { size: "39", stock: 0, sold: 0 },
+  { size: "40", stock: 0, sold: 0 },
+  { size: "41", stock: 0, sold: 0 },
+  { size: "42", stock: 0, sold: 0 },
+  { size: "43", stock: 0, sold: 0 },
+  { size: "44", stock: 0, sold: 0 },
+  { size: "45", stock: 0, sold: 0 },
 ];
 export const camisetasSizes = [
-  { size: "S", stock: 0 },
-  { size: "M", stock: 0 },
-  { size: "L", stock: 0 },
-  { size: "XL", stock: 0 },
-  { size: "XXL", stock: 0 },
+  { size: "S", stock: 0, sold: 0 },
+  { size: "M", stock: 0, sold: 0 },
+  { size: "L", stock: 0, sold: 0 },
+  { size: "XL", stock: 0, sold: 0 },
+  { size: "XXL", stock: 0, sold: 0 },
 ];
 // =================== NavBarList End here ======================
 // =================== Special Offer data Start here ============

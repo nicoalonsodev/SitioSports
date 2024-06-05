@@ -57,7 +57,7 @@ const Category = () => {
                 type="checkbox"
                 id={item._id}
                 checked={checkedCategorys.some((b) => b._id === item._id)}
-                onChange={() => handleToggleCategory(item)}
+                // onChange={() => handleToggleCategory(item)}
               />
               {item.title}
               {item.icons && (

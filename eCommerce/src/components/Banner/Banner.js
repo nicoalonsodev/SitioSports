@@ -126,7 +126,6 @@ const Banner = () => {
       buttonLink: "/shop",
       buttonText: "Comprar Ahora",
     },
-
     // {
     //   imgSrc: bannerImgFive,
     //   text: "Efficiency Redefined",

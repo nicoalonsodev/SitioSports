@@ -55,7 +55,7 @@ const Brand = () => {
                   type="checkbox"
                   id={item._id}
                   checked={checkedBrands.some((b) => b._id === item._id)}
-                  onChange={() => handleToggleBrand(item)}
+                  // onChange={() => handleToggleBrand(item)}
                 />
                 {item.title}
               </li>

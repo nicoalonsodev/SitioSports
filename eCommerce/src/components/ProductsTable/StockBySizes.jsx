@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Variant from "../../pages/ProductForm/Variant";
-const StockBysizes = ({ sizes, isChanging, handleSizes, variant, cat, variants, handleUpdateVariant, handleDelete }) => {
+const StockBysizes = ({
+  sizes,
+  isChanging,
+  handleSizes,
+  variant,
+  cat,
+  variants,
+  handleUpdateVariant,
+  handleDelete,
+}) => {
   // Estado local para manejar los tamaños
   const [localSizes, setLocalSizes] = useState([]);
   const [localVariant, setLocalVariant] = useState("");
@@ -11,10 +20,9 @@ const StockBysizes = ({ sizes, isChanging, handleSizes, variant, cat, variants, 
   }, [sizes]);
 
   useEffect(() => {
-   handleUpdateVariant(localVariant)
+    handleUpdateVariant(localVariant);
   }, [localVariant]);
 
-  
   const handleChange = (event, index) => {
     const { value } = event.target;
     // Crear una copia del array sizes
@@ -28,39 +36,35 @@ const StockBysizes = ({ sizes, isChanging, handleSizes, variant, cat, variants, 
 
   const handleChangeVariantImg = (img) => {
     setLocalVariant((prevForm) => ({
-       ...prevForm,
-       imgUrl: [...prevForm.imgUrl, img] 
+      ...prevForm,
+      imgUrl: [...prevForm.imgUrl, img],
     }));
-handleUpdateVariant(localVariant)
-};
+    handleUpdateVariant(localVariant);
+  };
 
-const handleDeleteImage = (index) => {
-  // Actualizar el estado con las imágenes actualizadas
-  setLocalVariant((prevVariant) => {
+  const handleDeleteImage = (index) => {
+    // Actualizar el estado con las imágenes actualizadas
+    setLocalVariant((prevVariant) => {
       // Usamos spread para crear una nueva copia del objeto prevVariant
       const newVariant = { ...prevVariant };
       // Filtramos las imágenes para eliminar la que coincide con el índice dado
       newVariant.imgUrl = newVariant.imgUrl.filter((_, i) => i !== index);
       return newVariant;
-  });
-};
-
+    });
+  };
 
   const handleChangeVariantName = (id, newValue) => {
     setLocalVariant((prevForm) => ({
       ...prevForm,
-      variant: newValue
-   }));
-
+      variant: newValue,
+    }));
   };
 
   const handleDeleteVariant = (variantId) => {
-    handleDelete(variantId)
+    handleDelete(variantId);
   };
 
-  const handleSizesVariants = (size, id) => {
-
-  };
+  const handleSizesVariants = (size, id) => {};
 
   return (
     <div>
@@ -110,8 +114,16 @@ const handleDeleteImage = (index) => {
           </table>
         </div>
       ) : (
-        <Variant handleChangeVariantImg={handleChangeVariantImg} handleDeleteImage={handleDeleteImage} handleChangeVariantName={handleChangeVariantName} handleDeleteVariant={handleDeleteVariant} cat={cat} vari={variant} handleSizes={handleSizesVariants} variants={variants} /> 
-
+        <Variant
+          handleChangeVariantImg={handleChangeVariantImg}
+          handleDeleteImage={handleDeleteImage}
+          handleChangeVariantName={handleChangeVariantName}
+          handleDeleteVariant={handleDeleteVariant}
+          cat={cat}
+          vari={variant}
+          handleSizes={handleSizesVariants}
+          variants={variants}
+        />
       )}
     </div>
   );
