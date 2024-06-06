@@ -25,8 +25,8 @@ const SpecialOffers = () => {
             img={product.variants[0].imgUrl[0]}
             productName={product.productName}
             price={product.price}
-            color={product.color}
-            // badge={true}
+            compare_price={product.compare_price}
+            color={product.color}s
             description={product.description}
             variants={product.variants}
             brand={product.brand}

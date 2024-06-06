@@ -17,7 +17,7 @@ const Login = () => {
         window.location.reload();
       }
     } catch (err) {
-      setError("wecredentials");
+      setError("Datos incorrectos, ingresa de vuelta tu usuario y contraseña.");
     }
   };
 

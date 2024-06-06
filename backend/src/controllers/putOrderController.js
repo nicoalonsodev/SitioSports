@@ -70,11 +70,11 @@ const putOrderController = async (order_id, cleanedItems) => {
     if (!client_email) {
       throw new Error("No se encontró el email del cliente en la orden");
     }
-
+const action = status === "approved" ? "acreditada" : "";
 
     const asunto = `Orden de compra #${order_number}`;
     const destinatario = client_email;
-    const cuerpo = emailTemplate;
+    const cuerpo = emailTemplate.replace("%STATUS%", action);
 
 
     await mailHandler(destinatario, asunto, cuerpo);

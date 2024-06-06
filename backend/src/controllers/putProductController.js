@@ -11,6 +11,7 @@ const putProductController = async (id, updatedFields) => {
     const {
       productName,
       price,
+      compare_price,
       brand,
       cat,
       sub_cat,
@@ -32,6 +33,9 @@ const putProductController = async (id, updatedFields) => {
     }
     if (price) {
       product.price = price;
+    }
+    if (compare_price) {
+      product.compare_price = compare_price;
     }
     if (brand) {
       product.brand = brand;

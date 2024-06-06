@@ -52,12 +52,12 @@ const orderTemplate = `
 <body>
     <div class="container">
         <img src="https://res.cloudinary.com/dtf3dfpnw/image/upload/v1717610508/logoTransparent_gdflvq.png" alt="Logo de la empresa" class="logo">
-        <h2>Su transacción ha sido %STATUS%</h2>
-        <p>Estamos esperando la confirmación del pago para confirmar su compra, en cuanto recibamos el comprobante de pago vía Whatsapp, confirmaremos la misma.</p>
-        <p>Si tiene alguna consulta o necesita más información, no dude en comunicarse con nuestro equipo de atención al cliente respondiendo a esta direccion de correo o a nuestro whatsapp <a href="https://wa.me/+5493813624693">haciendo click aqui</a>.</p>
+        <h2>Su orden ha sido %STATUS%</h2>
+        <p>Si tiene alguna consulta o necesita más información, no dude en comunicarse con nuestro equipo de atención al cliente respondiendo a esta direccion de correo o a nuestro whatsapp <a href="https://wa.me/+5493813624693">haciendo click aqui</a>  .</p>
+        <p>Al momento de despachar su pedido, le enviaremos la información detalladamente por est emedio.</p>
         <p>Atentamente,</p>
         <p>El equipo de Sitio Sports</p>
-        <p>© 2024 Sitio Sports S.A.S  </p>      
+        <p>© 2024 Sitio Sports S.A.S</p>
     </div>
 </body>
 </html>

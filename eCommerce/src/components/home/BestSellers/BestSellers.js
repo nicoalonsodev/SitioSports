@@ -34,6 +34,7 @@ const BestSellers = () => {
             img={product.variants[0].imgUrl[0]}
             productName={product.productName}
             price={product.price}
+            compare_price={product.compare_price}
             color="Black"
             badge={true}
             variants={product.variants}

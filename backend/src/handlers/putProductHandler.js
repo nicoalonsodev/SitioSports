@@ -7,6 +7,7 @@ const putProductHandler = async (req, res) => {
   const {
     productName,
     price,
+    compare_price,
     brand,
     cat,
     sub_cat,
@@ -24,6 +25,7 @@ const putProductHandler = async (req, res) => {
   const updatedFields = {
     productName,
     price,
+    compare_price,
     brand,
     cat,
     sub_cat,

@@ -18,7 +18,7 @@ const Sale = () => {
         <div className="relative  h-[610px] aspect-w-4 aspect-h-3 w-full">
           <video autoPlay loop muted playsInline className="h-full w-full object-cover">
             <source
-              src="https://res.cloudinary.com/doczyujqf/video/upload/v1717157423/SitioSports/Feed_sitio.sport_Argentina_1_kln9hk.mp4"
+              src="https://res.cloudinary.com/dtf3dfpnw/video/upload/v1717665407/Lleva_la_pasi%C3%B3n_de_la_scaloneta_a_todos_lados_en_esta_Copa_Am%C3%A9rica_2024_Prep%C3%A1rate_para_alentar_a_nuestra_selecci%C3%B3n_con_la_nueva_camiseta_oficial_de_Argentina._Caracter%C3%ADsticas-_Material_Premi_1_k8rnqd.mp4"
               type="video/mp4"
             />
            
@@ -33,7 +33,7 @@ const Sale = () => {
           <Link to="/shop">
             <Image
               className="h-full w-full object-cover"
-              imgSrc="https://res.cloudinary.com/doczyujqf/image/upload/v1717163903/SitioSports/IMG_5181_mihxdj.jpg"
+              imgSrc="https://res.cloudinary.com/dtf3dfpnw/image/upload/v1717665349/IMG_5182_motsmt.jpg"
             />
           </Link>
         </div>
@@ -41,7 +41,7 @@ const Sale = () => {
           <Link to="/shop">
             <Image
               className="h-full w-full object-cover "
-              imgSrc="https://res.cloudinary.com/doczyujqf/image/upload/v1717156481/SitioSports/IMG_5182_otok2w.jpg"
+              imgSrc="https://res.cloudinary.com/dtf3dfpnw/image/upload/v1717665348/IMG_5181_da1u0x.jpg"
             />
           </Link>
         </div>
