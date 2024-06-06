@@ -214,24 +214,42 @@ const ProductInfo = ({
         <div>
           <span className=" text-[#fc148c] font-semibold">Fútbol</span>
           <h1 className="text-3xl font-normal">{productInfo.productName}</h1>
-          <div className="flex items-center space-x-4">
-            {discountedPrice !== 0 ? (
-              <p className="text-3xl font-extrabold text-gray-700">
-               ${formatPrice(discountedPrice)}
-              </p>
-            ) : (
-              ""
-            )}
-            <h6
-              className={`${
-                discountedPrice
-                  ? "text-xl line-through font-normal text-gray-700 "
-                  : "text-3xl font-extrabold text-gray-700"
-              }`}
-            >
-             ${formatPrice(productInfo.price)}  
-            </h6>
-          </div>
+          {productInfo.discount_percentage ? (
+            <div className="flex items-center space-x-4">
+              {productInfo.discount_percentage !== 0 ? (
+                <p className="text-3xl font-extrabold text-gray-700">
+                  ${formatPrice(discountedPrice)}
+                </p>
+              ) : (
+                ""
+              )}
+              <h6
+                className={`${
+                  discountedPrice
+                    ? "text-xl line-through font-normal text-gray-700 "
+                    : "text-3xl font-extrabold text-gray-700"
+                }`}
+              >
+                ${formatPrice(productInfo.price)}
+              </h6>
+            </div>
+          ) : (
+            <div className="flex items-center space-x-4">              
+            {productInfo.compare_price &&
+              parseFloat(productInfo.compare_price) !== 0.0 ? (
+                <p className="text-3xl font-extrabold text-gray-700">
+                  ${formatPrice(productInfo.price)}
+                </p>
+              ) : (
+                ""
+              )}
+              <h6
+                className={`${"text-xl line-through font-normal text-gray-700"}`}
+              >
+                ${formatPrice(productInfo.compare_price)}
+              </h6>
+            </div>
+          )}
         </div>
         <p className="text-gray-700">
           {productInfo.description ? productInfo.description : ""}
@@ -268,7 +286,7 @@ const ProductInfo = ({
               : sizesMedias
           }
         />
-        <SizeGuide cat={productInfo.cat} brand={productInfo.brand}/>
+        <SizeGuide cat={productInfo.cat} brand={productInfo.brand} />
 
         <div className="flex flex-col items-center gap-2">
           <button

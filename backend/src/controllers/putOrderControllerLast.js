@@ -4,6 +4,7 @@ const { mailHandler } = require("../handlers/postMailHandler");
 const emailTemplate = require("../helpers/mailsTemplate/postOrder");
 const orderCancelled = require("../helpers/mailsTemplate/orderCancelled");
 const orderDispatched = require("../helpers/mailsTemplate/orderDispatched");
+const orderAproved = require("../helpers/mailsTemplate/orderAproved");
 const putOrderController = async (id, updatedFields) => {
   try {
     const order = await Order.findOne({ where: { id: id } });
@@ -90,13 +91,13 @@ const putOrderController = async (id, updatedFields) => {
     if (!client_email) {
       throw new Error("No se encontró el email del cliente en la orden");
     }
-    const action = order.status === "Cancelado" ? "Cancelada" : order.status === "Enviado" ? "Despachada" : "";
+    const action = order.status === "Cancelado" ? "Cancelada" : order.status === "Enviado" ? "Despachada" : order.status === "Aprobado" ? "Aprobada" : "";
 
     const asunto = `Orden de compra #${order_number} ${action}`;
     const destinatario = client_email;
     const cuerpo = status === "Cancelado" ? orderCancelled.replace("%STATUS%", action) : status === "Enviado" ? orderDispatched
     .replace(/%STATUS%/g, action)
-    .replace(/%TRACK_ID%/g, track_id) : "";
+    .replace(/%TRACK_ID%/g, track_id) : status === "Aprobado" ? orderAproved.replace("%STATUS%", action) : "" ;
 
 
     await mailHandler(destinatario, asunto, cuerpo);

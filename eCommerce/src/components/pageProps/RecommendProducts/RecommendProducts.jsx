@@ -17,11 +17,12 @@ const RecommendProducts = () => {
     }
   }, [products]);
 
+  const productsLength = newArrivalsProducts ? newArrivalsProducts.length : "";
 
   const settings = {
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: productsLength === 1 ? 1 : productsLength === 2 ? 2 : productsLength === 3 ? 3 : 4,
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
@@ -64,6 +65,7 @@ const RecommendProducts = () => {
             img={product.variants[0].imgUrl[0]}
             productName={product.productName}
             price={product.price}
+            compare_price={product.compare_price}
             color="Black"
             badge={true}
             des={product.description}

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Product from "../../home/Products/Product";
 import { useSelector } from "react-redux";
-
-// const items = paginationItems;
-
+ 
 function Items({
   currentItems,
   selectedBrands,
@@ -100,6 +98,7 @@ function Items({
               img={item.variants[0].imgUrl[0]}
               productName={item.productName}
               price={item.price}
+              compare_price={item.compare_price}
               brand={item.brand}
               cat={item.cat}
               sub_cat={item.sub_cat}

@@ -38,7 +38,7 @@ const PaymentMethods = () => {
         <img width={32} src={shipping} alt="" />
         <p>
           <span className="text-[#fc148c] font-bold">Envío Gratis </span>{" "}
-          superando los $45.000,00
+          {/* superando los $45.000,00 */} a todo el país.
         </p>
       </div>
     

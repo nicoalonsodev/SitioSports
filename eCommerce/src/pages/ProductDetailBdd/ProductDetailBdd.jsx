@@ -5,6 +5,7 @@ import { logoTransparent } from "../../assets/images";
 import axios from "axios";
 import { botinesSizes, camisetasSizes } from "../../constants";
 import StockBysizes from "../../components/ProductsTable/StockBySizes";
+import formatPrice from "../../utils/formatPrice";
 const ProductDetailBdd = () => {
   const [isChanging, setIsChanging] = useState(false);
   const { id } = useParams();
@@ -32,6 +33,7 @@ const ProductDetailBdd = () => {
     const productChanges = {
       productName: product.productName,
       price: product.price,
+      compare_price: product.compare_price,
       stock: product.stock,
       cat: product.cat,
       sub_cat: product.sub_cat,
@@ -212,10 +214,25 @@ const ProductDetailBdd = () => {
                     onChange={handleChange}
                     autocomplete="price"
                     class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
-                    placeholder="janesmith"
                   />
                 ) : (
-                  <p className="text-sm">{product.price}</p>
+                  <p className="text-sm">${formatPrice(product.price)}</p>
+                )}
+              </div>
+              <div className="flex justify-start items-center gap-2 ">
+                <h1 className="w-auto font-semibold">Precio comparación: </h1>
+                {isChanging ? (
+                  <input
+                    type="number"
+                    name="compare_price"
+                    id="compare_price"
+                    value={product.compare_price}
+                    onChange={handleChange}
+                    autocomplete="compare_price"
+                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
+                  />
+                ) : (
+                  <p className="text-sm">${formatPrice(product.compare_price)}</p>
                 )}
               </div>
 

@@ -51,12 +51,13 @@ const orderTemplate = `
 </head>
 <body>
     <div class="container">
-        <img src="https://res.cloudinary.com/doczyujqf/image/upload/v1715805937/SitioSports/logoTransparent_xtegdz.png" alt="Logo de la empresa" class="logo">
+        <img src="https://res.cloudinary.com/dtf3dfpnw/image/upload/v1717610508/logoTransparent_gdflvq.png" alt="Logo de la empresa" class="logo">
         <h2>Su orden ha sido %STATUS%</h2>
-        <p>Si tiene alguna consulta o necesita más información, no dude en comunicarse con nuestro equipo de atención al cliente respondiendo a esta direccion de correo o a nuestro whatsapp <a href="https://wa.me/+5490446339">haciendo click aqui</a>  .</p>
+        <p>Si tiene alguna consulta o necesita más información, no dude en comunicarse con nuestro equipo de atención al cliente respondiendo a esta direccion de correo o a nuestro whatsapp <a href="https://wa.me/+5493813624693">haciendo click aqui</a>  .</p>
+        
         <p>Atentamente,</p>
         <p>El equipo de Sitio Sports</p>
-        <p>© 2024 Sitio Sports© </p>
+        <p>© 2024 Sitio Sports S.A.S</p>
     </div>
 </body>
 </html>

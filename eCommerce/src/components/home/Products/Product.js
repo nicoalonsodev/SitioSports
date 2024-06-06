@@ -1,18 +1,12 @@
 import React, { useState } from "react";
-import { BsSuitHeartFill } from "react-icons/bs";
-import { GiReturnArrow } from "react-icons/gi";
-import { FaShoppingCart } from "react-icons/fa";
 import { MdOutlineLabelImportant } from "react-icons/md";
 import Image from "../../designLayouts/Image";
 import Badge from "./Badge";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { addToCart } from "../../../redux/orebiSlice";
-import { toast } from "react-toastify";
 import formatPrice from "../../../utils/formatPrice";
 
 const Product = (props) => {
-
   const dispatch = useDispatch();
   const _id = props.productName;
   const idString = (_id) => {
@@ -26,7 +20,7 @@ const Product = (props) => {
     navigate(`/product/${rootId}`, {
       state: {
         item: productItem,
-        discountedPrice:discountedPrice,
+        discountedPrice: discountedPrice,
       },
     });
   };
@@ -37,6 +31,17 @@ const Product = (props) => {
 
   const discountedPrice = calculateDiscountedPrice();
 
+
+  const { compare_price, price } = props;
+
+  // Calcular el porcentaje de descuento
+  const discountPercentage = compare_price && parseFloat(compare_price) !== 0.00
+    ? Math.round(((parseFloat(compare_price) - parseFloat(price)) / parseFloat(compare_price)) * 100)
+    : 0;
+
+  // Convertir el porcentaje de descuento a cadena si es mayor que 0
+  const discountText = discountPercentage > 0 ? `${discountPercentage}%` : null;
+
   return (
     <div className="w-full relative group">
       <div className="max-w-80 max-h-80 relative overflow-y-hidden cursor-pointer">
@@ -44,11 +49,9 @@ const Product = (props) => {
           <Image className="w-full h-full" imgSrc={props.img} />
         </div>
         <div className="absolute top-4 left-4">
-          {props.discount !== 0 ? (
-            <Badge text={props.discount !== 0 ? `%${props.discount}` : ""} />
-          ) : (
-            ""
-          )}
+          {discountPercentage !== 0 ? (
+            <Badge text={`${discountText}`} />
+          ) : null}
         </div>
         <div className="w-full h-auto absolute bg-white -bottom-[130px] group-hover:bottom-0 duration-700">
           <ul className="w-full h-full flex flex-col items-end justify-center gap-2 font-titleFont px-2 border-l border-r">
@@ -69,19 +72,19 @@ const Product = (props) => {
           <h2 className="text-sm text-gray-700">{props.productName}</h2>
         </div>
         <div className="flex gap-x-2">
-          {props.discount !== 0 ? (
+          {props.compare_price && parseFloat(props.compare_price) !== 0.0 ? (
             <p className="text-[#767676] font-bold text-[14px]">
-              ${formatPrice(discountedPrice)}
+              ${formatPrice(props.compare_price)}
             </p>
-          ) : (
-            ""
-          )}
+          ) : null}
           <p
             className={`${
-              props.discount !== 0 ? "line-through" : ""
+              props.compare_price && parseFloat(props.compare_price) !== 0.0
+                ? "line-through"
+                : ""
             } text-[#767676] font-semibold text-[14px]`}
           >
-           ${formatPrice(props.price)}
+            ${formatPrice(props.price)}
           </p>
         </div>
       </div>
