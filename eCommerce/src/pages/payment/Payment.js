@@ -71,7 +71,7 @@ const Payment = (props) => {
 
     setShipmentPlusTotal(finalAmount);
   }, [totalAmt, shippmentCharge, paymentMethod]);
-
+console.log(totalAmt);
   const handlePay = async () => {
     if (paymentMethod === "mp") {
       try {
@@ -113,11 +113,11 @@ const Payment = (props) => {
           order_type: "Trasferencia Bancaria",
           status: "Pago Pendiente",
           status_detail: "Cliente debe realizar la transferencia",
-          transaction_amount: totalAmt,
-          shipping_amount: shipmentPlusTotal,
+          transaction_amount: shipmentPlusTotal,
+          shipping_amount: 0,
           transaction_details: {
-            net_received_amount: totalAmt,
-            total_paid_amount: shipmentPlusTotal,
+            net_received_amount: shipmentPlusTotal,
+            total_paid_amount: totalAmt,
           },
           shipping_type: shipping,
         };
@@ -126,7 +126,7 @@ const Payment = (props) => {
           postOrder
         );
         const order_number = responsePost.data.order_number;
-        navigate(`/orden-transferencia-confirmada/${order_number}?monto=${totalAmt}`);
+        navigate(`/orden-transferencia-confirmada/${order_number}?monto=${shipmentPlusTotal}`);
         dispatch(resetCart());
         setProcessing(false);
       } catch (error) {

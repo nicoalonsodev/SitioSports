@@ -241,6 +241,11 @@ export const camisetasSizes = [
   { size: "XL", stock: 0, sold: 0 },
   { size: "XXL", stock: 0, sold: 0 },
 ];
+export const mediasSizes = [
+  { size: "39-40", stock: 0, sold: 0 },
+  { size: "41-42", stock: 0, sold: 0 },
+  { size: "43-44", stock: 0, sold: 0 },
+];
 // =================== NavBarList End here ======================
 // =================== Special Offer data Start here ============
 export const tarjetas = [

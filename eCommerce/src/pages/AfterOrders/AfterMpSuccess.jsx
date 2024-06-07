@@ -9,12 +9,9 @@ const AfterMp = () => {
           <h1 className="text-3xl font-normal">Orden de compra: #{orden}</h1>
           <h1 className="text-xl text-pink-600 font-semibold">Su compra fue exitosa!</h1>
           <p>Muchas gracias por comprar en Sitio Sports</p>
-          <p>Podes hacer la trasnferencia o depósito en la siguiente cuenta.</p>
+         
           <p>
-            Por favor enviar comprobante mediante WhatsApp (11 7363 8933), hasta
-            no enviar el comprobante no es computada la compra. (Por favor si es
-            posible enviar en formato documento, es necesario que se vea el
-            código de operación, fecha, importe y destino). También le pedimos
+            Cualquier consulta puede ser realizada al siguiente numero de Whatsapp <a className='underline hover:text-pink-600' href="https://wa.me/+5493813624693" target="_blank">(54 9 3813624693)</a>, también le pedimos
             amablemente que nos indique el número de orden de su compra.
           </p>
         </div>

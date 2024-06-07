@@ -36,11 +36,12 @@ const Cart = () => {
     setTotalAmt(price);
   }, [products]);
   useEffect(() => {
-    if (totalAmt <= 45000) {
-      setShippingCharge(5000);
-    }  else if (totalAmt > 45000) {
-      setShippingCharge(0);
-    }
+    // if (totalAmt <= 45000) {
+    //   setShippingCharge(5000);
+    // }  else if (totalAmt > 45000) {
+    //   setShippingCharge(0);
+    // }
+    setShippingCharge(0);
   }, [totalAmt]);
 
   const handlePaymentGateway = () => {

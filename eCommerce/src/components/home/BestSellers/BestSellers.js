@@ -31,7 +31,7 @@ const BestSellers = () => {
           <div key={product.id} className="px-2">
           <Product
             _id={product.id}
-            img={product.variants[0].imgUrl[0]}
+            img={product.variants[0].imgUrl[0]} 
             productName={product.productName}
             price={product.price}
             compare_price={product.compare_price}
@@ -43,6 +43,7 @@ const BestSellers = () => {
             description={product.description}
             sub_cat={product.sub_cat}
             discount={product.discount_percentage}
+            video_youtube={product.video_youtube}
           />
         </div>
         ))}

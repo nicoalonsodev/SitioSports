@@ -213,13 +213,11 @@ const OrderDetailBdd = () => {
                     cols="50" 
                   />
                 </div>
-              ) : order.admin_comment ? (
+              ) : (
                 <div>
                   <h1>Comentarios:</h1>
-                  <p>{order.admin_comment}</p>
+                  <p>{order.admin_comment ? order.admin_comment : ""}</p>
                 </div>
-              ) : (
-                ""
               )}
             </div>
           </div>

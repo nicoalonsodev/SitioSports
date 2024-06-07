@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { logoTransparent } from "../../assets/images";
 import axios from "axios";
-import { botinesSizes, camisetasSizes } from "../../constants";
+import { botinesSizes, camisetasSizes, mediasSizes } from "../../constants";
 import StockBysizes from "../../components/ProductsTable/StockBySizes";
 import formatPrice from "../../utils/formatPrice";
 const ProductDetailBdd = () => {
@@ -45,6 +45,7 @@ const ProductDetailBdd = () => {
       special_offers: product.special_offers,
       discount_percentage: product.discount_percentage,
       description: product.description,
+      video_youtube: product.video_youtube
     };
 
     axios
@@ -106,7 +107,7 @@ const ProductDetailBdd = () => {
       product.variants.length > 0
         ? product.variants[product.variants.length - 1].id + 1
         : 1;
-    const sizes = product.cat === "Botines" ? botinesSizes : camisetasSizes;
+    const sizes = product.cat === "Botines" ? botinesSizes : product.cat === "Camisetas" ? camisetasSizes : mediasSizes;
     const newVariant = { variant: "new", id: newId, sizes: sizes, imgUrl: [] };
 
     setProduct({ ...product, variants: [...product.variants, newVariant] });
@@ -289,7 +290,7 @@ const ProductDetailBdd = () => {
                 )}
               </div>
 
-              <div className="flex justify-start items-center gap-2 mb-8">
+              <div className="flex justify-start items-center gap-2 ">
                 <h1 className="w-auto font-semibold">Descripcion: </h1>
                 {isChanging ? (
                   <input
@@ -306,6 +307,23 @@ const ProductDetailBdd = () => {
                   <p className="text-sm">{product.description}</p>
                 )}
               </div>
+              <div className="flex justify-start items-center gap-2 mb-8">
+                <h1 className="w-auto font-semibold">Video Youtube: </h1>
+                {isChanging ? (
+                  <input
+                    type="text"
+                    name="video_youtube"
+                    id="video_youtube"
+                    onChange={handleChange}
+                    value={product.video_youtube}
+                    autocomplete="video_youtube"
+                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
+                  />
+                ) : (
+                  <p className="text-sm">{product.video_youtube}</p>
+                )}
+              </div>
+
               <div className="space-y-1">
                 <h1 className="font-semibold">Colecciones:</h1>
                 <div className="flex items-center justify-start">
