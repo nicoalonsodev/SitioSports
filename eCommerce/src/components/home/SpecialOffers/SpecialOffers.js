@@ -31,8 +31,9 @@ const SpecialOffers = () => {
             variants={product.variants}
             brand={product.brand}
             cat={product.cat}
-            sub_cat={product.sub_cat}
+            sub_cat={product.sub_cat} 
             discount={product.discount_percentage}
+            video_youtube={product.video_youtube}
           />
         ))}
       </div>

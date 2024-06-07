@@ -102,5 +102,10 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: 0,
     },
+    video_youtube: {
+      type: DataTypes.STRING(2080),
+      allowNull: false,
+      defaultValue: '',
+    },
   });
 };

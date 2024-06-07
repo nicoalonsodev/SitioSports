@@ -39,7 +39,7 @@ const ItemCard = ({ item }) => {
               </div>
               <div className="w- border-gray-500 flex items-center justify-start gap-4 text-lg my-4">
                 <span
-                  onClick={() => dispatch(drecreaseQuantity({ _id: item._id }))}
+                  onClick={() => dispatch(drecreaseQuantity({ id: item.id }))}
                   className="w-6 h-6 bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-[1px] border-gray-300 hover:border-gray-300"
                 >
                   -
@@ -48,7 +48,7 @@ const ItemCard = ({ item }) => {
                 <span
                   onClick={() => {
                     if (item.quantity < item.maxQuantity) {
-                      dispatch(increaseQuantity({ _id: item._id }));
+                      dispatch(increaseQuantity({ id: item.id }));
                     }
                   }}
                   className={`w-6 h-6  bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300  duration-300 border-[1px] border-gray-300 hover:border-gray-300 ${
@@ -70,7 +70,7 @@ const ItemCard = ({ item }) => {
         <div className="flex items-start py-4 px-4">
           <RxCross2
             onClick={() =>
-              dispatch(deleteItem({ _id: item._id, size: item.size }))
+              dispatch(deleteItem({ id: item.id, size: item.size }))
             }
             className="text-primeColor text-xl hover:text-gray-500 duration-300 cursor-pointer"
           />

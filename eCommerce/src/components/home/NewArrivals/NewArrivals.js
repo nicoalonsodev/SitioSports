@@ -68,9 +68,10 @@ const NewArrivals = () => {
             variants={product.variants}
             brand={product.brand}
             cat={product.cat}
-            description={product.description}
+            description={product.description} 
             sub_cat={product.sub_cat}
             discount={product.discount_percentage}
+            video_youtube={product.video_youtube}
           />
         </div>
         ))}

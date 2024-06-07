@@ -97,7 +97,7 @@ function Items({
               badge={item.badge}
               img={item.variants[0].imgUrl[0]}
               productName={item.productName}
-              price={item.price}
+              price={item.price} 
               compare_price={item.compare_price}
               brand={item.brand}
               cat={item.cat}
@@ -107,6 +107,7 @@ function Items({
               description={item.description}
               color={item.color}
               discount={item.discount_percentage}
+              video_youtube={item.video_youtube}
             />
           </div>
         ))

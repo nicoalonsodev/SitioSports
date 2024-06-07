@@ -2,7 +2,6 @@ import React from "react";
 
 const TallasBotines = ({ sizes, productSizes, handleSize, selectedSize }) => {
 
-console.log(productSizes);
   const handleSizeSelection = (size) => {
     handleSize(size);
   };
