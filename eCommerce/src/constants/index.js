@@ -78,12 +78,12 @@ export const navBarList = [
   {
     _id: 1002,
     title: "Catálogo",
-    link: "/shop",
+    link: "/catalogo",
   },
   {
     _id: 1003,
     title: "Botines",
-    link: "/shop",
+    link: "/catalogo",
   },
   {
     _id: 1004,

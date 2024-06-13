@@ -16,7 +16,7 @@ const FilterSizes = ({ sizes, cat }) => {
     dispatch(cleanFilters());
     dispatch(toggleCategory(cat));
     dispatch(toggleSizes(selectedSize));
-    navigate("/shop")
+    navigate("/catalogo")
   };
   const handleSizeSelection = (size) => {
     setSelectedSize(size);
@@ -43,7 +43,7 @@ const FilterSizes = ({ sizes, cat }) => {
             ))}
           </React.Fragment>
         ))}
-          <button href={selectedSize ? `/shop` : ""}
+          <button href={selectedSize ? `/catalogo` : ""}
           className={`cursor-pointer border w-auto flex justify-center border-gray-300 bg-black text-white overflow-hidden`}
         onClick={selectedSize ? handleFilter : ""}
         >

@@ -31,6 +31,7 @@ const Header = () => {
   const [showBotinesDiv, setShowBotinesDiv] = useState(false);
   const [showMedias, setShowMedias] = useState(false);
   const [showCamisetas, setShowCamisetas] = useState(false);
+  const [showSearchBar, setShowSearchBar] = useState(false);
 
   const location = useLocation();
   useEffect(() => {
@@ -46,7 +47,6 @@ const Header = () => {
   }, []);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [showSearchBar, setShowSearchBar] = useState(false);
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
   };
@@ -105,6 +105,11 @@ const Header = () => {
     textDecorationThickness: "1px",
     underlineOffset: "4px",
   };
+
+  const handleSearchBar = () => {
+    setShowSearchBar(!showSearchBar);
+  };
+
   return (
     <div className="w-full h-auto lg:h-28 bg-white sticky top-0 z-50 border-b-[1px] border-b-gray-200">
       <nav className="h-full px-4 max-w-container mx-auto relative">
@@ -134,7 +139,7 @@ const Header = () => {
                     <NavLink
                       key={1002}
                       className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
-                      to={"/shop"}
+                      to={"/catalogo"}
                       state={{ data: location.pathname.split("/")[1] }}
                       onClick={() => {
                         dispatch(cleanFilters());
@@ -151,7 +156,7 @@ const Header = () => {
                     <NavLink
                       key={1003}
                       className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
-                      to={"/shop"}
+                      to={"/catalogo"}
                       state={{ data: location.pathname.split("/")[1] }}
                       onClick={() => {
                         dispatch(cleanFilters());
@@ -176,7 +181,7 @@ const Header = () => {
                     <NavLink
                       key={1004}
                       className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
-                      to={"/shop"}
+                      to={"/catalogo"}
                       state={{ data: location.pathname.split("/")[1] }}
                       onClick={() => {
                         dispatch(cleanFilters());
@@ -201,7 +206,7 @@ const Header = () => {
                     <NavLink
                       key={1005}
                       className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
-                      to={"/shop"}
+                      to={"/catalogo"}
                       state={{ data: location.pathname.split("/")[1] }}
                       onClick={() => {
                         dispatch(cleanFilters());
@@ -328,24 +333,30 @@ const Header = () => {
             )}
           </div>
 
-          <div className="flex w-auto gap-0 lg:gap-4 mt-2 lg:mt-0 items-center cursor-pointer relative">
+          <div className="w-full flex justify-between w-auto gap-0 lg:gap-4 mt-2 lg:mt-0 items-center cursor-pointer relative">
             <div className="flex lg:hidden mr-4  -ml-4">
               <HiMenuAlt2
                 className="text-4xl"
                 onClick={() => setSidenav(!sidenav)}
               />
             </div>
-            <div className="justify-end flex">
-              <HeaderBottom />
-            </div>
-            <Link to="/cart">
-              <div className="relative">
-                <FaShoppingCart />
-                <span className="absolute font-titleFont top-3 -right-2 text-xs w-4 h-4 flex items-center justify-center rounded-full bg-primeColor text-white">
-                  {products.length > 0 ? products.length : 0}
-                </span>
+            <div className="flex items-center">
+              <div className="justify-end flex">
+                <HeaderBottom handleSearchBar={handleSearchBar} />
               </div>
-            </Link>
+              <Link to="/cart">
+                {!showSearchBar ? (
+                  <div className="relative">
+                    <FaShoppingCart />
+                    <span className="absolute font-titleFont top-3 -right-2 text-xs w-4 h-4 flex items-center justify-center rounded-full bg-primeColor text-white">
+                      {products.length > 0 ? products.length : 0}
+                    </span>
+                  </div>
+                ) : (
+                  ""
+                )}
+              </Link>
+            </div>
           </div>
         </Flex>
       </nav>

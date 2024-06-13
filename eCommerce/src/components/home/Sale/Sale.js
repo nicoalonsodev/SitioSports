@@ -30,7 +30,7 @@ const Sale = () => {
 
       <div className="hidden h-[610px] w-full md:w-2/3 lg:w-1/2 lg:flex flex-col gap-4 overflow-hidden">
         <div className="h-1/2 w-full">
-          <Link to="/shop">
+          <Link to="/catalogo">
             <Image
               className="h-full w-full object-cover"
               imgSrc="https://res.cloudinary.com/dtf3dfpnw/image/upload/v1717665349/IMG_5182_motsmt.jpg"
@@ -38,7 +38,7 @@ const Sale = () => {
           </Link>
         </div>
         <div className="h-1/2 w-full">
-          <Link to="/shop">
+          <Link to="/catalogo">
             <Image
               className="h-full w-full object-cover "
               imgSrc="https://res.cloudinary.com/dtf3dfpnw/image/upload/v1717665348/IMG_5181_da1u0x.jpg"

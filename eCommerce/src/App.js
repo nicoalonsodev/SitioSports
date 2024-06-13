@@ -114,7 +114,7 @@ const App = () => {
         <Route path="/" element={<Layout />}>
           {/* ==================== Header Navlink Start here =================== */}
           <Route index element={<Home />}></Route>
-          <Route path="/shop" element={<Shop />}></Route>
+          <Route path="/catalogo" element={<Shop />}></Route>
           <Route path="/encargo" element={<ShopByCommissions />}></Route>
           <Route path="/about" element={<About />}></Route>
           <Route path="/ayuda" element={<Help />}></Route>
@@ -157,7 +157,7 @@ const App = () => {
 
           {/* ==================== Header Navlink End here ===================== */}
           <Route path="/category/:category" element={<Offer />}></Route>
-          <Route path="/product/:_id" element={<ProductDetails />}></Route>
+          <Route path="/producto/:_id" element={<ProductDetails />}></Route>
           <Route path="/cart" element={<Cart />}></Route>
           <Route path="/paymentgateway" element={<Payment />}></Route>
         </Route>

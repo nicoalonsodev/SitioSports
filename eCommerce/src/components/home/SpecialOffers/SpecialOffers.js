@@ -4,8 +4,8 @@ import Product from "../Products/Product";
 import { SplOfferData } from "../../../constants";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Slider from "react-slick";
 const SpecialOffers = () => {
-
   const products = useSelector((state) => state.orebiReducer.products);
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -14,30 +14,80 @@ const SpecialOffers = () => {
       setData(specialOffers);
     }
   }, [products]);
+
+  const productsLength = data ? data.length : "";
+
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow:
+      productsLength === 1
+        ? 1
+        : productsLength === 2
+        ? 2
+        : productsLength === 3
+        ? 3
+        : 4,
+    slidesToScroll: 1,
+    // nextArrow: <SampleNextArrow />,
+    // prevArrow: <SamplePrevArrow />,
+    dots: true,
+    responsive: [
+      {
+        breakpoint: 1025,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 769,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+    ],
+  };
+
   return (
-    <div className="w-full pb-20">
-      <Heading heading="Ofertas" />
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 lgl:grid-cols-3 xl:grid-cols-4 gap-10">
-        {data.map((product) => (
+    <div className="w-full pb-4 lg:pb-16 space-y-10 py-8">
+    <h1 className="text-left text-2xl lg:text-4xl font-normal ">
+      Oferta
+    </h1>
+    <Slider {...settings}>
+      {data.map((product) => (
+        <div key={product.id} className="px-2">
           <Product
-            key={product._id}
-            _id={product._id}
+            _id={product.id}
             img={product.variants[0].imgUrl[0]}
             productName={product.productName}
             price={product.price}
             compare_price={product.compare_price}
-            color={product.color}s
-            description={product.description}
+            color="Black"
+            badge={true}
             variants={product.variants}
             brand={product.brand}
             cat={product.cat}
-            sub_cat={product.sub_cat} 
+            description={product.description}
+            sub_cat={product.sub_cat}
             discount={product.discount_percentage}
             video_youtube={product.video_youtube}
           />
-        ))}
-      </div>
-    </div>
+        </div>
+      ))}
+    </Slider>
+  </div>
   );
 };
 

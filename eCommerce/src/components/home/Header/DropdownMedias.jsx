@@ -51,7 +51,7 @@ const DropdownMedias = () => {
     if (sub) {
       dispatch(toggleSubcategory(sub));
     }
-    navigate(`/shop`)
+    navigate(`/catalogo`)
   };
   const handleFilter = (cat, brand) => {
     dispatch(cleanFilters());
@@ -59,7 +59,7 @@ const DropdownMedias = () => {
     if (brand) {
       dispatch(toggleBrand(brand));
     }
-    navigate(`/shop`)
+    navigate(`/catalogo`)
   };
   return (
     <div className=" w-full flex  h-auto p-10">

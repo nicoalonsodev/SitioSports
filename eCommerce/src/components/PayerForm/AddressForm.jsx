@@ -266,7 +266,7 @@ const AddressForm = ({ handleAddress, email, payerInfo }) => {
         placeholder=""
       />
       <CustomInput
-        label=" DNI, Cuil o Cuit"
+        label="Cuil o Cuit"
         name="client_id"
         value={form.client_id}
         onChange={handleChange}
