@@ -22,12 +22,13 @@ const Payment = (props) => {
   const [addressReady, setAddressReady] = useState(false);
   const [readyToPay, setReadyToPay] = useState(false);
   const [productInfo, setProductInfo] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("");
-  const [shipping, setShipping] = useState("");
-  const [shippmentCharge, setShippmentCharge] = useState(0);
-  const [shipmentPlusTotal, setShipmentPlusTotal] = useState(0);
-  const [totalAmt, setTotalAmt] = useState("");
-  const [processing, setProcessing] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState(""); // el tipo de metodo de pago, mp o tb
+  const [shipping, setShipping] = useState(""); //el tipo de envio
+  const [shippmentCharge, setShippmentCharge] = useState(0); //el costo del envio
+  const [shipmentPlusTotal, setShipmentPlusTotal] = useState(0); //el total mas el costo del envio
+  const [totalAmt, setTotalAmt] = useState(""); //el total de los productos
+  const [transferDiscount, setTransferDiscount] = useState(0); //el dinero que se ahorra el cliente usando transferencia
+  const [processing, setProcessing] = useState(false); //avisa cuando se esta procesando la orden
   const location = useLocation();
   const [order, setOrder] = useState({
     productInfo: "",
@@ -54,13 +55,14 @@ const Payment = (props) => {
 
   useEffect(() => {
     let finalAmount;
-
     if (paymentMethod === "tb") {
       if (shippmentCharge === "Gratis") {
         finalAmount = totalAmt * 0.85;
       } else {
         finalAmount = (totalAmt + shippmentCharge) * 0.85;
       }
+      let disc = finalAmount * 0.15;
+      setTransferDiscount(disc);
     } else {
       if (totalAmt !== "" && totalAmt > 45000) {
         finalAmount = totalAmt;
@@ -71,7 +73,7 @@ const Payment = (props) => {
 
     setShipmentPlusTotal(finalAmount);
   }, [totalAmt, shippmentCharge, paymentMethod]);
-console.log(totalAmt);
+
   const handlePay = async () => {
     if (paymentMethod === "mp") {
       try {
@@ -84,7 +86,7 @@ console.log(totalAmt);
 
         const redirectUrl = `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=${preferenceId}`;
         dispatch(resetCart());
-        window.open(redirectUrl);
+        window.location.href = redirectUrl;
         setProcessing(false);
       } catch (error) {
         // Manejar errores si la solicitud falla
@@ -126,7 +128,9 @@ console.log(totalAmt);
           postOrder
         );
         const order_number = responsePost.data.order_number;
-        navigate(`/orden-transferencia-confirmada/${order_number}?monto=${shipmentPlusTotal}`);
+        navigate(
+          `/orden-transferencia-confirmada/${order_number}?monto=${shipmentPlusTotal}`
+        );
         dispatch(resetCart());
         setProcessing(false);
       } catch (error) {
@@ -176,14 +180,14 @@ console.log(totalAmt);
       finalAmount = totalAmt;
     }
     setShipmentPlusTotal(finalAmount);
-    setOrder(prevOrder => ({
+    setOrder((prevOrder) => ({
       ...prevOrder,
       shipment: shippmentCharge,
     }));
   }, [totalAmt, shippmentCharge]);
 
   return (
-    <div className="flex flex-wrap w-screen justify-start items-start px-2 lg:px-32 xl:px-44 pb-20 relative">
+    <div className="flex flex-wrap w-screen h-full justify-start items-start px-2 lg:px-32 xl:px-44 pb-20 relative">
       <div className="lg:hidden w-full lg:w-1/3 p-2 gap-4 flex flex-col">
         <button
           className="flex justify-between items-center text-left  text-gray-700 py-2  rounded"
@@ -248,7 +252,9 @@ console.log(totalAmt);
               <p className="flex items-center justify-between py-1.5 text-lg font-medium">
                 Costo de envío
                 <span className="font-semibold tracking-wide font-titleFont">
-                  {shipping === "estandar" ? "Gratis" : `$${formatPrice(shippmentCharge)}`}
+                  {shipping === "estandar"
+                    ? "Gratis"
+                    : `$${formatPrice(shippmentCharge)}`}
                 </span>
               </p>
               <p className="flex items-center justify-between text-pink-600 py-1.5 text-xl font-bold">
@@ -374,14 +380,13 @@ console.log(totalAmt);
                     : "border-[1px] border-gray-700"
                 } w-full lg:w-3/5 flex justify-between p-4 cursor-pointer hover:bg-gray-50`}
                 onClick={() => handleClickShippingType("estandar")}
-             //   onClick={() => handleClickShippingType("Domicilio")}
+                //   onClick={() => handleClickShippingType("Domicilio")}
               >
                 <div className="">
                   <div className="h-auto">
                     <h1 className="text-lg font-bold">Envío a Domicilio</h1>
                     <h1 className="text-lg  text-gray-600 ">
-                      {order.payerInfo.zipCode}, AR {" "}
-                      {order.payerInfo.street}{" "}
+                      {order.payerInfo.zipCode}, AR {order.payerInfo.street}{" "}
                       {order.payerInfo.streetNumber}
                     </h1>
                     <h1 className="text-md font-semibold text-gray-700 text-left">
@@ -502,7 +507,7 @@ console.log(totalAmt);
         </div>
       </div>
 
-      <div className="hidden lg:flex w-full lg:w-1/3 border-2 border-gray-300 p-4  gap-4">
+      <div className="hidden relative  lg:flex w-full lg:w-1/3 border-2 border-gray-300 p-4 gap-4">
         <div className="sticky top-0 border-gray-700 w-full flex flex-col gap-4">
           <h1 className="text-2xl font-semibold text-left">
             Resumen Del Pedido
@@ -542,6 +547,16 @@ console.log(totalAmt);
                   : `$${formatPrice(shippmentCharge)}`}
               </span>
             </p>
+            {paymentMethod === "tb" && transferDiscount !== 0 ? (
+              <p className="flex items-center justify-between border-b-0 py-1.5 text-lg font-medium">
+                Descuento
+                <span className="font-semibold tracking-wide font-titleFont">
+                  -${formatPrice(transferDiscount)}
+                </span>
+              </p>
+            ) : (
+              ""
+            )}
             <p className="flex items-center justify-between text-pink-600  py-1.5 text-xl font-bold">
               Total
               <span className="font-bold tracking-wide text-xl font-titleFont">

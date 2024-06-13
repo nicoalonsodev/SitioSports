@@ -36,15 +36,17 @@ const createOrder = async (req, res) => {
       category_id: Number(product.variant.id),
     }));
 
-    if(shippingCost){
-      items.push({
-        title: "Costo de envío",
-        unit_price: Number(shippingCost),
-        currency_id: "ARS",
-        quantity: 1,
-      });
-    }
+    
+    // if(shippingCost){
+    //   items.push({
+    //     title: "Costo de envío",
+    //     unit_price: Number(shippingCost),
+    //     currency_id: "ARS",
+    //     quantity: 1,
+    //   });
+    // }
     const body = {
+       items: items,
       shipments: {
         receiver_address: {
           zip_code: payer.zipCode,
@@ -67,22 +69,24 @@ const createOrder = async (req, res) => {
         name: payer.payerName,
       },
       external_reference: order_id,
-      items: items,
-      //cambiar urls con las de verda!
-      // notification_url: "https://2779-131-161-239-212.ngrok-free.app/webhook",
-      notification_url: "https://sitiosports-production.up.railway.app/webhook",
-      back_urls: {
-        success: `https://www.sitiosports.com/orden-mp-confirmada/${order_number}`,
-        failure: `https://www.sitiosports.com/orden-mp-rechazada/${order_number}`,
-        pending: `https://www.sitiosports.com/orden-mp-pendiente/${order_number}`,
+     
+      notification_url: "https://efbc-131-161-239-212.ngrok-free.app/webhook",
+      // notification_url: "https://sitiosports-production.up.railway.app/webhook",
+      payment_methods: {
+        installments: 12 // Número máximo de cuotas permitidas (opcional)
       },
+      // back_urls: {
+      //   success: `https://www.sitiosports.com/orden-mp-confirmada/4`,
+      //   // failure: `https://www.sitiosports.com/orden-mp-rechazada/${order_number}`,
+      //   // pending: `https://www.sitiosports.com/orden-mp-pendiente/${order_number}`,
+      // },
       auto_return: "approved",
     };
 
     const result = await preference.create({
       body,
     });
-
+console.log(result);
     res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({ message: error.message });

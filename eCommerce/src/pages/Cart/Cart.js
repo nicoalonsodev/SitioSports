@@ -43,7 +43,7 @@ const Cart = () => {
     // }
     setShippingCharge(0);
   }, [totalAmt]);
-
+console.log(products);
   const handlePaymentGateway = () => {
     navigate(`/paymentgateway`, {
       state: {
@@ -162,7 +162,7 @@ const Cart = () => {
             <p className="text-sm text-center px-10 -mt-2">
               Tu carrito de compras vive para servir, dale un propósito.
             </p>
-            <Link to="/shop">
+            <Link to="/catalogo">
               <button className="bg-primeColor rounded-md cursor-pointer hover:bg-black active:bg-gray-900 px-8 py-2 font-titleFont font-semibold text-lg text-gray-200 hover:text-white duration-300">
                 Ir al Catálogo
               </button>

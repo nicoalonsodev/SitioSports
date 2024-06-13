@@ -284,7 +284,7 @@ const ProductInfo = ({
               : productInfo.cat === "Camisetas"
               ? sizesCamisetas
               : sizesMedias
-          }
+          } 
         />
         <SizeGuide cat={productInfo.cat} brand={productInfo.brand} />
 
@@ -292,7 +292,6 @@ const ProductInfo = ({
           <button
             onClick={handleAddToCart}
             className={`bg-[#fc148c] flex justify-start text-white font-semibold py-3 px-4 lg:px-16 rounded-sm w-auto h-auto lg:h-full text-xl 
-
         `}
             // disabled={!selectedSize}
           >

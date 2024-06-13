@@ -10,6 +10,7 @@ import {
   puma1,
 } from "../../../assets/images/index";
 import { useSelector } from "react-redux";
+import Slider from "react-slick";
 
 const BestSellers = () => {
   const products = useSelector((state) => state.orebiReducer.products);
@@ -22,16 +23,60 @@ const BestSellers = () => {
     }
   }, [products]);
 
+  const productsLength = bestSellersProducts ? bestSellersProducts.length : "";
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow:
+      productsLength === 1
+        ? 1
+        : productsLength === 2
+        ? 2
+        : productsLength === 3
+        ? 3
+        : 4,
+    slidesToScroll: 1,
+    // nextArrow: <SampleNextArrow />,
+    // prevArrow: <SamplePrevArrow />,
+    dots: true,
+    responsive: [
+      {
+        breakpoint: 1025,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 769,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+    ],
+  };
   return (
-    <div className="w-full py-14">
-      <Heading heading="Lo Más Vendido" />
-      
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 lgl:grid-cols-3 xl:grid-cols-4 gap-10">
+    <div className="w-full pb-4 lg:pb-16 space-y-10 py-8">
+    <h1 className="text-left text-2xl lg:text-4xl font-normal ">
+      Lo mas vendido
+    </h1>
+    <Slider {...settings}>
       {bestSellersProducts.map((product) => (
-          <div key={product.id} className="px-2">
+        <div key={product.id} className="px-2">
           <Product
             _id={product.id}
-            img={product.variants[0].imgUrl[0]} 
+            img={product.variants[0].imgUrl[0]}
             productName={product.productName}
             price={product.price}
             compare_price={product.compare_price}
@@ -46,36 +91,9 @@ const BestSellers = () => {
             video_youtube={product.video_youtube}
           />
         </div>
-        ))}
-        {/* <Product
-          _id="1011"
-          img={nike1}
-          productName="Flower Base"
-          price="35.00"
-          color="Blank and White"
-          badge={true}
-          des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
-        />
-        <Product
-          _id="1012"
-          img={nike2}
-          productName="New Backpack"
-          price="180.00"
-          color="Gray"
-          badge={false}
-          des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
-        />
-        <Product
-          _id="1013"
-          img={adidas1}
-          productName="Household materials"
-          price="25.00"
-          color="Mixed"
-          badge={true}
-          des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
-        /> */}
-      </div>
-    </div>
+      ))}
+    </Slider>
+  </div>
   );
 };
 
