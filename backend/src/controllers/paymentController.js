@@ -11,6 +11,7 @@ const MERCADOPAGO_API_KEY =
 const { updateStock } = require("../helpers/updateStock");
 
 const createOrder = async (req, res) => {
+
   const client = new MercadoPagoConfig({ accessToken: MERCADOPAGO_API_KEY });
   const preference = new Preference(client);
   const products = req.body.productInfo;
@@ -26,6 +27,7 @@ const createOrder = async (req, res) => {
       firstOrder = await postFirstOrderController(order_id, client_email, client_id, products);
     }
     const order_number = firstOrder.order_number;
+
 
     const items = products?.map((product) => ({
       title: product.name,
@@ -46,6 +48,7 @@ const createOrder = async (req, res) => {
     //     quantity: 1,
     //   });
     // }
+
     const body = {
        items: items,
       shipments: {
@@ -71,23 +74,25 @@ const createOrder = async (req, res) => {
       },
       external_reference: order_id,
      
-      notification_url: "https://efbc-131-161-239-212.ngrok-free.app/webhook",
-      // notification_url: "https://sitiosports-production.up.railway.app/webhook",
+      // notification_url: "https://efbc-131-161-239-212.ngrok-free.app/webhook",
+      notification_url: "https://sitiosports-production.up.railway.app/webhook",
       payment_methods: {
-        installments: 12 // Número máximo de cuotas permitidas (opcional)
+        installments: 12 
       },
-      // back_urls: {
-      //   success: `https://www.sitiosports.com/orden-mp-confirmada/4`,
-      //   // failure: `https://www.sitiosports.com/orden-mp-rechazada/${order_number}`,
-      //   // pending: `https://www.sitiosports.com/orden-mp-pendiente/${order_number}`,
-      // },
+      back_urls: {
+        success: `https://www.sitiosports.com/orden-mp-confirmada/4`,
+        // failure: `https://www.sitiosports.com/orden-mp-rechazada/${order_number}`,
+        // pending: `https://www.sitiosports.com/orden-mp-pendiente/${order_number}`,
+      },
       auto_return: "approved",
     };
 
     const result = await preference.create({
       body,
     });
-console.log(result);
+
+//     console.log("hola");
+// console.log(result);
     res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({ message: error.message });
