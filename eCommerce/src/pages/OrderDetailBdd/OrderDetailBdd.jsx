@@ -25,6 +25,22 @@ const OrderDetailBdd = () => {
     }
   }, [orders]);
 
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (isChanging) {
+        const message =
+          "Tienes cambios sin guardar. ¿Seguro que quieres salir? Perderás los cambios si sales.";
+        e.returnValue = message; // Requerido para algunos navegadores
+        return message; // Requerido para otros navegadores
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [isChanging]);
+
   const handleSaveChanges = () => {
     if (changes.status === "Enviado" && !changes.track_id) {
       alert(
@@ -127,10 +143,11 @@ const OrderDetailBdd = () => {
                       value={order.status}
                       onChange={handleChange}
                     >
-                      <option value="Cancelado">Cancelado</option>
-                      <option value="Pago pendiente">Pago pendiente</option>
+                     <option value="Cancelado">Cancelado</option>
+                      <option value="Pago Pendiente">Pago pendiente</option>
                       <option value="Aprobado">Aprobado</option>
                       <option value="Enviado">Enviado</option>
+                      <option value="Entregado">Entregado</option>
                     </select>
                     {order.status === "Enviado" ? (
                       <div>

@@ -46,7 +46,7 @@ const SubcategoryCamisetas = () => {
         className="flex justify-between cursor-pointer pb-2"
         onClick={handleFilterToggle}
       >
-        <h1 className="text-lg lg:text-xl fotn-normal" icons={true}>Subcategoria</h1>
+        <h1 className="text-lg lg:text-xl fotn-normal font-semibold" icons={true}>Subcategoria</h1>
         <TiArrowSortedDown
           className={`text-lg ${
             showFilter ? "rotate-180" : "rotate-0"

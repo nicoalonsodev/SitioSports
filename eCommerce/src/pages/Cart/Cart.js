@@ -60,7 +60,7 @@ console.log(products);
   }
 
   return (
-    <div className="flex flex-col max-w-container mx-auto px-2 lg:px-32 relative">
+    <div className="flex flex-col max-w-container mx-auto px-3 lg:px-32 relative">
       <div className="absolute top-10 right-4 lg:right-24 flex items-center gap-3 w-[200px]">
         <img className="w-10 rounded-md" src="https://d1zxmlch3z83cq.cloudfront.net/production/2.3.41/_next/server/static/img/safe-shopping.svg" />
         <div className="flex flex-col">
@@ -125,7 +125,7 @@ console.log(products);
                     className="w-full"
                     onClick={() => handlePaymentGateway()}
                   >
-                    <button className="w-full h-10 bg-[#fc148c] text-white hover:bg-[#a73771] hover:scale-105 duration-300">
+                    <button className="font-semibold w-full h-10 bg-[#fc148c] text-white hover:bg-[#a73771] hover:scale-105 duration-300">
                       CONTINUAR COMPRA
                     </button>
                   </button>

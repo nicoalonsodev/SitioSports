@@ -158,7 +158,7 @@ const App = () => {
           {/* ==================== Header Navlink End here ===================== */}
           <Route path="/category/:category" element={<Offer />}></Route>
           <Route path="/producto/:_id" element={<ProductDetails />}></Route>
-          <Route path="/cart" element={<Cart />}></Route>
+          <Route path="/carrito" element={<Cart />}></Route>
           <Route path="/paymentgateway" element={<Payment />}></Route>
         </Route>
         <Route path="/signup" element={<SignUp />}></Route>

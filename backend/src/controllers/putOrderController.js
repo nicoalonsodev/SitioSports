@@ -40,7 +40,11 @@ const putOrderController = async (order_id, cleanedItems) => {
       order.order_type = order_type;
     }
     if (status) {
-      order.status = status;
+      if (status === "approved") {
+        order.status = "Aprobado";
+      } else {
+        order.status = status;
+      }
     }
     if (status_detail) {
       order.status_detail = status_detail;

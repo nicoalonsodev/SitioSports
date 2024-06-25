@@ -344,7 +344,7 @@ const Header = () => {
               <div className="justify-end flex">
                 <HeaderBottom handleSearchBar={handleSearchBar} />
               </div>
-              <Link to="/cart">
+              <Link to="/carrito">
                 {!showSearchBar ? (
                   <div className="relative">
                     <FaShoppingCart />

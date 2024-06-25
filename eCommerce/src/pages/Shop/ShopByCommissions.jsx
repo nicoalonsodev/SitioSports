@@ -16,7 +16,7 @@ const ShopByCommissions = () => {
       <div className="px-72 py-4">
         <p className="text-balance text-center">
           AHORA ESTAS EN EL CATÁLOGO POR ENCARGO, ESTO SIGNIFICA QUE LOS
-          PRODUCTOS VERÁS EN PANTALLA DEMORAN DE 20 A 30 DÍAS HÁBILES EN LLEGAR
+          PRODUCTOS VERÁS EN PANTALLA DEMORAN DE 30 A 35 DÍAS HÁBILES EN LLEGAR
           A TU DESTINO.
         </p>
       </div>
