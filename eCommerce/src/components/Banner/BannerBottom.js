@@ -38,7 +38,7 @@ const BannerBottom = () => {
   };
 
   return (
-    <div className="w-full bg-white border-b-[1px] border-b-gray-200 px-2 lg:px-32 pt-3 lg:pt-0 pb-8 lg:py-10">
+    <div className="w-full bg-white border-b-[1px] border-b-gray-200 px-2 lg:px-32 pt-3 lg:pt-4 pb-8 lg:py-10">
       <div className="blocl lg:hidden">
         <Slider {...settings} className="w-full">
           <div>

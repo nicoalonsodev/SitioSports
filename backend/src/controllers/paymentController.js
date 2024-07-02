@@ -73,8 +73,8 @@ const createOrder = async (req, res) => {
       },
       external_reference: order_id,
      
-      // notification_url: "https://efbc-131-161-239-212.ngrok-free.app/webhook",
-      notification_url: "https://sitiosports-production.up.railway.app/webhook",
+      notification_url: "https://6ff4-131-161-239-212.ngrok-free.app/webhook",
+      // notification_url: "https://sitiosports-production.up.railway.app/webhook",
       payment_methods: {
         installments: 12 
       },
@@ -90,8 +90,6 @@ const createOrder = async (req, res) => {
       body,
     });
 
-//     console.log("hola");
-// console.log(result);
     res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({ message: error.message });

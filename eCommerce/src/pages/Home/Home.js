@@ -5,7 +5,6 @@ import BestSellers from "../../components/home/BestSellers/BestSellers";
 import NewArrivals from "../../components/home/NewArrivals/NewArrivals";
 import Sale from "../../components/home/Sale/Sale";
 import SpecialOffers from "../../components/home/SpecialOffers/SpecialOffers";
-import YearProduct from "../../components/home/YearProduct/YearProduct";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsFromBackend } from "../../utils/api";
 import { setBackendProducts } from "../../redux/orebiSlice";
@@ -31,11 +30,10 @@ const Home = () => {
     <div className="w-full mx-auto overflow-hidden">
       <Banner />
       <BannerBottom />
-      <div className="max-w-container mx-auto px-4">
+      <div className="max-w-container mx-auto px-4 space-y-2">
         <NewArrivals />
         <Sale />
         <BestSellers />
-        {/* <YearProduct /> */}
         <SpecialOffers />
       </div>
     </div>

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleBrand } from "../../../../redux/orebiSlice";
 import { TiArrowSortedDown } from "react-icons/ti";
 const Brand = () => {
-  const [showBrands, setShowBrands] = useState(true);
+  const [showBrands, setShowBrands] = useState(false);
   const checkedBrands = useSelector(
     (state) => state.orebiReducer.checkedBrands
   );
