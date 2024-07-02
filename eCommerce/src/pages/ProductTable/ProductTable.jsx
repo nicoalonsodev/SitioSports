@@ -167,7 +167,9 @@ const ProductTable = () => {
       <div className="my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 pr-10 lg:px-8">
         <div className="align-middle rounded-tl-lg rounded-tr-lg inline-block w-full py-6 mt-4 overflow-hidden bg-white shadow-lg px-12">
           <div className="flex justify-start space-x-6 items-center pb-4">
-          <a href="/admin"><img className="w-20" src={logoTransparent} alt="" /></a> 
+            <a href="/admin">
+              <img className="w-20" src={logoTransparent} alt="" />
+            </a>
             <h1 className="text-3xl font-bold text-gray-700">
               Productos Sitio Sports
             </h1>
@@ -229,7 +231,7 @@ const ProductTable = () => {
                   href="/uploadproduct"
                   className="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none"
                 >
-                Nuevo Producto
+                  Nuevo Producto
                 </a>
               </div>
             </div>
@@ -301,7 +303,15 @@ const ProductTable = () => {
                         </div>
                       </div>
                       <div className="w-20">
-                        <img src={product.variants[0].imgUrl[0]} alt="" />
+                        <img
+                          src={
+                            product.variants.length > 0 &&
+                            product.variants[0].imgUrl.length > 0
+                              ? product.variants[0].imgUrl[0]
+                              : ""
+                          }
+                          alt=""
+                        />
                       </div>
                     </div>
                   </td>
@@ -331,7 +341,9 @@ const ProductTable = () => {
                           }
                         `}
                       ></span>
-                      <span className="relative text-xs">{product.disabled === false ? "Activo" : "Desactivado"}</span>
+                      <span className="relative text-xs">
+                        {product.disabled === false ? "Activo" : "Desactivado"}
+                      </span>
                     </span>
                   </td>
                   {/* 
