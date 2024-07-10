@@ -372,7 +372,7 @@ const ProductDetailBdd = () => {
                     : "Aun no se vendió ninguna unidad."}
                 </p>
               </div>
-              <div className="flex justify-start items-center gap-2 ">
+              {/* <div className="flex justify-start items-center gap-2 ">
                 <h1 className="w-auto font-semibold">Descuento: </h1>
                 {isChanging ? (
                   <input
@@ -393,7 +393,7 @@ const ProductDetailBdd = () => {
                     </span>
                   </p>
                 )}
-              </div>
+              </div> */}
             </div>
             <div className="flex flex-wrap gap-8">
               {isChanging ? (
