@@ -6,6 +6,7 @@ import axios from "axios";
 import { botinesSizes, camisetasSizes, mediasSizes } from "../../constants";
 import StockBysizes from "../../components/ProductsTable/StockBySizes";
 import formatPrice from "../../utils/formatPrice";
+
 const ProductDetailBdd = () => {
   const [isChanging, setIsChanging] = useState(false);
   const { id } = useParams();
@@ -27,7 +28,22 @@ const ProductDetailBdd = () => {
         setSpecialOffers(foundProduct.special_offers);
       }
     }
-  }, [products]);
+  }, [products, id]);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      if (isChanging) {
+        event.preventDefault();
+        event.returnValue = '';
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [isChanging]);
 
   const handleSaveChanges = () => {
     const productChanges = {
@@ -45,7 +61,7 @@ const ProductDetailBdd = () => {
       special_offers: product.special_offers,
       discount_percentage: product.discount_percentage,
       description: product.description,
-      video_youtube: product.video_youtube
+      video_youtube: product.video_youtube,
     };
 
     axios
@@ -68,11 +84,11 @@ const ProductDetailBdd = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProduct((prevRegistro) => ({
-      ...prevRegistro,
+    setProduct((prevProduct) => ({
+      ...prevProduct,
       [name]: value,
     }));
-    // validate({ ...registro, [name]: value });
+    setIsChanging(true);
   };
 
   const handleChangeCheckbox = (e) => {
@@ -81,13 +97,15 @@ const ProductDetailBdd = () => {
       ...prevProduct,
       [name]: checked,
     }));
+    setIsChanging(true);
   };
 
   const handleSizes = (size) => {
-    setProduct((prevForm) => ({
-      ...prevForm,
+    setProduct((prevProduct) => ({
+      ...prevProduct,
       sizes: size,
     }));
+    setIsChanging(true);
   };
 
   const handleUpdateVariant = (variant) => {
@@ -97,6 +115,7 @@ const ProductDetailBdd = () => {
       updatedVariants[index] = variant;
 
       setProduct({ ...product, variants: updatedVariants });
+      setIsChanging(true);
     } else {
       console.error("No se encontró la variante con el ID proporcionado.");
     }
@@ -107,30 +126,40 @@ const ProductDetailBdd = () => {
       product.variants.length > 0
         ? product.variants[product.variants.length - 1].id + 1
         : 1;
-    const sizes = product.cat === "Botines" ? botinesSizes : product.cat === "Camisetas" ? camisetasSizes : mediasSizes;
+    const sizes =
+      product.cat === "Botines"
+        ? botinesSizes
+        : product.cat === "Camisetas"
+        ? camisetasSizes
+        : mediasSizes;
     const newVariant = { variant: "new", id: newId, sizes: sizes, imgUrl: [] };
 
     setProduct({ ...product, variants: [...product.variants, newVariant] });
+    setIsChanging(true);
   };
 
   const handleReturn = () => {
     setProduct(prevProduct);
-    setIsChanging(!isChanging);
+    setIsChanging(false);
   };
 
   const handleDeleteVariant = (variantId) => {
-    setProduct((prevForm) => ({
-      ...prevForm,
-      variants: prevForm.variants.filter((variant) => variant.id !== variantId),
+    setProduct((prevProduct) => ({
+      ...prevProduct,
+      variants: prevProduct.variants.filter(
+        (variant) => variant.id !== variantId
+      ),
     }));
+    setIsChanging(true);
   };
 
   const handleSelectChange = (event) => {
     const value = event.target.value;
-    setProduct((prevRegistro) => ({
-      ...prevRegistro,
+    setProduct((prevProduct) => ({
+      ...prevProduct,
       disabled: value,
     }));
+    setIsChanging(true);
   };
 
   const calculateDiscountedPrice = () => {
@@ -177,8 +206,8 @@ const ProductDetailBdd = () => {
                     id="productName"
                     onChange={handleChange}
                     value={product.productName}
-                    autocomplete="productName"
-                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
+                    autoComplete="productName"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
                     placeholder="Nike Ultimate"
                   />
                 ) : (
@@ -213,8 +242,8 @@ const ProductDetailBdd = () => {
                     id="price"
                     value={product.price}
                     onChange={handleChange}
-                    autocomplete="price"
-                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
+                    autoComplete="price"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
                   />
                 ) : (
                   <p className="text-sm">${formatPrice(product.price)}</p>
@@ -229,8 +258,8 @@ const ProductDetailBdd = () => {
                     id="compare_price"
                     value={product.compare_price}
                     onChange={handleChange}
-                    autocomplete="compare_price"
-                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
+                    autoComplete="compare_price"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
                   />
                 ) : (
                   <p className="text-sm">${formatPrice(product.compare_price)}</p>
@@ -246,8 +275,8 @@ const ProductDetailBdd = () => {
                     id="cat"
                     onChange={handleChange}
                     value={product.cat}
-                    autocomplete="cat"
-                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
+                    autoComplete="cat"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
                     placeholder="Nike Ultimate"
                   />
                 ) : (
@@ -263,8 +292,8 @@ const ProductDetailBdd = () => {
                     id="sub_cat"
                     onChange={handleChange}
                     value={product.sub_cat}
-                    autocomplete="sub_cat"
-                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
+                    autoComplete="sub_cat"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
                     placeholder="Nike Ultimate"
                   />
                 ) : (
@@ -281,8 +310,8 @@ const ProductDetailBdd = () => {
                     id="brand"
                     onChange={handleChange}
                     value={product.brand}
-                    autocomplete="brand"
-                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
+                    autoComplete="brand"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
                     placeholder="Nike Ultimate"
                   />
                 ) : (
@@ -299,8 +328,8 @@ const ProductDetailBdd = () => {
                     id="description"
                     onChange={handleChange}
                     value={product.description}
-                    autocomplete="description"
-                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
+                    autoComplete="description"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
                     placeholder="description"
                   />
                 ) : (
@@ -316,8 +345,8 @@ const ProductDetailBdd = () => {
                     id="video_youtube"
                     onChange={handleChange}
                     value={product.video_youtube}
-                    autocomplete="video_youtube"
-                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
+                    autoComplete="video_youtube"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
                   />
                 ) : (
                   <p className="text-sm">{product.video_youtube}</p>
@@ -381,8 +410,8 @@ const ProductDetailBdd = () => {
                     id="discount_percentage"
                     onChange={handleChange}
                     value={product.discount_percentage}
-                    autocomplete="discount_percentage"
-                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
+                    autoComplete="discount_percentage"
+                    className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-lg sm:leading-6"
                   />
                 ) : (
                   <p className="text-sm">
