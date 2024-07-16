@@ -22,7 +22,7 @@ const {protectedRouteHandler} = require('../handlers/authHandler');
 const {deleteUserHandler} = require('../handlers/deleteUserHandler');
 
 router.get("/products", getAllProductsHandler);
-router.get("/products/:id", getProductByIdHandler);
+router.get("/products/:slug", getProductByIdHandler);
 router.get("/users", getUsersHandler);
 // router.get("/users/:id", getUserByIdHandler);
 router.get("/orders", getOrdersHandler);
