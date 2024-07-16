@@ -12,11 +12,11 @@ const CarruselDetail = ({ productInfo, variantImages }) => {
   const [activeImg, setActiveImage] = useState("");
 
   useEffect(() => {
-    if (productInfo && productInfo.img) {
+    if (productInfo) {
       setImages(variantImages);
       setActiveImage(variantImages[0]);
     }
-  }, [variantImages]);
+  }, [variantImages, productInfo]);
 
   const settings = {
     dots: true,

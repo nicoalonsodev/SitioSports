@@ -8,6 +8,14 @@ export const fetchProductsFromBackend = async () => {
     throw error;
   }
 };
+export const fetchProductBySlugFromBackend = async (slug) => {
+  try {
+    const response = await axios.get(`https://sitiosports-production.up.railway.app/products/${slug}`);
+    return response.data; 
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const fetchUsersFromBackend = async () => {
   try {

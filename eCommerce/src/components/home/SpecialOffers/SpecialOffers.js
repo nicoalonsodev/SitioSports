@@ -72,6 +72,7 @@ const SpecialOffers = () => {
             _id={product.id}
             img={product.variants[0].imgUrl[0]}
             productName={product.productName}
+            slug={product.slug}
             price={product.price}
             compare_price={product.compare_price}
             color="Black"

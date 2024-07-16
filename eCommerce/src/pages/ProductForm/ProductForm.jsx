@@ -5,6 +5,7 @@ import PostSizeBotines from "../../components/ProductForm/PostSizeBotines";
 import PostSizeCamisetas from "../../components/ProductForm/PostSizeCamisetas";
 import PostSizeMedias from "../../components/ProductForm/PostSizeMedias";
 import Variant from "./Variant";
+
 const ProductForm = () => {
   const [variants, setVariants] = useState([
     { variant: "", id: 1, sizes: [], imgUrl: [] },
@@ -12,6 +13,7 @@ const ProductForm = () => {
   const [form, setForm] = useState({
     productName: "",
     price: 0,
+    compare_price: 0,
     stock: 0,
     brand: "",
     cat: "",
@@ -21,7 +23,7 @@ const ProductForm = () => {
     description: "",
     sub_cat: "",
   });
-
+  const [errors, setErrors] = useState({});
 
   const camisetasSizes = [
     { size: "S", stock: 0, sold: 0 },
@@ -37,8 +39,8 @@ const ProductForm = () => {
     { size: "41", stock: 0, sold: 0 },
     { size: "42", stock: 0, sold: 0 },
     { size: "43", stock: 0, sold: 0 },
-    { size: "44", stock: 0,sold: 0 },
-    { size: "45", stock: 0,sold: 0 },
+    { size: "44", stock: 0, sold: 0 },
+    { size: "45", stock: 0, sold: 0 },
   ];
 
   const mediasSizes = [
@@ -71,32 +73,51 @@ const ProductForm = () => {
     }
   }, [form.cat]);
 
+  const validateField = (name, value) => {
+    let error = "";
+    if (name === "productName" && !value) error = "El nombre del producto es obligatorio";
+    if (name === "price" && (!value || value <= 0)) error = "El precio debe ser mayor que 0";
+    if (name === "compare_price" && (!value || value <= 0)) error = "El precio de comparación debe ser mayor que 0";
+    if (name === "brand" && !value) error = "La marca es obligatoria";
+    if (name === "cat" && !value) error = "La categoría es obligatoria";
+    if (name === "sub_cat" && form.cat !== "Medias" && !value) error = "La subcategoría es obligatoria";
+    if (name === "description" && !value) error = "La descripción es obligatoria";
+    return error;
+  };
+
+  const validateVariants = () => {
+    let variantsErrors = [];
+    form.variants.forEach((variant, index) => {
+      let variantErrors = {};
+      if (!variant.variant) variantErrors.variant = "El nombre de la variante es obligatorio";
+      if (!variant.imgUrl || variant.imgUrl.length === 0) variantErrors.imgUrl = "La imagen es obligatoria";
+      if (!variant.sizes || variant.sizes.length === 0) variantErrors.sizes = "El tamaño es obligatorio";
+      if (Object.keys(variantErrors).length > 0) {
+        variantsErrors[index] = variantErrors;
+      }
+    });
+    return variantsErrors;
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "cat") {
-      const newSizes = getSizesByCategory(value);
-      const newVariant = { variant: "", id: 1, sizes: newSizes, imgUrl: [] };
-      setForm((prevForm) => ({
-        ...prevForm,
-        [name]: value,
-        sub_cat: "",
-        variants: [newVariant],
-      }));
-    } else {
-      setForm((prevForm) => ({
-        ...prevForm,
-        [name]: value,
-      }));
-    }
+    const error = validateField(name, value);
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: error,
+    }));
+    setForm((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
   };
+
   const handleSizes = (size, id) => {
-    // Encuentra el índice del objeto en variants con el mismo id
     const variantFormIndex = form.variants.findIndex(
       (variant) => variant.id === id
     );
     const variantIndex = variants.findIndex((variant) => variant.id === id);
 
-    // Si el índice es válido, actualiza el estado
     if (variantFormIndex !== -1) {
       setForm((prevForm) => {
         const updatedVariants = [...prevForm.variants];
@@ -114,14 +135,11 @@ const ProductForm = () => {
   };
 
   const handleCreateVariant = () => {
-    // Genera un nuevo ID único para la nueva variante
     const newId =
       variants.length > 0 ? variants[variants.length - 1].id + 1 : 1;
 
-    // Crea una nueva variante con el ID generado y el resto de los campos en blanco
     const newVariant = { variant: "new", id: newId, sizes: [], imgUrl: [] };
 
-    // Actualiza el estado para agregar la nueva variante
     setVariants((prevVariants) => [...prevVariants, newVariant]);
 
     setForm((prevForm) => ({
@@ -131,19 +149,16 @@ const ProductForm = () => {
   };
 
   const handleDeleteVariant = (variantId) => {
-    // Filtra las variantes para mantener solo aquellas cuyo ID no coincide con el ID dado
     const updatedVariants = variants.filter(
       (variant) => variant.id !== variantId
     );
 
-    // Actualiza el estado con las variantes actualizadas
     setVariants(updatedVariants);
-    // Filtra las variantes en form.variants para mantener solo aquellas cuyo ID no coincide con el ID dado
+
     const updatedFormVariants = form.variants.filter(
       (variant) => variant.id !== variantId
     );
 
-    // Actualiza el estado de form con las variantes actualizadas
     setForm((prevForm) => ({
       ...prevForm,
       variants: updatedFormVariants,
@@ -151,7 +166,6 @@ const ProductForm = () => {
   };
 
   const handleChangeVariantName = (variantId, newValue) => {
-    // Actualiza el estado cambiando el valor del variant con el ID dado
     setForm((prevForm) => ({
       ...prevForm,
       variants: prevForm.variants.map((variant) =>
@@ -167,12 +181,11 @@ const ProductForm = () => {
   };
 
   const handleChangeVariantImg = (img, variantId) => {
-    // Actualiza el estado cambiando el valor del variant con el ID dado
     setForm((prevForm) => ({
       ...prevForm,
       variants: prevForm.variants.map((variant) =>
         variant.id === variantId
-          ? { ...variant, imgUrl: [...variant.imgUrl, img] } // Agrega la nueva imagen al array existente
+          ? { ...variant, imgUrl: [...variant.imgUrl, img] }
           : variant
       ),
     }));
@@ -180,14 +193,13 @@ const ProductForm = () => {
     setVariants((prevVariants) =>
       prevVariants.map((variant) =>
         variant.id === variantId
-          ? { ...variant, imgUrl: [...variant.imgUrl, img] } // Agrega la nueva imagen al array existente
+          ? { ...variant, imgUrl: [...variant.imgUrl, img] }
           : variant
       )
     );
   };
 
   const handleDeleteImage = (index, variantId) => {
-    // Actualizar el estado con las imágenes actualizadas
     setVariants((prevVariants) =>
       prevVariants.map((variant) =>
         variant.id === variantId
@@ -213,35 +225,62 @@ const ProductForm = () => {
     }));
   };
 
+  const validateForm = () => {
+    let formErrors = {};
+    if (!form.productName) formErrors.productName = "El nombre del producto es obligatorio";
+    if (!form.price || form.price <= 0) formErrors.price = "El precio debe ser mayor que 0";
+    if (!form.compare_price || form.compare_price <= 0) formErrors.compare_price = "El precio de comparación debe ser mayor que 0";
+    if (!form.brand) formErrors.brand = "La marca es obligatoria";
+    if (!form.cat) formErrors.cat = "La categoría es obligatoria";
+    if (form.cat !== "Medias" && !form.sub_cat) formErrors.sub_cat = "La subcategoría es obligatoria";
+    if (!form.description) formErrors.description = "La descripción es obligatoria";
+
+    const variantsErrors = validateVariants();
+    if (variantsErrors.length > 0) {
+      formErrors.variants = variantsErrors;
+    }
+
+    return formErrors;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post("https://sitiosports-production.up.railway.app/products", form);
+    const formErrors = validateForm();
 
-      // Verifica si la solicitud fue exitosa
-      if (response.status === 200 || response.status === 201) {
-        alert("Producto Agregado Exitosamente");
-        setForm({
-          productName: "",
-          price: 0,
-          brand: "",
-          cat: "",
-          color: "",
-       
-          description: "",
-        });
-        window.location.href = "https://www.sitiosports.com/producttable";
-      } else {
-        console.error("Error al agregar el producto.");
+    if (Object.keys(formErrors).length === 0) {
+      try {
+        const response = await axios.post(
+          "https://sitiosports-production.up.railway.app/products",
+          form
+        );
+
+        if (response.status === 200 || response.status === 201) {
+          alert("Producto Agregado Exitosamente");
+          setForm({
+            productName: "",
+            price: 0,
+            compare_price: 0,
+            brand: "",
+            cat: "",
+            color: "",
+            description: "",
+          });
+          window.location.href = "https://www.sitiosports.com/producttable";
+        } else {
+          console.error("Error al agregar el producto.");
+        }
+      } catch (error) {
+        console.error("Error al realizar la solicitud:", error);
       }
-    } catch (error) {
-      console.error("Error al realizar la solicitud:", error);
+    } else {
+      setErrors(formErrors);
     }
   };
 
   const handleWheel = (e) => {
     e.preventDefault();
   };
+
   return (
     <form class="px-4 md:px-8 max-w-3xl mx-auto py-12" onSubmit={handleSubmit}>
       <div class="space-y-12">
@@ -263,7 +302,6 @@ const ProductForm = () => {
               </label>
               <div class="mt-2">
                 <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                  {/* <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span> */}
                   <input
                     type="text"
                     name="productName"
@@ -275,6 +313,9 @@ const ProductForm = () => {
                     placeholder="Nike Ultimate"
                   />
                 </div>
+                {errors.productName && (
+                  <p className="text-red-600 text-sm">{errors.productName}</p>
+                )}
               </div>
             </div>
 
@@ -287,7 +328,6 @@ const ProductForm = () => {
               </label>
               <div class="mt-2">
                 <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                  {/* <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span> */}
                   <input
                     type="number"
                     name="price"
@@ -297,9 +337,39 @@ const ProductForm = () => {
                     onWheel={handleWheel}
                     autocomplete="price"
                     class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="janesmith"
+                    placeholder="Precio"
                   />
                 </div>
+                {errors.price && (
+                  <p className="text-red-600 text-sm">{errors.price}</p>
+                )}
+              </div>
+            </div>
+
+            <div class="sm:col-span-4">
+              <label
+                for="compare_price"
+                class="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Precio Comparacion
+              </label>
+              <div class="mt-2">
+                <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                  <input
+                    type="number"
+                    name="compare_price"
+                    id="compare_price"
+                    value={form.compare_price}
+                    onChange={handleChange}
+                    onWheel={handleWheel}
+                    autocomplete="compare_price"
+                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                    placeholder="Precio Comparacion"
+                  />
+                </div>
+                {errors.compare_price && (
+                  <p className="text-red-600 text-sm">{errors.compare_price}</p>
+                )}
               </div>
             </div>
 
@@ -311,19 +381,23 @@ const ProductForm = () => {
                 Marca
               </label>
               <div class="mt-2">
-                <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                  {/* <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span> */}
-                  <input
-                    type="text"
-                    name="brand"
-                    id="brand"
-                    onChange={handleChange}
-                    value={form.brand}
-                    autocomplete="brand"
-                    class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="Nike Ultimate"
-                  />
-                </div>
+                <select
+                  id="brand"
+                  name="brand"
+                  onChange={handleChange}
+                  value={form.brand}
+                  class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                >
+                  <option value="" disabled selected hidden>
+                    Selecciona una opción
+                  </option>
+                  <option value="Adidas">Adidas</option>
+                  <option value="Nike">Nike</option>
+                  <option value="Puma">Puma</option>
+                </select>
+                {errors.brand && (
+                  <p className="text-red-600 text-sm">{errors.brand}</p>
+                )}
               </div>
             </div>
 
@@ -349,6 +423,9 @@ const ProductForm = () => {
                   <option>Botines</option>
                   <option>Medias</option>
                 </select>
+                {errors.cat && (
+                  <p className="text-red-600 text-sm">{errors.cat}</p>
+                )}
               </div>
             </div>
 
@@ -393,6 +470,9 @@ const ProductForm = () => {
                 ) : (
                   ""
                 )}
+                {errors.sub_cat && (
+                  <p className="text-red-600 text-sm">{errors.sub_cat}</p>
+                )}
               </div>
             </div>
 
@@ -406,7 +486,7 @@ const ProductForm = () => {
             </div>
 
             <div className="flex flex-wrap gap-4 sm:col-span-6">
-              {variants?.map((vari, index) => (
+              {form.variants?.map((vari, index) => (
                 <div key={index}>
                   <Variant
                     handleChangeVariantImg={handleChangeVariantImg}
@@ -418,6 +498,13 @@ const ProductForm = () => {
                     handleSizes={handleSizes}
                     variants={form.variants}
                   />
+                  {errors.variants && errors.variants[index] && (
+                    <div className="text-red-600 text-sm">
+                      {errors.variants[index].variant && <p>{errors.variants[index].variant}</p>}
+                      {errors.variants[index].imgUrl && <p>{errors.variants[index].imgUrl}</p>}
+                      {errors.variants[index].sizes && <p>{errors.variants[index].sizes}</p>}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -439,6 +526,9 @@ const ProductForm = () => {
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 ></textarea>
               </div>
+              {errors.description && (
+                <p className="text-red-600 text-sm">{errors.description}</p>
+              )}
               <p class="mt-3 text-sm leading-6 text-gray-600">
                 Descripción sobre el producto.
               </p>
@@ -454,13 +544,13 @@ const ProductForm = () => {
           type="button"
           class="text-sm font-semibold leading-6 text-gray-900"
         >
-          Cancel
+          Cancelar
         </a>
         <button
           type="submit"
           class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
-          Save
+          Guardar
         </button>
       </div>
     </form>
