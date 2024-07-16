@@ -6,6 +6,7 @@ const putCommissionsHandler = async (req, res) => {
   const id = req.params.id;
   const {
     productName,
+    slug,
     price,
     brand,
     cat,
@@ -16,9 +17,11 @@ const putCommissionsHandler = async (req, res) => {
     badge,
     image,
     description,
+    compare_price
   } = req.body;
   const commissionUpdate = {
     productName,
+    slug,
     price,
     brand, 
     cat,
@@ -29,6 +32,7 @@ const putCommissionsHandler = async (req, res) => {
     badge,
     image,
     description,
+    compare_price
   };
   try {
     await putCommissionsController(id, commissionUpdate);

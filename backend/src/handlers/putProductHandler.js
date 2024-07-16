@@ -6,6 +6,7 @@ const putProductHandler = async (req, res) => {
   const id = req.params.id;
   const {
     productName,
+    slug,
     price,
     compare_price,
     brand,
@@ -25,6 +26,7 @@ const putProductHandler = async (req, res) => {
   } = req.body;
   const updatedFields = {
     productName,
+    slug,
     price,
     compare_price,
     brand,
