@@ -67,7 +67,6 @@ const ProductInfo = ({
       setSelectedVariant(productInfo.variants[0]);
     }
   }, [productInfo]);
-
   useEffect(() => {
     if (selectedVariant) {
       handleSelectedImages(selectedVariant.imgUrl);
@@ -195,7 +194,7 @@ const ProductInfo = ({
 
     dispatch(
       addToCart({
-        id: productInfo._id,
+        id: productInfo.id,
         name: productInfo.productName,
         quantity: 1,
         maxQuantity: sizeMaxQuantity,
@@ -207,6 +206,11 @@ const ProductInfo = ({
         variant: selectedVariant,
       })
     );
+  };
+
+  const handleVariantChange = (variant) => {
+    setSelectedSize(null)
+    setSelectedVariant(variant)
   };
   return (
     <>
@@ -265,7 +269,7 @@ const ProductInfo = ({
                     ? ""
                     : "border-b-2 border-gray-700"
                 }`}
-                onClick={() => setSelectedVariant(variant)}
+                onClick={() => handleVariantChange(variant)}
               >
                 <img className="w-20" src={variant.imgUrl[0]} />
               </div>

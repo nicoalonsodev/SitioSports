@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import { getUsers, updateFilteredUsers } from "../../redux/actions";
-// import ExcelDownloadButton from "../../componentes/ExcellButton/excellButton";
-// import Dropdown from "../../componentes/Dropdown/Dropdown";
-import { up, down } from "../../assets/images";
 import { fetchProductsFromBackend } from "../../utils/api";
 import { setBackendProducts } from "../../redux/orebiSlice";
-import { logo, logoTransparent } from "../../assets/images";
+import { logoTransparent, up, down } from "../../assets/images";
+import ProductFilter from "../../components/ProductFilter/ProductFilter";
+
 const ProductTable = () => {
   const dispatch = useDispatch();
 
@@ -24,36 +22,26 @@ const ProductTable = () => {
   }, [dispatch]);
 
   const products = useSelector((state) => state.orebiReducer.products);
-  const count = products?.length;
+  const [filters, setFilters] = useState({
+    Activo: true,
+    Desactivado: true,
+  });
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [changes, setChanges] = useState({});
-  const [isChanging, setIsChanging] = useState(false);
-  const [filter, setFilter] = useState({});
-  const [search, setSearch] = useState("");
-  const [isSearching, setIsSearching] = useState(false);
-  const [order, setOrder] = useState("asc");
-
-  // const urlParams = new URLSearchParams(window.location.search);
-  // const accessCode = urlParams.get("code");
-  // useEffect(() => {
-  //   if (isSearching) {
-  //     handleSearchEvent();
-  //   } else {
-  //     if (Object.keys(filter).length !== 0) {
-  //       handleFilter(filter);
-  //     } else {
-  //       if (accessCode) {
-  //         dispatch(getUsers(accessCode, order, currentPage));
-  //       }
-  //     }
-  //   }
-  // }, [dispatch, currentPage]);
-
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
+  const handleProductFilter = (name, checked) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: checked,
+    }));
   };
 
+  const filteredProducts = products?.filter(product => 
+    (product.disabled === false && filters["Activo"]) || 
+    (product.disabled === true && filters["Desactivado"])
+  );
+
+  const count = filteredProducts?.length;
+
+  const [currentPage, setCurrentPage] = useState(1);
   const usersPerPage = 10;
   const totalPages = Math.ceil(count / usersPerPage);
   const pageButtons = [];
@@ -61,106 +49,17 @@ const ProductTable = () => {
     pageButtons.push(i);
   }
   const lastPage = pageButtons.length - 1;
-  // Calcula el rango de páginas que deseas mostrar alrededor de la página actual.
-  const range = 2; // Por ejemplo, mostrará 2 páginas antes y 2 después de la página actual.
-
-  // Calcula el rango de páginas para mostrar.
-  const startPage = Math.max(currentPage - range, 1); // Evita números negativos.
-  const endPage = Math.min(currentPage + range, totalPages); // Evita exceder el número total de páginas.
-
-  // Crea un arreglo de números de página dentro del rango calculado.
+  const range = 2;
+  const startPage = Math.max(currentPage - range, 1);
+  const endPage = Math.min(currentPage + range, totalPages);
   const pageRange = [];
   for (let i = startPage; i <= endPage; i++) {
     pageRange.push(i);
   }
 
-  const handleCheckboxChange = (userId) => {
-    setChanges((prevChanges) => ({
-      ...prevChanges,
-      [userId]: {
-        ...prevChanges[userId],
-        checked: !prevChanges[userId]?.checked || false, // Cambia el estado del checkbox
-      },
-    }));
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
   };
-
-  const handleOwnerChange = (userId, ownerValue) => {
-    setChanges((prevChanges) => ({
-      ...prevChanges,
-      [userId]: {
-        ...prevChanges[userId],
-        owner: ownerValue, // Actualiza el valor del campo owner
-      },
-    }));
-  };
-
-  // const handleSaveChanges = () => {
-  //   const usersWithChanges = Object.keys(changes).map((userId) => ({
-  //     id: userId,
-  //     owner: changes[userId].owner,
-  //     checked: changes[userId].checked,
-  //   }));
-  //   axios
-  //     .put("/users", { users: usersWithChanges })
-  //     .then((response) => {
-  //       // Maneja la respuesta de la solicitud, por ejemplo, muestra una notificación de éxito
-  //       alert("Cambios guardados con éxito");
-  //       if (Object.keys(filter).length === 0) {
-  //         dispatch(getUsers(accessCode, order, currentPage));
-  //       } else {
-  //         handleFilter(filter);
-  //       }
-  //       setIsChanging(false);
-  //     })
-  //     .catch((error) => {
-  //       // Maneja errores, muestra una notificación de error, etc.
-  //       console.error("Error al guardar los cambios", error);
-  //       setIsChanging(false);
-  //     });
-  // };
-
-  // const handleChange = () => {
-  //   setIsChanging(true);
-  // };
-
-  // const handleFilter = (e) => {
-  //   if (Object.keys(e).length > 0) {
-  //     axios
-  //       .post(`/filter?code=${accessCode}&page=${currentPage}`, e)
-  //       .then((res) => {
-  //         const users = res.data;
-  //         dispatch(updateFilteredUsers(users));
-  //         setFilter(e);
-  //       })
-  //       .catch((err) => alert(err));
-  //   } else {
-  //   }
-  // };
-
-  // const handleSearch = (e) => {
-  //   setSearch(e.target.value);
-  // };
-
-  // const handleSubmitSearch = (e) => {
-  //   e.preventDefault();
-  //   handleSearchEvent();
-  // };
-  // const handleNotSearching = (e) => {
-  //   e.preventDefault();
-  //   setIsSearching(false);
-  //   setSearch("");
-  //   dispatch(getUsers(accessCode, order, 1));
-  // };
-
-  // const handleSearchEvent = () => {
-  //   dispatch(getUsers(accessCode, order, currentPage, search));
-  //   setIsSearching(true);
-  // };
-
-  // const handleOrder = (value) => {
-  //   setOrder(value)
-  //   dispatch(getUsers(accessCode, value, currentPage, search));
-  // }
 
   return (
     <div className="overflow-x-auto ">
@@ -175,56 +74,8 @@ const ProductTable = () => {
             </h1>
           </div>
           <div className="flex justify-between">
-            <div className="inline-flex border rounded w-7/12 px-2 lg:px-6 bg-transparent">
-              <div className="flex flex-wrap items-stretch w-full h-full mb-2 relative">
-                <input
-                  value={search}
-                  // onChange={handleSearch}
-                  type="text"
-                  className="flex-shrink flex-grow flex-auto leading-normal tracking-wide w-px border border-none border-l-0 rounded rounded-l-none px-3 relative focus:outline-none text-xxs lg:text-base text-gray-500 font-thin"
-                  placeholder="Search"
-                />
-                <div className="flex">
-                  {isSearching ? (
-                    <button
-                      // onClick={(e) => handleNotSearching(e)}
-                      className="flex items-center leading-normal bg-transparent rounded rounded-r-none border border-r-0 border-none lg:px-3 py-2 whitespace-no-wrap text-grey-dark text-sm"
-                    >
-                      X
-                    </button>
-                  ) : (
-                    <button
-                      // onClick={(e) => handleSubmitSearch(e)}
-                      className="flex items-center leading-normal bg-transparent rounded rounded-r-none border border-r-0 border-none lg:px-3 py-2 whitespace-no-wrap text-grey-dark text-sm"
-                    >
-                      <svg
-                        width="18"
-                        height="18"
-                        className="w-4 lg:w-auto"
-                        viewBox="0 0 18 18"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M8.11086 15.2217C12.0381 15.2217 15.2217 12.0381 15.2217 8.11086C15.2217 4.18364 12.0381 1 8.11086 1C4.18364 1 1 4.18364 1 8.11086C1 12.0381 4.18364 15.2217 8.11086 15.2217Z"
-                          stroke="#455A64"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M16.9993 16.9993L13.1328 13.1328"
-                          stroke="#455A64"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </button>
-                  )}
-                </div>
-              </div>
-            </div>
             <div className="flex">
-              {/* <Dropdown handleFilter={handleFilter} /> */}
+              <ProductFilter filters={filters} handleProductFilter={handleProductFilter} />
               <div className="mr-2">{/* <ExcelDownloadButton /> */}</div>
               <div>
                 <a
@@ -237,7 +88,6 @@ const ProductTable = () => {
             </div>
           </div>
         </div>
-        {/* <div className="py-4"></div> */}
         <div className="align-middle inline-block min-w-full shadow overflow-hidden bg-white shadow-dashboard px-8 pt-3 rounded-bl-lg rounded-br-lg">
           <table className="align-middle min-w-full">
             <thead>
@@ -258,40 +108,14 @@ const ProductTable = () => {
                 <th className="px-1 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
                   Estado
                 </th>
-                {/* <th className="flex px-1 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
-                  Estado
-                </th> */}
                 <th className="px-1 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider relative">
                   Fecha de Creación
-                  {order === "asc" ? (
-                    <button
-                    // onClick={() => handleOrder("desc")}
-                    >
-                      <img
-                        src={down}
-                        alt="arrow up "
-                        className="absolute top-1/2 transform -translate-y-1/2 text-blue-500"
-                        style={{ width: "16px", height: "16px" }} // Ajusta el tamaño según tus necesidades
-                      />
-                    </button>
-                  ) : (
-                    <button
-                    // onClick={() => handleOrder("asc")}
-                    >
-                      <img
-                        src={up} // Ruta a tu imagen de flecha
-                        alt="arrow up "
-                        className="absolute top-1/2 transform -translate-y-1/2 text-blue-500"
-                        style={{ width: "16px", height: "16px" }} // Ajusta el tamaño según tus necesidades
-                      />
-                    </button>
-                  )}
                 </th>
                 <th className="px-1 py-3 border-b-2 border-gray-300"></th>
               </tr>
             </thead>
             <tbody className="bg-white">
-              {products?.map((product, index) => (
+              {filteredProducts?.map((product, index) => (
                 <tr key={product.id}>
                   <td className="px-1 py-4 whitespace-no-wrap border-b border-gray-500">
                     <div className="flex items-center">
@@ -346,28 +170,12 @@ const ProductTable = () => {
                       </span>
                     </span>
                   </td>
-                  {/* 
-                  <td className="px-1 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
-                    <input
-                      placeholder={product.checked}
-                      type="checkbox"
-                      checked={
-                        isChanging
-                          ? !!changes[product.id]?.checked
-                          : product.checked
-                      }
-                      // onChange={
-                      //   isChanging ? () => handleCheckboxChange(user.id) : null
-                      // }
-                    />
-                  </td> */}
                   <td className="text-center px-1 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5">
                     {product.createdAt.slice(0, 10)}
                   </td>
                   <td className="px-1 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
                     <a
                       href={`/productdetailbdd/${product.id}`}
-                      // onClick={handleChange}
                       className="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none"
                     >
                       Ver Detalle

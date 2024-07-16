@@ -12,6 +12,7 @@ const initialState = {
   checkedCategorys: [],
   users: [],
   orders: [],
+  idProduct: [],
 };
 export const orebiSlice = createSlice({
   name: "orebi",
@@ -137,6 +138,12 @@ export const orebiSlice = createSlice({
     setBackendProducts: (state, action) => {
       state.products = action.payload;
     },
+    setProductById: (state, action) => {
+      state.idProduct = action.payload;
+    },
+    cleanProductById: (state, action) => {
+      state.idProduct = [];
+    },
     setBackendCommissions: (state, action) => {
       state.commissions = action.payload;
     },
@@ -146,7 +153,9 @@ export const orebiSlice = createSlice({
       state.users = { users: usersObject.users, count: count };
     },
     setBackendOrders: (state, action) => {
-      state.orders = action.payload.orders.sort((a, b) => a.order_number - b.order_number);
+      state.orders = action.payload.orders.sort(
+        (a, b) => a.order_number - b.order_number
+      );
     },
   },
 });
@@ -169,5 +178,7 @@ export const {
   cleanCategories,
   cleanSizes,
   cleanSubcategories,
+  setProductById,
+  cleanProductById
 } = orebiSlice.actions;
 export default orebiSlice.reducer;

@@ -94,6 +94,7 @@ function Items({
           <div key={item._id} className="w-full">
             <Product
               _id={item.id}
+              slug={item.slug}
               badge={item.badge}
               img={item.variants[0].imgUrl[0]}
               productName={item.productName}

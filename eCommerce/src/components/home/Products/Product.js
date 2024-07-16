@@ -8,12 +8,7 @@ import formatPrice from "../../../utils/formatPrice";
 
 const Product = (props) => {
   const dispatch = useDispatch();
-  const _id = props.productName;
-  const idString = (_id) => {
-    return String(_id).toLowerCase().split(" ").join("");
-  };
-  const rootId = idString(_id);
-  const [wishList, setWishList] = useState([]);
+  const rootId = props.slug;
   const navigate = useNavigate();
   const productItem = props;
   const handleProductDetails = () => {
