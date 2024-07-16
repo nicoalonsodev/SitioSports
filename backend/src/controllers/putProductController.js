@@ -1,5 +1,13 @@
 const { Product } = require("../db");
 
+// Función para crear un slug a partir del nombre del producto
+const createSlug = (name) => {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-') // Reemplaza caracteres no alfanuméricos por guiones
+    .replace(/(^-|-$)+/g, '');   // Elimina guiones al principio y al final
+};
+
 const putProductController = async (id, updatedFields) => {
   try {
     const product = await Product.findOne({ where: { id } });
@@ -10,7 +18,6 @@ const putProductController = async (id, updatedFields) => {
     // Desestructurar los campos actualizados del objeto updatedFields
     const {
       productName,
-      slug,
       price,
       compare_price,
       brand,
@@ -32,9 +39,8 @@ const putProductController = async (id, updatedFields) => {
     // Actualizar los campos del producto solo si se proporcionan en updatedFields
     if (productName) {
       product.productName = productName;
-    }
-    if (slug) {
-      product.slug = slug;
+      // Generar y actualizar el slug si cambia el nombre del producto
+      product.slug = createSlug(productName);
     }
     if (price) {
       product.price = price;
