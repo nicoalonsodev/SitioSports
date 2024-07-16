@@ -10,6 +10,7 @@ const putProductController = async (id, updatedFields) => {
     // Desestructurar los campos actualizados del objeto updatedFields
     const {
       productName,
+      slug,
       price,
       compare_price,
       brand,
@@ -31,6 +32,9 @@ const putProductController = async (id, updatedFields) => {
     // Actualizar los campos del producto solo si se proporcionan en updatedFields
     if (productName) {
       product.productName = productName;
+    }
+    if (slug) {
+      product.slug = slug;
     }
     if (price) {
       product.price = price;
