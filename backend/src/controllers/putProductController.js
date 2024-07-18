@@ -33,13 +33,17 @@ const putProductController = async (id, updatedFields) => {
       new_arrivals,
       special_offers,
       discount_percentage,
-      video_youtube
+      video_youtube,
+      disabled
     } = updatedFields;
 
     // Actualizar los campos del producto solo si se proporcionan en updatedFields
     if (productName) {
       product.productName = productName;
       product.slug = createSlug(productName);
+    }
+    if (disabled) {
+      product.disabled = disabled;
     }
     if (price) {
       product.price = price;
