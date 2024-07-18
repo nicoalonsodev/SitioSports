@@ -14,6 +14,7 @@ const postCommissionsHandler = async (req, res) => {
       badge,
       image,
       description,
+      compare_price
     } = req.body;
     const productPosted = await postCommissionsController(
       productName,
@@ -26,7 +27,8 @@ const postCommissionsHandler = async (req, res) => {
       color,
       badge,
       image,
-      description
+      description,
+      compare_price
     );
     return res.status(200).json(productPosted);
   } catch (error) {
