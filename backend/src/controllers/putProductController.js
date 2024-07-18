@@ -38,50 +38,50 @@ const putProductController = async (id, updatedFields) => {
     } = updatedFields;
 
     // Actualizar los campos del producto solo si se proporcionan en updatedFields
-    if (productName) {
+    if (productName !== undefined) {
       product.productName = productName;
       product.slug = createSlug(productName);
     }
-    if (disabled) {
+    if (disabled !== undefined) {
       product.disabled = disabled;
     }
-    if (price) {
+    if (price !== undefined) {
       product.price = price;
     }
-    if (compare_price) {
+    if (compare_price !== undefined) {
       product.compare_price = compare_price;
     }
-    if (brand) {
+    if (brand !== undefined) {
       product.brand = brand;
     }
-    if (cat) {
+    if (cat !== undefined) {
       product.cat = cat;
     }
-    if (sub_cat) {
+    if (sub_cat !== undefined) {
       product.sub_cat = sub_cat;
     }
-    if (sizes) {
+    if (sizes !== undefined) {
       product.sizes = sizes;
     }
-    if (variants) {
+    if (variants !== undefined) {
       product.variants = variants;
     }
-    if (color) {
+    if (color !== undefined) {
       product.color = color;
     }
-    if (badge) {
+    if (badge !== undefined) {
       product.badge = badge;
     }
-    if (image) {
+    if (image !== undefined) {
       product.image = image;
     }
-    if (description) {
+    if (description !== undefined) {
       product.description = description;
     }
-    if (discount_percentage) {
+    if (discount_percentage !== undefined) {
       product.discount_percentage = discount_percentage;
     }
-    if (video_youtube) {
+    if (video_youtube !== undefined) {
       product.video_youtube = video_youtube;
     }
     if (best_sellers !== undefined) {
