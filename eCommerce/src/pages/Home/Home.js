@@ -16,7 +16,8 @@ const Home = () => {
     const fetchData = async () => {
       try {
         const products = await fetchProductsFromBackend();
-        dispatch(setBackendProducts(products));
+        const activeProducts = products.filter(product => !product.disabled);
+        dispatch(setBackendProducts(activeProducts));
       } catch (error) {
         console.error("Error fetching products:", error);
       }

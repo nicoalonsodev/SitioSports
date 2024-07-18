@@ -7,6 +7,7 @@ import CarruselDetail from "../../components/pageProps/productDetails/CarruselDe
 import { fetchProductBySlugFromBackend } from "../../utils/api";
 import { setProductById, cleanProductById } from "../../redux/orebiSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { spinner } from "../../assets/images";
 
 const ProductDetails = () => {
   const location = useLocation();
@@ -14,6 +15,7 @@ const ProductDetails = () => {
   const [prevLocation, setPrevLocation] = useState("");
   const [discountedPrice, setDiscountedPrice] = useState("");
   const [productInfo, setProductInfo] = useState([]);
+  const [isLoading, setIsLoading] = useState(true); // Nuevo estado para el loading
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,8 +27,10 @@ const ProductDetails = () => {
       try {
         const product = await fetchProductBySlugFromBackend(slug);
         dispatch(setProductById(product));
+        setIsLoading(false); // Desactivar el loading cuando los datos se cargan
       } catch (error) {
         console.error("Error fetching products:", error);
+        setIsLoading(false); // Desactivar el loading incluso si hay un error
       }
     };
 
@@ -45,41 +49,57 @@ const ProductDetails = () => {
   const handleSelectedImages = (variantImgs) => {
     setImages(variantImgs);
   };
- 
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <img src={spinner} alt="Loading..." className="w-16 h-16" />
+      </div>
+    );
+  }
+
   return (
-    <>{ product ?
-      <div className="w-full mx-auto border-b-[1px] border-b-gray-300">
-        <div className="max-w-container mx-auto px-4 ">
-          <div className="xl:-mt-10 -mt-7">
-            <Breadcrumbs title="" prevLocation={prevLocation} />
-          </div>
-          <div className="flex flex-col justify-center lg:flex-row gap-4 lg:items-start ">
-           {images ? <CarruselDetail
-              productInfo={product ? product : ""}
-              variantImages={images}
-            /> : ""}
-            <ProductInfo
-              productInfo={product ? product : ""}
-              handleSelectedImages={handleSelectedImages}
-              discountedPrice={discountedPrice}
-            />
-          </div>
-          <div className="flex justify-center py-20">
-            <div className="my-4">
-              {product.video_youtube ? (
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: product.video_youtube,
-                  }}
+    <>
+      {product ? (
+        <div className="w-full mx-auto border-b-[1px] border-b-gray-300">
+          <div className="max-w-container mx-auto px-4 ">
+            <div className="xl:-mt-10 -mt-7">
+              <Breadcrumbs title="" prevLocation={prevLocation} />
+            </div>
+            <div className="flex flex-col justify-center lg:flex-row gap-4 lg:items-start ">
+              {images ? (
+                <CarruselDetail
+                  productInfo={product ? product : ""}
+                  variantImages={images}
                 />
               ) : (
                 ""
               )}
+              <ProductInfo
+                productInfo={product ? product : ""}
+                handleSelectedImages={handleSelectedImages}
+                discountedPrice={discountedPrice}
+              />
             </div>
+            <div className="flex justify-center py-20">
+              <div className="my-4">
+                {product.video_youtube ? (
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: product.video_youtube,
+                    }}
+                  />
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
+            <BestSellers />
           </div>
-          <BestSellers />
         </div>
-      </div> : ""}
+      ) : (
+        ""
+      )}
     </>
   );
 };

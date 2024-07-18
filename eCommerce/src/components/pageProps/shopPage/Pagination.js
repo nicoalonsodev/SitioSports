@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Product from "../../home/Products/Product";
 import { useSelector } from "react-redux";
- 
+import { spinner } from "../../../assets/images";
 function Items({
   currentItems,
   selectedBrands,
@@ -68,7 +68,7 @@ function Items({
         return b.total_sales - a.total_sales;
       }
       if (sort === "novedades") {
-        return b.createdAt - a.createdAt;
+        return new Date(b.createdAt) - new Date(a.createdAt);
       }
       return 0;
     }
@@ -77,6 +77,8 @@ function Items({
   useEffect(() => {
     if (sortedItems.length === 0) {
       handleEmpty(true);
+    } else {
+      handleEmpty(false);
     }
   }, [sortedItems, handleEmpty]);
 
@@ -85,8 +87,8 @@ function Items({
       {sortedItems.length === 0 ? (
         <div className="w-full">
           <h1 className="text-center text-gray-800 font-semibold text-xl ">
-            Tus parámetros de busqueda no concuerdan con ninguno de nuestros
-            productos, sigue buscando!
+            Tus parámetros de búsqueda no concuerdan con ninguno de nuestros
+            productos, ¡sigue buscando!
           </h1>
         </div>
       ) : (
@@ -98,7 +100,7 @@ function Items({
               badge={item.badge}
               img={item.variants[0].imgUrl[0]}
               productName={item.productName}
-              price={item.price} 
+              price={item.price}
               compare_price={item.compare_price}
               brand={item.brand}
               cat={item.cat}
@@ -117,21 +119,30 @@ function Items({
   );
 }
 
-const Pagination = ({ itemsPerPage, commissions, sort, searchTag, handleChangeSearchTag }) => {
+const Pagination = ({
+  itemsPerPage,
+  commissions,
+  sort,
+  searchTag,
+  handleChangeSearchTag,
+}) => {
   const items = useSelector((state) => {
     if (commissions) {
-      // Si es así, devolvemos los productos por encargo
       return state.orebiReducer.commissions;
     } else {
-      // Si no, devolvemos todos los productos
       return state.orebiReducer.products;
     }
-  }); // Filter items based on selected brands and categories
+  });
 
+  const [isLoading, setIsLoading] = useState(true);
   const [itemOffset, setItemOffset] = useState(0);
   const [itemStart, setItemStart] = useState(1);
   const [empty, setEmpty] = useState(false);
   const [localSearchTag, setLocalSearchTag] = useState("");
+
+  useEffect(() => {
+    setIsLoading(false); // Desactivar el loading cuando los datos se cargan
+  }, [items]);
 
   const endOffset = itemOffset + itemsPerPage;
   const currentItems = items.slice(itemOffset, endOffset);
@@ -148,10 +159,10 @@ const Pagination = ({ itemsPerPage, commissions, sort, searchTag, handleChangeSe
 
   const handleSearchTag = () => {
     handleChangeSearchTag();
-  }
+  };
   useEffect(() => {
     if (searchTag) {
-      setLocalSearchTag(searchTag)
+      setLocalSearchTag(searchTag);
     }
   }, [searchTag]);
 
@@ -160,7 +171,7 @@ const Pagination = ({ itemsPerPage, commissions, sort, searchTag, handleChangeSe
       handleEmpty(false);
     }
     if (searchTag) {
-      setLocalSearchTag("")
+      setLocalSearchTag("");
       handleSearchTag();
     }
   }, [
@@ -182,15 +193,17 @@ const Pagination = ({ itemsPerPage, commissions, sort, searchTag, handleChangeSe
     setEmpty(value);
   };
 
-
-
   return (
     <div>
-      {empty ? (
+      {isLoading ? (
+        <div className="flex justify-center items-center h-screen">
+          <img src={spinner} alt="Loading..." className="w-16 h-16" />
+        </div>
+      ) : empty ? (
         <div className="w-full">
           <h1 className="text-center text-gray-800 font-semibold text-xl px-4 lg:px-20 px-32">
-            Tus parámetros de busqueda no concuerdan con <br/>ninguno de nuestros
-            productos, sigue buscando!
+            Tus parámetros de búsqueda no concuerdan con <br />
+            ninguno de nuestros productos, ¡sigue buscando!
           </h1>
         </div>
       ) : (

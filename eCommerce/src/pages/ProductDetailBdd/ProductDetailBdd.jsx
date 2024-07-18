@@ -10,22 +10,16 @@ import formatPrice from "../../utils/formatPrice";
 const ProductDetailBdd = () => {
   const [isChanging, setIsChanging] = useState(false);
   const { id } = useParams();
-  const [product, setProduct] = useState("");
-  const [prevProduct, setPrevProduct] = useState("");
-  const [bestSellers, setBestSellers] = useState(false);
-  const [newArrivals, setNewArrivals] = useState(false);
-  const [specialOffers, setSpecialOffers] = useState(false);
+  const [product, setProduct] = useState(null); // Cambiado a null para evitar falsos positivos
+  const [prevProduct, setPrevProduct] = useState(null); // Cambiado a null para evitar falsos positivos
   const products = useSelector((state) => state.orebiReducer.products);
 
   useEffect(() => {
-    if (products) {
+    if (products && id) {
       const foundProduct = products.find((product) => product.id === id);
       if (foundProduct) {
         setProduct(foundProduct);
         setPrevProduct(foundProduct);
-        setBestSellers(foundProduct.best_sellers);
-        setNewArrivals(foundProduct.new_arrivals);
-        setSpecialOffers(foundProduct.special_offers);
       }
     }
   }, [products, id]);
@@ -62,6 +56,7 @@ const ProductDetailBdd = () => {
       discount_percentage: product.discount_percentage,
       description: product.description,
       video_youtube: product.video_youtube,
+      disabled: product.disabled
     };
 
     axios
@@ -79,6 +74,7 @@ const ProductDetailBdd = () => {
   };
 
   const handleChanging = () => {
+    console.log("Activating change mode");
     setIsChanging(true);
   };
 
@@ -154,7 +150,7 @@ const ProductDetailBdd = () => {
   };
 
   const handleSelectChange = (event) => {
-    const value = event.target.value;
+    const value = event.target.value === "true";
     setProduct((prevProduct) => ({
       ...prevProduct,
       disabled: value,
@@ -439,6 +435,7 @@ const ProductDetailBdd = () => {
               )}
               {product.variants?.map((variant) => (
                 <StockBysizes
+                  key={variant.id}
                   isChanging={isChanging}
                   handleSizes={handleSizes}
                   variant={variant}

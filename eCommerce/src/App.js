@@ -55,6 +55,7 @@ import OrdersFollows from "./pages/Help/OrdersFollows";
 import SizeGuides from "./pages/Help/SizeGuides";
 import Login from "./components/AdminLogin/AdminLogin";
 import { getProtectedData } from "./utils/api";
+import NotFound from "./pages/NotFound/NotFound"; // Importa el componente NotFound
 
 const Layout = () => {
   const location = useLocation();
@@ -199,6 +200,7 @@ const App = () => {
           path="/admin"
           element={isAuthenticated ? <Admin /> : <Login />}
         />
+        <Route path="*" element={<NotFound />} /> 
       </Route>
     )
   );

@@ -278,7 +278,7 @@ const AddressForm = ({ handleAddress, email, payerInfo }) => {
         <button
           type="submit"
           onClick={handleSubmit}
-          className="p-4 bg-gray-800 text-gray-100 py-2 rounded-md block text-lg  hover:opacity-80"
+          className="p-4 bg-gray-800 text-gray-100 py-2 rounded-sm block text-lg  hover:bg-pink-600 duration-300"
         >
           Continuar
         </button>
