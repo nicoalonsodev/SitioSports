@@ -58,6 +58,9 @@ import banner2_mobile from "./banner2_mobile.webp";
 import offer1 from "./offer1.webp";
 import offer2 from "./offer2.webp";
 import video_arg from "./video_arg.mp4";
+
+import spinner from "./gif/spinner.gif";
+
 export {
   shipping_country,
   sizes_guia,
@@ -111,5 +114,6 @@ export {
   banner2_mobile,
   offer1,
   offer2,
-  video_arg
+  video_arg,
+  spinner
 };

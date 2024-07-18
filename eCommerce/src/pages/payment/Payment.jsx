@@ -403,7 +403,7 @@ const Payment = (props) => {
           {shipping ? (
             <div className="">
               <button
-                className="w-auto h-10 px-4 uppercase bg-primeColor text-white text-lg mt-4 hover:bg-black duration-300"
+                className="w-auto h-10 px-4 uppercase bg-primeColor text-white text-lg mt-4 rounded-sm hover:bg-pink-600 duration-300"
                 onClick={() => setReadyToPay(true)}
               >
                 Continuar
