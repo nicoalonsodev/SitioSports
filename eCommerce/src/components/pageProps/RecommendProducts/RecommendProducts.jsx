@@ -63,6 +63,7 @@ const RecommendProducts = () => {
           <Product
             _id={product.id}
             img={product.variants[0].imgUrl[0]}
+            slug={product.slug}
             productName={product.productName}
             price={product.price}
             compare_price={product.compare_price}
