@@ -77,7 +77,7 @@ const ProductForm = () => {
     let error = "";
     if (name === "productName" && !value) error = "El nombre del producto es obligatorio";
     if (name === "price" && (!value || value <= 0)) error = "El precio debe ser mayor que 0";
-    if (name === "compare_price" && (!value || value <= 0)) error = "El precio de comparación debe ser mayor que 0";
+    // if (name === "compare_price" && (!value || value <= 0)) error = "El precio de comparación debe ser mayor que 0";
     if (name === "brand" && !value) error = "La marca es obligatoria";
     if (name === "cat" && !value) error = "La categoría es obligatoria";
     if (name === "sub_cat" && form.cat !== "Medias" && !value) error = "La subcategoría es obligatoria";
