@@ -39,7 +39,6 @@ const putProductController = async (id, updatedFields) => {
     // Actualizar los campos del producto solo si se proporcionan en updatedFields
     if (productName) {
       product.productName = productName;
-      // Generar y actualizar el slug si cambia el nombre del producto
       product.slug = createSlug(productName);
     }
     if (price) {

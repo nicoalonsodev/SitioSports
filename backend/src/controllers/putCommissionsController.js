@@ -10,28 +10,34 @@ const putCommissionsController = async (id, updatedFields) => {
     // Desestructurar los campos actualizados del objeto updatedFields
     const {
       productName,
-      slug,
-      price,
-      brand,
-      cat,
-      sub_cat,
-      sizes,
-      variants,
-      color,
-      badge,
-      image,
-      description,
+    price,
+    compare_price,
+    brand,
+    cat,
+    sub_cat,
+    sizes,
+    variants,
+    color,
+    badge,
+    image,
+    description,
+    best_sellers,
+    new_arrivals,
+    special_offers,
+    discount_percentage,
+    video_youtube
     } = updatedFields;
 
     // Actualizar los campos del producto solo si se proporcionan en updatedFields
     if (productName) {
       product.productName = productName;
-    }
-    if (slug) {
-      product.slug = slug;
+      product.slug = createSlug(productName);
     }
     if (price) {
       product.price = price;
+    }
+    if (compare_price) {
+      product.compare_price = compare_price;
     }
     if (brand) {
       product.brand = brand;
@@ -59,6 +65,21 @@ const putCommissionsController = async (id, updatedFields) => {
     }
     if (description) {
       product.description = description;
+    }
+    if (discount_percentage) {
+      product.discount_percentage = discount_percentage;
+    }
+    if (video_youtube) {
+      product.video_youtube = video_youtube;
+    }
+    if (best_sellers !== undefined) {
+      product.best_sellers = best_sellers;
+    }
+    if (new_arrivals !== undefined) {
+      product.new_arrivals = new_arrivals;
+    }
+    if (special_offers !== undefined) {
+      product.special_offers = special_offers;
     }
 
     // Guardar los cambios en la base de datos
