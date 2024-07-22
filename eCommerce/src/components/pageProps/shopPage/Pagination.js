@@ -86,7 +86,7 @@ function Items({
     <>
       {sortedItems.length === 0 ? (
         <div className="w-full">
-          <h1 className="text-center text-gray-800 font-semibold text-xl ">
+          <h1 className="text-center text-gray-800 font-semibold text-lg lg:text-xl px-0">
             Tus parámetros de búsqueda no concuerdan con ninguno de nuestros
             productos, ¡sigue buscando!
           </h1>
@@ -201,7 +201,7 @@ const Pagination = ({
         </div>
       ) : empty ? (
         <div className="w-full">
-          <h1 className="text-center text-gray-800 font-semibold text-xl px-4 lg:px-20 px-32">
+          <h1 className="text-center text-gray-800 font-semibold text-xl px-4 lg:px-20">
             Tus parámetros de búsqueda no concuerdan con <br />
             ninguno de nuestros productos, ¡sigue buscando!
           </h1>

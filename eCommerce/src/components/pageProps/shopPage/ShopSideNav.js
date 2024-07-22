@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Brand from "./shopBy/Brand";
 import Category from "./shopBy/Category";
-import Subcategory from "./shopBy/Subcategory";
+import Subcategory from "./shopBy/SubCategories/Subcategory";
 import Size from "./shopBy/Size";
 import SizeCamisetas from "./shopBy/SizeCamisetas";
-import SubcategoryCamisetas from "./shopBy/Subcategory.Camisetas";
+import SubcategoryCamisetas from "./shopBy/SubCategories/SubcategoryCamisetas";
+import SubcategoryAccesorios from "./shopBy/SubCategories/SubcategoryAccesorios";
+import SubcategoryIndumentaria from "./shopBy/SubCategories/SubcategoryIndumentaria";
+import SubcategoryZapatillas from "./shopBy/SubCategories/SubcategoryZapatillas";
 import SizeMedias from "./shopBy/SizeMedias";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -46,7 +49,7 @@ const ShopSideNav = () => {
     selectedCategories,
     selectedSubcategories,
     selectedSizes,
-    selectedBrands,
+    selectedBrands, 
   ]);
 
   const handleRemoveFilter = (filter) => {
@@ -65,7 +68,6 @@ const ShopSideNav = () => {
     }
   };
 
-  console.log(selectedCategories);
   return (
     <div className="w-full flex flex-col gap-6">
       <h1 className="text-2xl font-bold">Filtros</h1>
@@ -90,25 +92,21 @@ const ShopSideNav = () => {
       </div>
       <Category icons={false} />
       { selectedCategories.length && selectedCategories[0].title === "Botines" ? <Size /> 
-       : selectedCategories.length && selectedCategories[0].title === "Camisetas" ? <SizeCamisetas /> : selectedCategories.length && selectedCategories[0].title === "Medias" ?  <SizeMedias /> : ""}
+       : selectedCategories.length && selectedCategories[0].title === "Camisetas" ? <SizeCamisetas /> : selectedCategories.length && selectedCategories[0].title === "Indumentaria" ?  <SizeCamisetas /> : selectedCategories.length && selectedCategories[0].title === "Zapatillas" ?  <Size /> : ""}
       <Brand />
      {selectedCategories.length && selectedCategories[0].title === "Botines" ? (
-        // <div className="space-y-2">
-        //   <h1 className="text-2xl font-bold">Botines</h1>
           <Subcategory />
-          // <Size />
-        // </div>
       ) : selectedCategories.length && selectedCategories[0].title === "Camisetas" ? (
-        // <div className="space-y-2">
-        //   <h1 className="text-2xl font-bold">Camisetas</h1>
           <SubcategoryCamisetas />
-        //   <SizeCamisetas />
-        // </div>
-      )  : (
+      )  : selectedCategories.length && selectedCategories[0].title === "Indumentaria" ? (
+        <SubcategoryIndumentaria />
+    )  : selectedCategories.length && selectedCategories[0].title === "Accesorios" ? (
+      <SubcategoryAccesorios />
+  )  :  selectedCategories.length && selectedCategories[0].title === "Zapatillas" ? (
+    <SubcategoryZapatillas />
+)  :(
         ""
       )} 
-
-      {/* <Price /> */}
     </div>
   );
 };

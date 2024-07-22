@@ -33,7 +33,6 @@ import OrderDetailBdd from "./pages/OrderDetailBdd/OrderDetailBdd";
 import OrderForm from "./pages/OrderDetailBdd/OrderForm";
 import ProductForm from "./pages/ProductForm/ProductForm";
 import ProductDetailBdd from "./pages/ProductDetailBdd/ProductDetailBdd";
-import WhatsAppButton from "./components/Whatsapp/WhatsappButton";
 import ShopByCommissions from "./pages/Shop/ShopByCommissions";
 import CommissionsTableBdd from "./pages/CommissionsBdd/CommissionsTableBdd";
 import Admin from "./pages/Admin/Admin";
@@ -55,7 +54,8 @@ import OrdersFollows from "./pages/Help/OrdersFollows";
 import SizeGuides from "./pages/Help/SizeGuides";
 import Login from "./components/AdminLogin/AdminLogin";
 import { getProtectedData } from "./utils/api";
-import NotFound from "./pages/NotFound/NotFound"; // Importa el componente NotFound
+import NotFound from "./pages/NotFound/NotFound"; 
+import WhatsAppButton from "./components/Whatsapp/WhatsappButton";
 
 const Layout = () => {
   const location = useLocation();
@@ -89,6 +89,7 @@ const Layout = () => {
       <Outlet />
       <Footer />
       <FooterBottom />
+      <WhatsAppButton />
     </div>
   );
 };

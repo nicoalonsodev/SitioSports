@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import { FaPlus } from "react-icons/fa";
 import { ImPlus } from "react-icons/im";
 import NavTitle from "./NavTitle";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,10 +27,17 @@ const Category = () => {
       _id: 9009,
       title: "Camisetas",
     },
-
     {
-      _id: 9008,
-      title: "Medias",
+      _id: 9007,
+      title: "Accesorios",
+    },
+    {
+      _id: 9005,
+      title: "Indumentaria",
+    },
+    {
+      _id: 9004,
+      title: "Zapatillas",
     },
   ];
 

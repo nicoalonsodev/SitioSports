@@ -1,14 +1,25 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { FaFacebook, FaYoutube, FaLinkedin, FaGithub } from "react-icons/fa";
 import FooterListTitle from "./FooterListTitle";
-import { paymentCard } from "../../../assets/images";
-import Image from "../../designLayouts/Image";
 import { tarjetas, otherPaymentMethods } from "../../../constants";
+import {
+  cleanFilters,
+  toggleCategory,
+} from "../../../redux/orebiSlice";
+import { useDispatch } from "react-redux";
 const Footer = () => {
+  const dispatch = useDispatch();
   const [emailInfo, setEmailInfo] = useState("");
   const [subscription, setSubscription] = useState(false);
   const [errMsg, setErrMsg] = useState("");
+
+  const allCategories = [
+    { _id: 9006, title: "Botines" },
+    { _id: 9009, title: "Camisetas" },
+    { _id: 9007, title: "Accesorios" },
+    { _id: 9005, title: "Indumentaria" },
+    { _id: 9004, title: "Zapatillas" },
+  ];
 
   const emailValidation = () => {
     return String(emailInfo)
@@ -53,13 +64,44 @@ const Footer = () => {
               <a href="/catalogo"> Catálogo</a>
             </li>
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              <a href="/catalogo"> Botines</a>
+              <a 
+               onClick={() => {
+                dispatch(cleanFilters());
+                dispatch(toggleCategory(allCategories[0]));
+              }}
+              href="/catalogo"> Botines</a>
             </li>
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              <a href="/catalogo"> Camisetas</a>
+              <a
+               onClick={() => {
+                dispatch(cleanFilters());
+                dispatch(toggleCategory(allCategories[1]));
+              }}
+              href="/catalogo"> Camisetas</a>
             </li>
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              <a href="/catalogo"> Medias</a>
+              <a 
+               onClick={() => {
+                dispatch(cleanFilters());
+                dispatch(toggleCategory(allCategories[3]));
+              }}
+              href="/catalogo"> Indumentaria</a>
+            </li>
+            <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+              <a 
+               onClick={() => {
+                dispatch(cleanFilters());
+                dispatch(toggleCategory(allCategories[4]));
+              }}
+              href="/catalogo"> Zapatillas</a>
+            </li>
+            <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+              <a 
+               onClick={() => {
+                dispatch(cleanFilters());
+                dispatch(toggleCategory(allCategories[2]));
+              }}
+              href="/catalogo"> Accesorios</a>
             </li>
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
               <a href="/ayuda"> Ayuda</a>

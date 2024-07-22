@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import UploadImage from "../../components/UploadImage/UploadImage";
-import PostSizeBotines from "../../components/ProductForm/PostSizeBotines";
-import PostSizeCamisetas from "../../components/ProductForm/PostSizeCamisetas";
-import PostSizeMedias from "../../components/ProductForm/PostSizeMedias";
 import Variant from "./Variant";
 
 const ProductForm = () => {
@@ -49,30 +45,78 @@ const ProductForm = () => {
     { size: "43-44", stock: 0, sold: 0 },
   ];
 
-  const getSizesByCategory = (category) => {
-    switch (category) {
-      case "Botines":
-        return botinesSizes;
-      case "Camisetas":
-        return camisetasSizes;
-      case "Medias":
-        return mediasSizes;
-      default:
-        return [];
+  const mochilaSizes = [
+    { size: "Mochila", stock: 0, sold: 0 },
+  ];
+
+  const guantesSizes = [
+    { size: "S", stock: 0, sold: 0 },
+    { size: "M", stock: 0, sold: 0 },
+    { size: "L", stock: 0, sold: 0 },
+  ];
+
+  const canillerasSizes = [
+    { size: "S", stock: 0, sold: 0 },
+    { size: "M", stock: 0, sold: 0 },
+    { size: "L", stock: 0, sold: 0 },
+  ];
+
+  const termoSizes = [
+    { size: "750ml", stock: 0, sold: 0 },
+    { size: "1L", stock: 0, sold: 0 },
+  ];
+
+  const getSizesByCategory = (category, subCategory) => {
+    if (category === "Accesorios") {
+      switch (subCategory) {
+        case "Mochila":
+          return mochilaSizes;
+        case "Guantes":
+          return guantesSizes;
+        case "Canilleras":
+          return canillerasSizes;
+        case "Termo":
+          return termoSizes;
+        case "Medias":
+          return mediasSizes;
+        default:
+          return [];
+      }
+    } else {
+      switch (category) {
+        case "Botines":
+          return botinesSizes;
+        case "Zapatillas":
+          return botinesSizes;
+        case "Camisetas":
+          return camisetasSizes;
+        case "Indumentaria":
+          return camisetasSizes;
+        case "Medias":
+          return mediasSizes;
+        default:
+          return [];
+      }
     }
   };
 
-  useEffect(() => {
-    if (form.cat) {
-      const newSizes = getSizesByCategory(form.cat);
-      const newVariant = { variant: "", id: 1, sizes: newSizes, imgUrl: [] };
-      setForm((prevForm) => ({
-        ...prevForm,
-        variants: [newVariant],
-      }));
-    }
-  }, [form.cat]);
+  const subCategoryOptions = {
+    Botines: ["Futbol 5", "Futbol 11"],
+    Camisetas: ["24/25", "Retro"],
+    Medias: ["Cortas", "Largas"],
+    Indumentaria: ["Campera", "Buzo", "Chaleco", "Conjunto"],
+    Zapatillas: ["Deportivo", "Urbano"],
+    Accesorios: ["Mochila", "Medias", "Guantes", "Canilleras", "Termo"],
+  };
 
+  useEffect(() => {
+    const newSizes = getSizesByCategory(form.cat, form.sub_cat);
+    const newVariant = { variant: "", id: 1, sizes: newSizes, imgUrl: [] };
+    setForm((prevForm) => ({
+      ...prevForm,
+      variants: [newVariant],
+    }));
+  }, [form.cat, form.sub_cat]);
   const validateField = (name, value) => {
     let error = "";
     if (name === "productName" && !value) error = "El nombre del producto es obligatorio";
@@ -106,12 +150,22 @@ const ProductForm = () => {
       ...prevErrors,
       [name]: error,
     }));
-    setForm((prevForm) => ({
-      ...prevForm,
-      [name]: value,
-    }));
+  
+    setForm((prevForm) => {
+      if (name === "cat") {
+        return {
+          ...prevForm,
+          [name]: value,
+          sub_cat: "",
+        };
+      } else {
+        return {
+          ...prevForm,
+          [name]: value,
+        };
+      }
+    });
   };
-
   const handleSizes = (size, id) => {
     const variantFormIndex = form.variants.findIndex(
       (variant) => variant.id === id
@@ -215,13 +269,6 @@ const ProductForm = () => {
           ? { ...variant, imgUrl: variant.imgUrl.filter((_, i) => i !== index) }
           : variant
       ),
-    }));
-  };
-
-  const handleUploadImage = (url) => {
-    setForm((prevRegistro) => ({
-      ...prevRegistro,
-      image: url,
     }));
   };
 
@@ -422,6 +469,9 @@ const ProductForm = () => {
                   <option>Camisetas</option>
                   <option>Botines</option>
                   <option>Medias</option>
+                  <option>Indumentaria</option>
+                  <option>Zapatillas</option>
+                  <option>Accesorios</option>
                 </select>
                 {errors.cat && (
                   <p className="text-red-600 text-sm">{errors.cat}</p>
@@ -437,7 +487,7 @@ const ProductForm = () => {
                 Subcategoria
               </label>
               <div className="mt-2">
-                {form.cat === "Botines" ? (
+                {form.cat && (
                   <select
                     id="sub_cat"
                     name="sub_cat"
@@ -449,26 +499,12 @@ const ProductForm = () => {
                     <option value="" disabled selected>
                       Selecciona una opción
                     </option>
-                    <option>Futbol 5</option>
-                    <option>Futbol 11</option>
+                    {subCategoryOptions[form.cat].map((subCat, index) => (
+                      <option key={index} value={subCat}>
+                        {subCat}
+                      </option>
+                    ))}
                   </select>
-                ) : form.cat === "Camisetas" ? (
-                  <select
-                    id="sub_cat"
-                    name="sub_cat"
-                    value={form.sub_cat}
-                    autoComplete="categoria"
-                    onChange={handleChange}
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                  >
-                    <option value="" disabled selected>
-                      Selecciona una opción
-                    </option>
-                    <option>24/25</option>
-                    <option>Retro</option>
-                  </select>
-                ) : (
-                  ""
                 )}
                 {errors.sub_cat && (
                   <p className="text-red-600 text-sm">{errors.sub_cat}</p>
@@ -494,6 +530,7 @@ const ProductForm = () => {
                     handleChangeVariantName={handleChangeVariantName}
                     handleDeleteVariant={handleDeleteVariant}
                     cat={form.cat}
+                    sub_cat={form.sub_cat}
                     vari={vari}
                     handleSizes={handleSizes}
                     variants={form.variants}

@@ -19,21 +19,22 @@ import DropdownCamisetas from "./DropdownCamisetas";
 import DropdownMedias from "./DropdownMedias";
 import HeaderBottom from "./HeaderBottom";
 import { fetchCommissionsFromBackend } from "../../../utils/api";
+
 const Header = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.orebiReducer.cartProducts);
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(true);
   const [sidenav, setSidenav] = useState(false);
-  const [category, setCategory] = useState(false);
-  const [brand, setBrand] = useState(false);
   const [showUser, setShowUser] = useState(false);
   const [showBotinesDiv, setShowBotinesDiv] = useState(false);
-  const [showMedias, setShowMedias] = useState(false);
+  const [showZapatillas, setShowZapatillas] = useState(false);
+  const [showIndumentaria, setShowIndumentaria] = useState(false);
   const [showCamisetas, setShowCamisetas] = useState(false);
   const [showSearchBar, setShowSearchBar] = useState(false);
 
   const location = useLocation();
+
   useEffect(() => {
     let ResponsiveMenu = () => {
       if (window.innerWidth < 667) {
@@ -45,6 +46,7 @@ const Header = () => {
     ResponsiveMenu();
     window.addEventListener("resize", ResponsiveMenu);
   }, []);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const handleSearch = (e) => {
@@ -66,44 +68,19 @@ const Header = () => {
   };
 
   const allCategories = [
-    {
-      _id: 9006,
-      title: "Botines",
-    },
-    {
-      _id: 9009,
-      title: "Camisetas",
-    },
-
-    {
-      _id: 9008,
-      title: "Medias",
-    },
+    { _id: 9006, title: "Botines" },
+    { _id: 9009, title: "Camisetas" },
+    { _id: 9007, title: "Accesorios" },
+    { _id: 9005, title: "Indumentaria" },
+    { _id: 9004, title: "Zapatillas" },
   ];
-  const handleHover = (_id) => {
-    if (_id === 1003) {
-      setShowBotinesDiv(!showBotinesDiv);
-    } else if (_id === 1004) {
-      setShowCamisetas(!showCamisetas);
-    } else if (_id === 1005) {
-      setShowMedias(!showMedias);
-    }
+
+  const handleMouseEnter = (menuSetter) => {
+    menuSetter(true);
   };
 
-  const navBotinkStyle = {
-    color: showBotinesDiv ? "#fc148c" : "#767676",
-    // textDecoration: "underline",
-    textDecorationColor: showBotinesDiv ? "#fc148c" : "#767676",
-    textDecorationThickness: "1px",
-    underlineOffset: "4px",
-  };
-
-  const navCamisetaStyle = {
-    color: showCamisetas ? "#fc148c" : "#767676",
-    // textDecoration: "underline",
-    textDecorationColor: showCamisetas ? "#fc148c" : "#767676",
-    textDecorationThickness: "1px",
-    underlineOffset: "4px",
+  const handleMouseLeave = (menuSetter) => {
+    menuSetter(false);
   };
 
   const handleSearchBar = () => {
@@ -128,123 +105,162 @@ const Header = () => {
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5 }}
-                className="flex items-center justify-center w-full z-50 p-0 gap-2"
+                className="flex items-center justify-center w-full z-50 p-0 gap-x-4"
               >
-                <>
-                  <div
-                    className="relative"
-                    onMouseEnter={() => handleHover(1002)}
-                    onMouseLeave={() => handleHover(1002)}
+                <div
+                  className="relative"
+                 
+                >
+                  <NavLink
+                    key={1002}
+                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
+                    to={"/catalogo"}
+                    state={{ data: location.pathname.split("/")[1] }}
+                    onClick={() => {
+                      dispatch(cleanFilters());
+                    }}
                   >
-                    <NavLink
-                      key={1002}
-                      className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
-                      to={"/catalogo"}
-                      state={{ data: location.pathname.split("/")[1] }}
-                      onClick={() => {
-                        dispatch(cleanFilters());
-                      }}
-                    >
-                      <li>Catálogo</li>
-                    </NavLink>
-                  </div>
-                  <div
-                    className="relative"
-                    onMouseEnter={() => handleHover(1003)}
-                    onMouseLeave={() => handleHover(1003)}
+                    <li>Catálogo</li>
+                  </NavLink>
+                </div>
+                <div
+                  className="relative"
+                  onMouseEnter={() => handleMouseEnter(setShowBotinesDiv)}
+                  onMouseLeave={() => handleMouseLeave(setShowBotinesDiv)}
+                >
+                  <NavLink
+                    key={1003}
+                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
+                    to={"/catalogo"}
+                    state={{ data: location.pathname.split("/")[1] }}
+                    onClick={() => {
+                      dispatch(cleanFilters());
+                      dispatch(toggleCategory(allCategories[0]));
+                    }}
                   >
-                    <NavLink
-                      key={1003}
-                      className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
-                      to={"/catalogo"}
-                      state={{ data: location.pathname.split("/")[1] }}
-                      onClick={() => {
-                        dispatch(cleanFilters());
-                        dispatch(toggleCategory(allCategories[0]));
-                      }}
+                    <li
+                      style={{ color: showBotinesDiv ? "#fc148c" : "#767676" }}
                     >
-                      <li style={navBotinkStyle}>Botines</li>
-                    </NavLink>
-                    <div
-                      className={`z-20 top-[20px] left-[-200px] absolute w-[900px] h-auto bg-white  ${
-                        showBotinesDiv ? "flex" : "hidden"
-                      } `}
-                    >
-                      <DropdownBotines />
-                    </div>
-                  </div>
+                      Botines
+                    </li>
+                  </NavLink>
                   <div
-                    className="relative"
-                    onMouseEnter={() => handleHover(1004)}
-                    onMouseLeave={() => handleHover(1004)}
+                    className={`z-20 top-[20px] left-[-200px] absolute w-[900px] h-auto bg-white ${
+                      showBotinesDiv ? "flex" : "hidden"
+                    }`}
                   >
-                    <NavLink
-                      key={1004}
-                      className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
-                      to={"/catalogo"}
-                      state={{ data: location.pathname.split("/")[1] }}
-                      onClick={() => {
-                        dispatch(cleanFilters());
-                        dispatch(toggleCategory(allCategories[1]));
-                      }}
-                    >
-                      <li style={navCamisetaStyle}>Camisetas</li>
-                    </NavLink>
-                    <div
-                      className={`z-20 top-[20px] left-[-200px] absolute w-[900px] h-auto bg-white  ${
-                        showCamisetas ? "flex" : "hidden"
-                      } `}
-                    >
-                      <DropdownCamisetas />
-                    </div>
+                    <DropdownBotines />
                   </div>
+                </div>
+
+                <div
+                  className="relative"
+                  onMouseEnter={() => handleMouseEnter(setShowCamisetas)}
+                  onMouseLeave={() => handleMouseLeave(setShowCamisetas)}
+                >
+                  <NavLink
+                    key={1004}
+                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
+                    to={"/catalogo"}
+                    state={{ data: location.pathname.split("/")[1] }}
+                    onClick={() => {
+                      dispatch(cleanFilters());
+                      dispatch(toggleCategory(allCategories[1]));
+                    }}
+                  >
+                    <li
+                      style={{ color: showCamisetas ? "#fc148c" : "#767676" }}
+                    >
+                      Camisetas
+                    </li>
+                  </NavLink>
                   <div
-                    className="relative"
-                    onMouseEnter={() => handleHover(1005)}
-                    onMouseLeave={() => handleHover(1005)}
+                    className={`z-20 top-[20px] left-[-200px] absolute w-[900px] h-auto bg-white ${
+                      showCamisetas ? "flex" : "hidden"
+                    }`}
                   >
-                    <NavLink
-                      key={1005}
-                      className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
-                      to={"/catalogo"}
-                      state={{ data: location.pathname.split("/")[1] }}
-                      onClick={() => {
-                        dispatch(cleanFilters());
-                        dispatch(toggleCategory(allCategories[2]));
-                      }}
-                    >
-                      <li>Medias</li>
-                    </NavLink>
-                    <div
-                      className={`z-20 top-[20px] left-[-200px] absolute w-[900px] h-auto bg-white  ${
-                        showMedias ? "flex" : "hidden"
-                      } `}
-                    >
-                      <DropdownMedias />
-                    </div>
+                    <DropdownCamisetas />
                   </div>
-                  <div className="relative">
-                    <NavLink
-                      key={1007}
-                      className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
-                      to={"/encargo"}
-                      state={{ data: location.pathname.split("/")[1] }}
-                      onClick={handleCommissionClick}
-                    >
-                      <li>Encargo</li>
-                    </NavLink>
+                </div>
+
+                <div
+                  className="relative"
+                  onMouseEnter={() => handleMouseEnter(setShowIndumentaria)}
+                  onMouseLeave={() => handleMouseLeave(setShowIndumentaria)}
+                >
+                  <NavLink
+                    key={1005}
+                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
+                    to={"/catalogo"}
+                    state={{ data: location.pathname.split("/")[1] }}
+                    onClick={() => {
+                      dispatch(cleanFilters());
+                      dispatch(toggleCategory(allCategories[3]));
+                    }}
+                  >
+                    <li style={{ color: showIndumentaria ? "#fc148c" : "#767676" }}>
+                      Indumentaria
+                    </li>
+                  </NavLink>
+                  <div
+                    className={`z-20 top-[20px] left-[-200px] absolute w-[900px] h-auto bg-white ${
+                      showIndumentaria ? "flex" : "hidden"
+                    }`}
+                  >
+                    {/* <DropdownMedias /> */}
                   </div>
-                  <div className="relative">
-                    <NavLink
-                      key={1009}
-                      className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
-                      to={"/ayuda"}
-                      state={{ data: location.pathname.split("/")[1] }}
-                    >
-                      <li>Ayuda</li>
-                    </NavLink>
+                </div>
+
+                <div
+                  className="relative"
+                  onMouseEnter={() => handleMouseEnter(setShowZapatillas)}
+                  onMouseLeave={() => handleMouseLeave(setShowZapatillas)}
+                >
+                  <NavLink
+                    key={1006}
+                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
+                    to={"/catalogo"}
+                    state={{ data: location.pathname.split("/")[1] }}
+                    onClick={() => {
+                      dispatch(cleanFilters());
+                      dispatch(toggleCategory(allCategories[4]));
+                    }}
+                  >
+                    <li style={{ color: showZapatillas ? "#fc148c" : "#767676" }}>
+                      Zapatillas
+                    </li>
+                  </NavLink>
+                  <div
+                    className={`z-20 top-[20px] left-[-200px] absolute w-[900px] h-auto bg-white ${
+                      showZapatillas ? "flex" : "hidden"
+                    }`}
+                  >
+                    {/* <DropdownMedias /> */}
                   </div>
-                </>
+                </div>
+
+                <div className="relative">
+                  <NavLink
+                    key={1007}
+                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
+                    to={"/encargo"}
+                    state={{ data: location.pathname.split("/")[1] }}
+                    onClick={handleCommissionClick}
+                  >
+                    <li>Encargo</li>
+                  </NavLink>
+                </div>
+
+                <div className="relative">
+                  <NavLink
+                    key={1009}
+                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
+                    to={"/ayuda"}
+                    state={{ data: location.pathname.split("/")[1] }}
+                  >
+                    <li>Ayuda</li>
+                  </NavLink>
+                </div>
               </motion.ul>
             )}
             {sidenav && (
@@ -277,57 +293,13 @@ const Header = () => {
                         </li>
                       ))}
                     </ul>
-                    {/* <div className="mt-4">
-                      <h1
-                        onClick={() => setCategory(!category)}
-                        className="flex justify-between text-base cursor-pointer items-center font-titleFont mb-2"
-                      >
-                        Shop by Category
-                        <span className="text-lg">{category ? "-" : "+"}</span>
-                      </h1>
-                      <motion.ul
-                        initial={{ y: 15, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ duration: 0.4 }}
-                        className={`text-sm flex flex-col gap-1`}
-                      >
-                        <li className="headerSedenavLi">New Arrivals</li>
-                        <li className="headerSedenavLi">Gudgets</li>
-                        <li className="headerSedenavLi">Accessories</li>
-                        <li className="headerSedenavLi">Electronics</li>
-                        <li className="headerSedenavLi">Others</li>
-                      </motion.ul>
-                    </div> */}
-                    {/* <div className="mt-4">
-                      <h1
-                        onClick={() => setBrand(!brand)}
-                        className="flex justify-between text-base cursor-pointer items-center font-titleFont mb-2"
-                      >
-                        Shop by Brand
-                        <span className="text-lg">{brand ? "-" : "+"}</span>
-                      </h1>
-                      {brand && (
-                        <motion.ul
-                          initial={{ y: 15, opacity: 0 }}
-                          animate={{ y: 0, opacity: 1 }}
-                          transition={{ duration: 0.4 }}
-                          className="text-sm flex flex-col gap-1"
-                        >
-                          <li className="headerSedenavLi">New Arrivals</li>
-                          <li className="headerSedenavLi">Gudgets</li>
-                          <li className="headerSedenavLi">Accessories</li>
-                          <li className="headerSedenavLi">Electronics</li>
-                          <li className="headerSedenavLi">Others</li>
-                        </motion.ul>
-                      )}
-                    </div> */}
+                    <span
+                      onClick={() => setSidenav(false)}
+                      className="w-8 h-8 border-[1px] border-gray-300 absolute top-2 -right-10 text-gray-300 text-2xl flex justify-center items-center cursor-pointer hover:border-red-500 hover:text-red-500 duration-300"
+                    >
+                      <MdClose />
+                    </span>
                   </div>
-                  <span
-                    onClick={() => setSidenav(false)}
-                    className="w-8 h-8 border-[1px] border-gray-300 absolute top-2 -right-10 text-gray-300 text-2xl flex justify-center items-center cursor-pointer hover:border-red-500 hover:text-red-500 duration-300"
-                  >
-                    <MdClose />
-                  </span>
                 </motion.div>
               </div>
             )}

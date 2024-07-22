@@ -3,29 +3,36 @@ import UploadImage from "../../components/UploadImage/UploadImage";
 import PostSizeBotines from "../../components/ProductForm/PostSizeBotines";
 import PostSizeCamisetas from "../../components/ProductForm/PostSizeCamisetas";
 import PostSizeMedias from "../../components/ProductForm/PostSizeMedias";
+import PostAccesorios from "../../components/ProductForm/PostAccesorios";
 import { IoIosArrowDown } from "react-icons/io";
+
 const Variant = ({
   handleChangeVariantImg,
   handleDeleteImage,
   handleChangeVariantName,
   handleDeleteVariant,
   cat,
+  sub_cat,
   vari,
   handleSizes,
   variants,
 }) => {
   const [category, setCategory] = useState("");
+  const [subCategory, setSubCategory] = useState("");
 
   useEffect(() => {
     if (cat) {
       setCategory(cat);
     }
-  }, [cat]);
+    if (sub_cat) {
+      setSubCategory(sub_cat);
+    }
+  }, [cat, sub_cat]);
 
   const [uploadImg, setUploadImg] = useState(false);
 
   const handleCloseUpload = () => {
-    uploadImg(false);
+    setUploadImg(false);
   };
 
   return (
@@ -68,14 +75,12 @@ const Variant = ({
         <p className="w-">Cargar imagen</p>
         <IoIosArrowDown className={`${uploadImg ? "rotate-180" : ""} duration-300`} />
       </div>
-      {uploadImg ? (
+      {uploadImg && (
         <UploadImage
           handleUploadImageVariant={handleChangeVariantImg}
           id={vari.id}
           handleCloseUpload={handleCloseUpload}
         />
-      ) : (
-        ""
       )}
       {category === "Botines" && (
         <PostSizeBotines
@@ -84,20 +89,51 @@ const Variant = ({
           variants={variants}
         />
       )}
-      {category === "Camisetas" && (
-        <PostSizeCamisetas
-          id={vari.id} 
+      {category === "Zapatillas" && (
+        <PostSizeBotines
+          id={vari.id}
           handleSizes={handleSizes}
           variants={variants}
         />
       )}
-      {category !== "Botines" && cat !== "Camisetas" && (
+      {category === "Camisetas" && (
+        <PostSizeCamisetas
+          id={vari.id}
+          handleSizes={handleSizes}
+          variants={variants}
+        />
+      )}
+      {category === "Indumentaria" && (
+        <PostSizeCamisetas
+          id={vari.id}
+          handleSizes={handleSizes}
+          variants={variants}
+        />
+      )}
+      {category === "Medias" && (
         <PostSizeMedias
           id={vari.id}
           handleSizes={handleSizes}
           variants={variants}
         />
       )}
+      {category === "Accesorios" ? (
+        // subCategory === "Termo" ? (
+          <PostAccesorios
+            id={vari.id}
+            handleSizes={handleSizes}
+            variants={variants}
+            cat={category}
+            sub_cat={subCategory}
+          />
+        // ) : (
+        //   <PostSizeMedias
+        //     id={vari.id}
+        //     handleSizes={handleSizes}
+        //     variants={variants}
+        //   />
+        // )
+      ) : null}
     </div>
   );
 };
