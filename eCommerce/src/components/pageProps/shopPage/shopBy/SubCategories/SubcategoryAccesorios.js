@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 // import { FaPlus } from "react-icons/fa";
 import { ImPlus } from "react-icons/im";
-import NavTitle from "./NavTitle";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleSubcategory } from "../../../../redux/orebiSlice";
+import { toggleSubcategory } from "../../../../../redux/orebiSlice";
 import { TiArrowSortedDown } from "react-icons/ti";
-const SubcategoryCamisetas = () => {
+const SubcategoryAccesorios = () => {
   const [showSubCatOne, setShowSubCatOne] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const checkedSubcategorys = useSelector(
@@ -22,12 +21,24 @@ const SubcategoryCamisetas = () => {
 
   const subcategory = [
     {
-      _id: 10008,
-      title: "24/25",
+      _id: 10016,
+      title: "Mochila",
     },
     {
-      _id: 10009,
-      title: "Retro",
+      _id: 10017,
+      title: "Medias",
+    },
+    {
+      _id: 10018,
+      title: "Guantes",
+    },
+    {
+      _id: 10019,
+      title: "Canilleras",
+    },
+    {
+      _id: 10020,
+      title: "Termo",
     },
   ];
 
@@ -90,4 +101,4 @@ const SubcategoryCamisetas = () => {
   );
 };
 
-export default SubcategoryCamisetas;
+export default SubcategoryAccesorios;

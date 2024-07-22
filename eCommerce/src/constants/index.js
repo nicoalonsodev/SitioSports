@@ -20,12 +20,22 @@ export const navBarList = [
   {
     _id: 1004,
     title: "Camisetas",
-    link: "/",
+    link: "/catalogo",
   },
   {
     _id: 1005,
-    title: "Medias",
-    link: "/",
+    title: "Indumentaria",
+    link: "/catalogo",
+  },
+  {
+    _id: 1006,
+    title: "Zapatillas",
+    link: "/catalogo",
+  },
+  {
+    _id: 1009,
+    title: "Accesorios",
+    link: "/catalogo",
   },
   {
     _id: 1007,
@@ -124,6 +134,50 @@ export const allSubcategories = [
     _id: 10009,
     title: "Retro",
   },
+  {
+    _id: 10010,
+    title: "Urbano",
+  },
+  {
+    _id: 10011,
+    title: "Deportivo",
+  },
+  {
+    _id: 10012,
+    title: "Campera",
+  },
+  {
+    _id: 10013,
+    title: "Buzo",
+  },
+  {
+    _id: 10014,
+    title: "Chaleco",
+  },
+  {
+    _id: 10015,
+    title: "Conjunto",
+  },
+  {
+    _id: 10016,
+    title: "Mochila",
+  },
+  {
+    _id: 10017,
+    title: "Medias",
+  },
+  {
+    _id: 10018,
+    title: "Guantes",
+  },
+  {
+    _id: 10019,
+    title: "Canilleras",
+  },
+  {
+    _id: 10020,
+    title: "Termo",
+  },
 ];
 
 export const allBrands = [
@@ -152,8 +206,16 @@ export const allCategories = [
   },
 
   {
-    _id: 9008,
-    title: "Medias",
+    _id: 9007,
+    title: "Accesorios",
+  },
+  {
+    _id: 9005,
+    title: "Indumentaria",
+  },
+  {
+    _id: 9004,
+    title: "Zapatillas",
   },
 ];
 

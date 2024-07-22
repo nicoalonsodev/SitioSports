@@ -55,7 +55,6 @@ const RecommendProducts = () => {
   };
   return (
     <div className="w-full pb-4 lg:pb-16 space-y-10 py-8">
-      {/* <Heading heading="Nuevos ingresos" /> */}
       <h1 className="text-left text-2xl lg:text-4xl font-normal ">Recomendaciones</h1>
       <Slider {...settings}>
         {newArrivalsProducts.map((product) => (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MdOutlineLabelImportant } from "react-icons/md";
 import Image from "../../designLayouts/Image";
 import Badge from "./Badge";
@@ -7,8 +7,16 @@ import { useDispatch } from "react-redux";
 import formatPrice from "../../../utils/formatPrice";
 
 const Product = (props) => {
-  const dispatch = useDispatch();
   const rootId = props.slug;
+  const [variantNumber, setVariantNumber] = useState("")
+
+  useEffect(() => {
+    if(props.variants){
+      setVariantNumber(props.variants.length)
+    }
+  
+  }, [props]);
+console.log(variantNumber);
   const navigate = useNavigate();
   const productItem = props;
   const handleProductDetails = () => {
@@ -49,6 +57,9 @@ const Product = (props) => {
         </div>
         <div className="absolute top-4 left-4">
           {discountPercentage !== 0 ? <Badge text={`${discountText}`} /> : null}
+        </div>
+        <div className="absolute bottom-4 right-4 bg-pink-600 text-xs text-gray-100 px-2 rounded-full shadow-lg">
+         {variantNumber === 1 ? "1 Variante" : `${variantNumber} Variantes`}
         </div>
         <div className="w-full h-auto absolute bg-white -bottom-[130px] group-hover:bottom-0 duration-700">
           <ul className="w-full h-full flex flex-col items-end justify-center gap-2 font-titleFont px-2 border-l border-r">

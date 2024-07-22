@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 // import { FaPlus } from "react-icons/fa";
 import { ImPlus } from "react-icons/im";
-import NavTitle from "./NavTitle";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleSubcategory } from "../../../../redux/orebiSlice";
+import { toggleSubcategory } from "../../../../../redux/orebiSlice";
 import { TiArrowSortedDown } from "react-icons/ti";
-const Subcategory = () => {
+const SubcategoryCamisetas = () => {
   const [showSubCatOne, setShowSubCatOne] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const checkedSubcategorys = useSelector(
@@ -18,16 +17,16 @@ const Subcategory = () => {
     if (checkedSubcategorys.length !== 0) {
       setShowFilter(true);
     }
-  }, [checkedSubcategorys]); 
+  }, [checkedSubcategorys]);
 
   const subcategory = [
     {
-      _id: 10006,
-      title: "Futbol 5",
+      _id: 10008,
+      title: "24/25",
     },
     {
-      _id: 10007,
-      title: "Futbol 11",
+      _id: 10009,
+      title: "Retro",
     },
   ];
 
@@ -36,17 +35,17 @@ const Subcategory = () => {
   };
 
   const handleFilterToggle = () => {
-    if(checkedSubcategorys.length === 0){
-        setShowFilter(!showFilter)
+    if (checkedSubcategorys.length === 0) {
+      setShowFilter(!showFilter);
     }
-  }
+  };
   return (
     <div className="w-full">
       <div
         className="flex justify-between cursor-pointer pb-2"
         onClick={handleFilterToggle}
       >
-        <h1 className="text-lg lg:text-xl font-semibold" icons={true}>Subcategoria</h1>
+        <h1 className="text-lg lg:text-xl fotn-normal font-semibold" icons={true}>Subcategoria</h1>
         <TiArrowSortedDown
           className={`text-lg ${
             showFilter ? "rotate-180" : "rotate-0"
@@ -59,14 +58,15 @@ const Subcategory = () => {
             {subcategory.map((item) => (
               <li
                 key={item._id}
-                className="border-b-[1px] cursor-pointer border-b-[#F0F0F0] pb-2 flex items-center gap-2 lg:hover:text-primeColor hover:border-gray-400 duration-300"
+                className="cursor-pointer border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2 lg:hover:text-primeColor hover:border-gray-400 duration-300"
                 onClick={() => handleToggleSubcategory(item)}
               >
                 <input
                   type="checkbox"
                   id={item._id}
                   checked={checkedSubcategorys.some((b) => b._id === item._id)}
-  
+      
+                 
                 />
                 {item.title}
                 {item.icons && (
@@ -89,4 +89,4 @@ const Subcategory = () => {
   );
 };
 
-export default Subcategory;
+export default SubcategoryCamisetas;

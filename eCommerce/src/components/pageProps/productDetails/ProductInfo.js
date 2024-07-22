@@ -53,6 +53,7 @@ const ProductInfo = ({
       "https://res.cloudinary.com/doczyujqf/image/upload/v1715687623/gwriyowwnzne4sriuatf.jpg",
     ],
   });
+
   const highlightStyle = {
     color: "#d0121a", // Change this to the desired color
     fontWeight: "bold", // Change this to the desired font weight
@@ -67,6 +68,7 @@ const ProductInfo = ({
       setSelectedVariant(productInfo.variants[0]);
     }
   }, [productInfo]);
+
   useEffect(() => {
     if (selectedVariant) {
       handleSelectedImages(selectedVariant.imgUrl);
@@ -88,6 +90,7 @@ const ProductInfo = ({
 
     return <>{description}</>;
   };
+
   const dispatch = useDispatch();
 
   const sizesBotines = [
@@ -157,6 +160,7 @@ const ProductInfo = ({
       title: "43-44",
     },
   ];
+
   const handleSize = (size) => {
     setSelectedSize(size);
     // Buscar el objeto en productInfo.sizes que tiene el tamaño seleccionado
@@ -209,49 +213,30 @@ const ProductInfo = ({
   };
 
   const handleVariantChange = (variant) => {
-    setSelectedSize(null)
-    setSelectedVariant(variant)
+    setSelectedSize(null);
+    setSelectedVariant(variant);
   };
+
   return (
     <>
       <div className="flex flex-col items-start gap-4 lg:w-[40%]">
         <div>
-          <span className=" text-[#fc148c] font-semibold">Fútbol</span>
+          <span className="text-[#fc148c] font-semibold">Fútbol</span>
           <h1 className="text-3xl font-normal">{productInfo.productName}</h1>
-          {productInfo.discount_percentage ? (
+          {productInfo.compare_price && parseFloat(productInfo.compare_price) > 0 ? (
             <div className="flex items-center space-x-4">
-              {productInfo.discount_percentage !== 0 ? (
-                <p className="text-3xl font-extrabold text-gray-700">
-                  ${formatPrice(discountedPrice)}
-                </p>
-              ) : (
-                ""
-              )}
-              <h6
-                className={`${
-                  discountedPrice
-                    ? "text-xl line-through font-normal text-gray-700 "
-                    : "text-3xl font-extrabold text-gray-700"
-                }`}
-              >
+              <p className="text-3xl font-extrabold text-gray-700">
                 ${formatPrice(productInfo.price)}
+              </p>
+              <h6 className="text-xl line-through font-normal text-gray-700">
+                ${formatPrice(productInfo.compare_price)}
               </h6>
             </div>
           ) : (
-            <div className="flex items-center space-x-4">              
-            {productInfo.compare_price &&
-              parseFloat(productInfo.compare_price) !== 0.0 ? (
-                <p className="text-3xl font-extrabold text-gray-700">
-                  ${formatPrice(productInfo.price)}
-                </p>
-              ) : (
-                ""
-              )}
-              <h6
-                className={`${"text-xl line-through font-normal text-gray-700"}`}
-              >
-                ${formatPrice(productInfo.compare_price)}
-              </h6>
+            <div className="flex items-center space-x-4">
+              <p className="text-3xl font-extrabold text-gray-700">
+                ${formatPrice(productInfo.price)}
+              </p>
             </div>
           )}
         </div>
@@ -284,8 +269,12 @@ const ProductInfo = ({
           productSizes={availableSizes}
           sizes={
             productInfo.cat === "Botines"
+              ? sizesBotines 
+             : productInfo.cat === "Zapatillas"
               ? sizesBotines
               : productInfo.cat === "Camisetas"
+              ? sizesCamisetas
+              : productInfo.cat === "Indumentaria"
               ? sizesCamisetas
               : sizesMedias
           } 
