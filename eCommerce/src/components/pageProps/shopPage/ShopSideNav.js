@@ -3,6 +3,7 @@ import Brand from "./shopBy/Brand";
 import Category from "./shopBy/Category";
 import Subcategory from "./shopBy/SubCategories/Subcategory";
 import Size from "./shopBy/Size";
+import SizeZapatillas from "./shopBy/SizeZapatillas";
 import SizeCamisetas from "./shopBy/SizeCamisetas";
 import SubcategoryCamisetas from "./shopBy/SubCategories/SubcategoryCamisetas";
 import SubcategoryAccesorios from "./shopBy/SubCategories/SubcategoryAccesorios";
@@ -92,7 +93,7 @@ const ShopSideNav = () => {
       </div>
       <Category icons={false} />
       { selectedCategories.length && selectedCategories[0].title === "Botines" ? <Size /> 
-       : selectedCategories.length && selectedCategories[0].title === "Camisetas" ? <SizeCamisetas /> : selectedCategories.length && selectedCategories[0].title === "Indumentaria" ?  <SizeCamisetas /> : selectedCategories.length && selectedCategories[0].title === "Zapatillas" ?  <Size /> : ""}
+       : selectedCategories.length && selectedCategories[0].title === "Camisetas" ? <SizeCamisetas /> : selectedCategories.length && selectedCategories[0].title === "Indumentaria" ?  <SizeCamisetas /> : selectedCategories.length && selectedCategories[0].title === "Zapatillas" ?  <SizeZapatillas /> : ""}
       <Brand />
      {selectedCategories.length && selectedCategories[0].title === "Botines" ? (
           <Subcategory />
