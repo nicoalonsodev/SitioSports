@@ -1,13 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { HiOutlineMenuAlt4 } from "react-icons/hi";
-import { FaSearch, FaUser, FaCaretDown, FaShoppingCart } from "react-icons/fa";
+import { FaSearch} from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import Flex from "../../designLayouts/Flex";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { paginationItems } from "../../../constants";
-import { BsSuitHeartFill } from "react-icons/bs";
 
 const HeaderBottom = ({handleSearchBar}) => {
   const products = useSelector((state) => state.orebiReducer.products);

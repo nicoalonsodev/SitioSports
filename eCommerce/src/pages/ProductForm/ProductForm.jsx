@@ -38,6 +38,13 @@ const ProductForm = () => {
     { size: "44", stock: 0, sold: 0 },
     { size: "45", stock: 0, sold: 0 },
   ];
+  const zapatillasMujerSizes = [
+    { size: "34", stock: 0, sold: 0 },
+    { size: "35", stock: 0, sold: 0 },
+    { size: "36", stock: 0, sold: 0 },
+    { size: "37", stock: 0, sold: 0 },
+    { size: "38", stock: 0, sold: 0 },
+  ];
 
   const mediasSizes = [
     { size: "39-40", stock: 0, sold: 0 },
@@ -45,26 +52,17 @@ const ProductForm = () => {
     { size: "43-44", stock: 0, sold: 0 },
   ];
 
-  const mochilaSizes = [
-    { size: "Mochila", stock: 0, sold: 0 },
-  ];
+  const mochilaSizes = [{ size: "Mochila", stock: 0, sold: 0 }];
 
   const guantesSizes = [
-    { size: "S", stock: 0, sold: 0 },
-    { size: "M", stock: 0, sold: 0 },
-    { size: "L", stock: 0, sold: 0 },
+    { size: "8", stock: 0, sold: 0 },
+    { size: "9", stock: 0, sold: 0 },
+    { size: "10", stock: 0, sold: 0 },
   ];
 
-  const canillerasSizes = [
-    { size: "S", stock: 0, sold: 0 },
-    { size: "M", stock: 0, sold: 0 },
-    { size: "L", stock: 0, sold: 0 },
-  ];
+  const canillerasSizes = [{ size: "Canilleras", stock: 0, sold: 0 }];
 
-  const termoSizes = [
-    { size: "750ml", stock: 0, sold: 0 },
-    { size: "1L", stock: 0, sold: 0 },
-  ];
+  const termoSizes = [{ size: "Termo", stock: 0, sold: 0 }];
 
   const getSizesByCategory = (category, subCategory) => {
     if (category === "Accesorios") {
@@ -79,6 +77,16 @@ const ProductForm = () => {
           return termoSizes;
         case "Medias":
           return mediasSizes;
+        default:
+          return [];
+      }
+    } else if (category === "Zapatillas") {
+      switch (subCategory) {
+        case "Mujer":
+          return zapatillasMujerSizes;
+        case "Hombre":
+          return botinesSizes;
+        
         default:
           return [];
       }
@@ -105,7 +113,7 @@ const ProductForm = () => {
     Camisetas: ["24/25", "Retro"],
     Medias: ["Cortas", "Largas"],
     Indumentaria: ["Campera", "Buzo", "Chaleco", "Conjunto"],
-    Zapatillas: ["Deportivo", "Urbano"],
+    Zapatillas: ["Hombre", "Mujer"],
     Accesorios: ["Mochila", "Medias", "Guantes", "Canilleras", "Termo"],
   };
 
@@ -119,13 +127,17 @@ const ProductForm = () => {
   }, [form.cat, form.sub_cat]);
   const validateField = (name, value) => {
     let error = "";
-    if (name === "productName" && !value) error = "El nombre del producto es obligatorio";
-    if (name === "price" && (!value || value <= 0)) error = "El precio debe ser mayor que 0";
+    if (name === "productName" && !value)
+      error = "El nombre del producto es obligatorio";
+    if (name === "price" && (!value || value <= 0))
+      error = "El precio debe ser mayor que 0";
     // if (name === "compare_price" && (!value || value <= 0)) error = "El precio de comparación debe ser mayor que 0";
     if (name === "brand" && !value) error = "La marca es obligatoria";
     if (name === "cat" && !value) error = "La categoría es obligatoria";
-    if (name === "sub_cat" && form.cat !== "Medias" && !value) error = "La subcategoría es obligatoria";
-    if (name === "description" && !value) error = "La descripción es obligatoria";
+    if (name === "sub_cat" && form.cat !== "Medias" && !value)
+      error = "La subcategoría es obligatoria";
+    if (name === "description" && !value)
+      error = "La descripción es obligatoria";
     return error;
   };
 
@@ -133,9 +145,12 @@ const ProductForm = () => {
     let variantsErrors = [];
     form.variants.forEach((variant, index) => {
       let variantErrors = {};
-      if (!variant.variant) variantErrors.variant = "El nombre de la variante es obligatorio";
-      if (!variant.imgUrl || variant.imgUrl.length === 0) variantErrors.imgUrl = "La imagen es obligatoria";
-      if (!variant.sizes || variant.sizes.length === 0) variantErrors.sizes = "El tamaño es obligatorio";
+      if (!variant.variant)
+        variantErrors.variant = "El nombre de la variante es obligatorio";
+      if (!variant.imgUrl || variant.imgUrl.length === 0)
+        variantErrors.imgUrl = "La imagen es obligatoria";
+      if (!variant.sizes || variant.sizes.length === 0)
+        variantErrors.sizes = "El tamaño es obligatorio";
       if (Object.keys(variantErrors).length > 0) {
         variantsErrors[index] = variantErrors;
       }
@@ -150,7 +165,7 @@ const ProductForm = () => {
       ...prevErrors,
       [name]: error,
     }));
-  
+
     setForm((prevForm) => {
       if (name === "cat") {
         return {
@@ -274,13 +289,19 @@ const ProductForm = () => {
 
   const validateForm = () => {
     let formErrors = {};
-    if (!form.productName) formErrors.productName = "El nombre del producto es obligatorio";
-    if (!form.price || form.price <= 0) formErrors.price = "El precio debe ser mayor que 0";
-    if (!form.compare_price || form.compare_price <= 0) formErrors.compare_price = "El precio de comparación debe ser mayor que 0";
+    if (!form.productName)
+      formErrors.productName = "El nombre del producto es obligatorio";
+    if (!form.price || form.price <= 0)
+      formErrors.price = "El precio debe ser mayor que 0";
+    if (!form.compare_price || form.compare_price <= 0)
+      formErrors.compare_price =
+        "El precio de comparación debe ser mayor que 0";
     if (!form.brand) formErrors.brand = "La marca es obligatoria";
     if (!form.cat) formErrors.cat = "La categoría es obligatoria";
-    if (form.cat !== "Medias" && !form.sub_cat) formErrors.sub_cat = "La subcategoría es obligatoria";
-    if (!form.description) formErrors.description = "La descripción es obligatoria";
+    if (form.cat !== "Medias" && !form.sub_cat)
+      formErrors.sub_cat = "La subcategoría es obligatoria";
+    if (!form.description)
+      formErrors.description = "La descripción es obligatoria";
 
     const variantsErrors = validateVariants();
     if (variantsErrors.length > 0) {
@@ -537,9 +558,15 @@ const ProductForm = () => {
                   />
                   {errors.variants && errors.variants[index] && (
                     <div className="text-red-600 text-sm">
-                      {errors.variants[index].variant && <p>{errors.variants[index].variant}</p>}
-                      {errors.variants[index].imgUrl && <p>{errors.variants[index].imgUrl}</p>}
-                      {errors.variants[index].sizes && <p>{errors.variants[index].sizes}</p>}
+                      {errors.variants[index].variant && (
+                        <p>{errors.variants[index].variant}</p>
+                      )}
+                      {errors.variants[index].imgUrl && (
+                        <p>{errors.variants[index].imgUrl}</p>
+                      )}
+                      {errors.variants[index].sizes && (
+                        <p>{errors.variants[index].sizes}</p>
+                      )}
                     </div>
                   )}
                 </div>
