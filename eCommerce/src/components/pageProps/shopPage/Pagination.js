@@ -2,17 +2,20 @@ import React, { useState, useEffect } from "react";
 import Product from "../../home/Products/Product";
 import { useSelector } from "react-redux";
 import { spinner } from "../../../assets/images";
+
 function Items({
   currentItems,
   selectedBrands,
   selectedCategories,
   selectedSizes,
   selectedSubcategories,
+  selectedTags,
   sort,
   searchTag,
   handleEmpty,
 }) {
   const [searchedProducts, setSearchedProducts] = useState([]);
+  
   useEffect(() => {
     if (searchTag) {
       const filtered = currentItems.filter((product) =>
@@ -48,11 +51,17 @@ function Items({
           )
         )
       );
+
+    const isTagSelected =
+      selectedTags.length === 0 ||
+      selectedTags.some((selectedTag) => item.tags?.includes(selectedTag.title));
+
     return (
       isBrandSelected &&
       isCategorySelected &&
       isSizeSelected &&
-      isSubcategorySelected
+      isSubcategorySelected &&
+      isTagSelected
     );
   });
 
@@ -119,30 +128,21 @@ function Items({
   );
 }
 
-const Pagination = ({
-  itemsPerPage,
-  commissions,
-  sort,
-  searchTag,
-  handleChangeSearchTag,
-}) => {
+const Pagination = ({ itemsPerPage, commissions, sort, searchTag, handleChangeSearchTag }) => {
   const items = useSelector((state) => {
     if (commissions) {
+      // Si es así, devolvemos los productos por encargo
       return state.orebiReducer.commissions;
     } else {
+      // Si no, devolvemos todos los productos
       return state.orebiReducer.products;
     }
-  });
+  }); // Filter items based on selected brands and categories
 
-  const [isLoading, setIsLoading] = useState(true);
   const [itemOffset, setItemOffset] = useState(0);
   const [itemStart, setItemStart] = useState(1);
   const [empty, setEmpty] = useState(false);
   const [localSearchTag, setLocalSearchTag] = useState("");
-
-  useEffect(() => {
-    setIsLoading(false); // Desactivar el loading cuando los datos se cargan
-  }, [items]);
 
   const endOffset = itemOffset + itemsPerPage;
   const currentItems = items.slice(itemOffset, endOffset);
@@ -156,13 +156,14 @@ const Pagination = ({
     (state) => state.orebiReducer.checkedSubcategorys
   );
   const selectedSizes = useSelector((state) => state.orebiReducer.checkedSizes);
+  const selectedTags = useSelector((state) => state.orebiReducer.checkedTags);
 
   const handleSearchTag = () => {
     handleChangeSearchTag();
-  };
+  }
   useEffect(() => {
     if (searchTag) {
-      setLocalSearchTag(searchTag);
+      setLocalSearchTag(searchTag)
     }
   }, [searchTag]);
 
@@ -171,7 +172,7 @@ const Pagination = ({
       handleEmpty(false);
     }
     if (searchTag) {
-      setLocalSearchTag("");
+      setLocalSearchTag("")
       handleSearchTag();
     }
   }, [
@@ -179,6 +180,7 @@ const Pagination = ({
     selectedCategories,
     selectedSubcategories,
     selectedSizes,
+    selectedTags
   ]);
 
   const pageCount = Math.ceil(items.length / itemsPerPage);
@@ -195,15 +197,11 @@ const Pagination = ({
 
   return (
     <div>
-      {isLoading ? (
-        <div className="flex justify-center items-center h-screen">
-          <img src={spinner} alt="Loading..." className="w-16 h-16" />
-        </div>
-      ) : empty ? (
+      {empty ? (
         <div className="w-full">
-          <h1 className="text-center text-gray-800 font-semibold text-xl px-4 lg:px-20">
-            Tus parámetros de búsqueda no concuerdan con <br />
-            ninguno de nuestros productos, ¡sigue buscando!
+          <h1 className="text-center text-gray-800 font-semibold text-xl px-4 lg:px-20 px-32">
+            Tus parámetros de busqueda no concuerdan con <br/>ninguno de nuestros
+            productos, sigue buscando!
           </h1>
         </div>
       ) : (
@@ -214,6 +212,7 @@ const Pagination = ({
             selectedCategories={selectedCategories}
             selectedSizes={selectedSizes}
             selectedSubcategories={selectedSubcategories}
+            selectedTags={selectedTags}
             sort={sort}
             searchTag={localSearchTag}
             handleEmpty={handleEmpty}

@@ -102,7 +102,6 @@ const ShopSideNav = () => {
       <Category icons={false} />
 
       {selectedCategories.length && selectedCategories[0].title === "Zapatillas" ? <Tags /> : ""}
-
       
       { selectedCategories.length && selectedCategories[0].title === "Botines" ? <Size /> 
        : selectedCategories.length && selectedCategories[0].title === "Camisetas" ? <SizeCamisetas /> : selectedCategories.length && selectedCategories[0].title === "Indumentaria" ?  <SizeCamisetas /> : selectedCategories.length && selectedCategories[0].title === "Zapatillas" ?  <SizeZapatillas /> : ""}
