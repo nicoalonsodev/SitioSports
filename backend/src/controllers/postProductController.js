@@ -18,7 +18,8 @@ const postProductController = async (
   badge,
   image,
   description,
-  compare_price
+  compare_price,
+  tags
 ) => {
   // Generar slug a partir del productName
   const slug = createSlug(productName);
@@ -41,7 +42,8 @@ const postProductController = async (
       badge,
       image,
       description,
-      compare_price
+      compare_price,
+      tags
     });
   }
   return product;

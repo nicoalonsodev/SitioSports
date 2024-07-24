@@ -18,8 +18,11 @@ const ProductForm = () => {
     color: "",
     description: "",
     sub_cat: "",
+    tags: [], 
   });
   const [errors, setErrors] = useState({});
+
+  const tagOptions = ["Hombre", "Mujer", "Deportivo", "Urbano"];
 
   const camisetasSizes = [
     { size: "S", stock: 0, sold: 0 },
@@ -86,7 +89,6 @@ const ProductForm = () => {
           return zapatillasMujerSizes;
         case "Hombre":
           return botinesSizes;
-        
         default:
           return [];
       }
@@ -125,6 +127,7 @@ const ProductForm = () => {
       variants: [newVariant],
     }));
   }, [form.cat, form.sub_cat]);
+
   const validateField = (name, value) => {
     let error = "";
     if (name === "productName" && !value)
@@ -181,6 +184,7 @@ const ProductForm = () => {
       }
     });
   };
+
   const handleSizes = (size, id) => {
     const variantFormIndex = form.variants.findIndex(
       (variant) => variant.id === id
@@ -287,6 +291,21 @@ const ProductForm = () => {
     }));
   };
 
+  const handleTagChange = (e) => {
+    const { value, checked } = e.target;
+
+    setForm((prevForm) => {
+      const updatedTags = checked
+        ? [...prevForm.tags, value]
+        : prevForm.tags.filter((tag) => tag !== value);
+
+      return {
+        ...prevForm,
+        tags: updatedTags,
+      };
+    });
+  };
+
   const validateForm = () => {
     let formErrors = {};
     if (!form.productName)
@@ -332,6 +351,8 @@ const ProductForm = () => {
             cat: "",
             color: "",
             description: "",
+            tags: [],
+            variants: [{ variant: "", id: 1, sizes: [], imgUrl: [] }],
           });
           window.location.href = "https://www.sitiosports.com/producttable";
         } else {
@@ -530,6 +551,32 @@ const ProductForm = () => {
                 {errors.sub_cat && (
                   <p className="text-red-600 text-sm">{errors.sub_cat}</p>
                 )}
+              </div>
+            </div>
+
+            <div class="sm:col-span-6">
+              <label class="block text-sm font-medium leading-6 text-gray-900">
+                Tags
+              </label>
+              <div class="mt-2 space-y-2">
+                {tagOptions.map((tag) => (
+                  <div key={tag} class="flex items-center">
+                    <input
+                      id={`tag-${tag}`}
+                      name="tags"
+                      type="checkbox"
+                      value={tag}
+                      onChange={handleTagChange}
+                      class="h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                    />
+                    <label
+                      for={`tag-${tag}`}
+                      class="ml-2 block text-sm text-gray-900"
+                    >
+                      {tag}
+                    </label>
+                  </div>
+                ))}
               </div>
             </div>
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Brand from "./shopBy/Brand";
+import Tags from "./shopBy/Tags";
 import Category from "./shopBy/Category";
 import Subcategory from "./shopBy/SubCategories/Subcategory";
 import Size from "./shopBy/Size";
@@ -16,12 +17,14 @@ import {
   toggleCategory,
   toggleSizes,
   toggleSubcategory,
+  toggleTags
 } from "../../../redux/orebiSlice";
 import {
   allBrands,
   allCategories,
   allSizes,
   allSubcategories,
+  allTags
 } from "../../../constants";
 const ShopSideNav = () => {
   const dispatch = useDispatch();
@@ -37,6 +40,7 @@ const ShopSideNav = () => {
   const selectedBrands = useSelector(
     (state) => state.orebiReducer.checkedBrands
   );
+  const selectedTags = useSelector((state) => state.orebiReducer.checkedTags);
 
   useEffect(() => {
     const combinedFilters = [
@@ -44,6 +48,7 @@ const ShopSideNav = () => {
       ...selectedSubcategories,
       ...selectedSizes,
       ...selectedBrands,
+      ...selectedTags
     ];
     setAllActiveFilters(combinedFilters);
   }, [
@@ -51,6 +56,7 @@ const ShopSideNav = () => {
     selectedSubcategories,
     selectedSizes,
     selectedBrands, 
+    selectedTags
   ]);
 
   const handleRemoveFilter = (filter) => {
@@ -66,6 +72,8 @@ const ShopSideNav = () => {
       dispatch(toggleSubcategory(filter));
     } else if (allSizes.some((size) => size.title === filter.title)) {
       dispatch(toggleSizes(filter));
+    } else if (allTags.some((tag) => tag.title === filter.title)) {
+      dispatch(toggleTags(filter));
     }
   };
 
@@ -92,6 +100,10 @@ const ShopSideNav = () => {
         )}
       </div>
       <Category icons={false} />
+
+      {selectedCategories.length && selectedCategories[0].title === "Zapatillas" ? <Tags /> : ""}
+
+      
       { selectedCategories.length && selectedCategories[0].title === "Botines" ? <Size /> 
        : selectedCategories.length && selectedCategories[0].title === "Camisetas" ? <SizeCamisetas /> : selectedCategories.length && selectedCategories[0].title === "Indumentaria" ?  <SizeCamisetas /> : selectedCategories.length && selectedCategories[0].title === "Zapatillas" ?  <SizeZapatillas /> : ""}
       <Brand />

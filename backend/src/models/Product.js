@@ -112,5 +112,10 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: '',
     },
+    tags: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
+      defaultValue: [],
+    },
   });
 };

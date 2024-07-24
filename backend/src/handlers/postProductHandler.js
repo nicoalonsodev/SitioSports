@@ -14,7 +14,8 @@ const postProductHandler = async (req, res) => {
       badge,
       image,
       description,
-      compare_price
+      compare_price,
+      tags
     } = req.body;
     const userPosted = await postProductController(
       productName,
@@ -28,7 +29,8 @@ const postProductHandler = async (req, res) => {
       badge,
       image,
       description,
-      compare_price
+      compare_price,
+      tags
     );
     return res.status(200).json(userPosted);
   } catch (error) {
