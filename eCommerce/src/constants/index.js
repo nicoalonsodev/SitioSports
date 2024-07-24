@@ -218,6 +218,16 @@ export const allCategories = [
     title: "Zapatillas",
   },
 ];
+export const allTags = [
+  {
+    _id: 2000,
+    title: "Deportivo",
+  },
+  {
+    _id: 2001,
+    title: "Urbano",
+  },
+];
 
 export const botinesSizes = [
   { size: "39", stock: 0, sold: 0 },

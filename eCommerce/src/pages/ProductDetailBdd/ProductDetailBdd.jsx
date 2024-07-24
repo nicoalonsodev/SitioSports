@@ -14,10 +14,16 @@ const ProductDetailBdd = () => {
   const [prevProduct, setPrevProduct] = useState(null); // Cambiado a null para evitar falsos positivos
   const products = useSelector((state) => state.orebiReducer.products);
 
+  const tagOptions = ["Hombre", "Mujer", "Deportivo", "Urbano"];
+
   useEffect(() => {
     if (products && id) {
       const foundProduct = products.find((product) => product.id === id);
       if (foundProduct) {
+        // Inicializar tags si no está definido
+        if (!foundProduct.tags) {
+          foundProduct.tags = [];
+        }
         setProduct(foundProduct);
         setPrevProduct(foundProduct);
       }
@@ -56,7 +62,8 @@ const ProductDetailBdd = () => {
       discount_percentage: product.discount_percentage,
       description: product.description,
       video_youtube: product.video_youtube,
-      disabled: product.disabled
+      disabled: product.disabled,
+      tags: product.tags
     };
 
     axios
@@ -155,6 +162,20 @@ const ProductDetailBdd = () => {
       ...prevProduct,
       disabled: value,
     }));
+    setIsChanging(true);
+  };
+
+  const handleTagChange = (e) => {
+    const { value, checked } = e.target;
+    setProduct((prevProduct) => {
+      const updatedTags = checked
+        ? [...prevProduct.tags, value]
+        : prevProduct.tags.filter((tag) => tag !== value);
+      return {
+        ...prevProduct,
+        tags: updatedTags,
+      };
+    });
     setIsChanging(true);
   };
 
@@ -390,6 +411,33 @@ const ProductDetailBdd = () => {
                   Special Offers
                 </div>
               </div>
+
+              <div className="flex flex-col gap-2">
+                <h1 className="font-semibold">Tags:</h1>
+                <div className="space-y-2">
+                  {tagOptions.map((tag) => (
+                    <div key={tag} className="flex items-center">
+                      <input
+                        id={`tag-${tag}`}
+                        name="tags"
+                        type="checkbox"
+                        value={tag}
+                        checked={product.tags.includes(tag)}
+                        onChange={handleTagChange}
+                        disabled={!isChanging}
+                        className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                      />
+                      <label
+                        htmlFor={`tag-${tag}`}
+                        className="ml-2 block text-sm text-gray-900"
+                      >
+                        {tag}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               <div>
                 <p className="text-pink-600">
                   {product.total_sales > 0

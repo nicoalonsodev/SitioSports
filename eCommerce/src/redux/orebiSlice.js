@@ -10,6 +10,7 @@ const initialState = {
   checkedSizes: [],
   checkedSubcategorys: [],
   checkedCategorys: [],
+  checkedTags: [],
   users: [],
   orders: [],
   idProduct: [],
@@ -77,6 +78,20 @@ export const orebiSlice = createSlice({
         state.checkedBrands.push(brand);
       }
     },
+    toggleTags: (state, action) => {
+      const tag = action.payload;
+      const isTagChecked = state.checkedTags.some(
+        (b) => b._id === tag._id
+      );
+
+      if (isTagChecked) {
+        state.checkedTags = state.checkedTags.filter(
+          (b) => b._id !== tag._id
+        );
+      } else {
+        state.checkedTags.push(tag);
+      }
+    },
 
     toggleCategory: (state, action) => {
       const category = action.payload;
@@ -125,6 +140,7 @@ export const orebiSlice = createSlice({
       state.checkedSizes = [];
       state.checkedSubcategorys = [];
       state.checkedCategorys = [];
+      state.checkedTags = [];
     },
     cleanCategories: (state, action) => {
       state.checkedCategorys = [];
@@ -179,6 +195,7 @@ export const {
   cleanSizes,
   cleanSubcategories,
   setProductById,
-  cleanProductById
+  cleanProductById,
+  toggleTags
 } = orebiSlice.actions;
 export default orebiSlice.reducer;
