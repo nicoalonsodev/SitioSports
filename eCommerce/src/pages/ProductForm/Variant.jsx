@@ -4,6 +4,7 @@ import PostSizeBotines from "../../components/ProductForm/PostSizeBotines";
 import PostSizeCamisetas from "../../components/ProductForm/PostSizeCamisetas";
 import PostSizeMedias from "../../components/ProductForm/PostSizeMedias";
 import PostAccesorios from "../../components/ProductForm/PostAccesorios";
+import PostSizeZapatillas from "../../components/ProductForm/PostSizeZapatillas";
 import { IoIosArrowDown } from "react-icons/io";
 
 const Variant = ({
@@ -90,10 +91,12 @@ const Variant = ({
         />
       )}
       {category === "Zapatillas" && (
-        <PostSizeBotines
+        <PostSizeZapatillas
           id={vari.id}
           handleSizes={handleSizes}
           variants={variants}
+          cat={category}
+          sub_cat={subCategory}
         />
       )}
       {category === "Camisetas" && (

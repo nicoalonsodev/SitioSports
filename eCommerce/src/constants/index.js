@@ -136,11 +136,11 @@ export const allSubcategories = [
   },
   {
     _id: 10010,
-    title: "Urbano",
+    title: "Hombre",
   },
   {
     _id: 10011,
-    title: "Deportivo",
+    title: "Mujer",
   },
   {
     _id: 10012,

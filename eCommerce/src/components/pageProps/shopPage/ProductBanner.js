@@ -9,6 +9,9 @@ import Subcategory from "./shopBy/SubCategories/Subcategory";
 import Size from "../shopPage/shopBy/Size";
 import SizeCamisetas from "../shopPage/shopBy/SizeCamisetas";
 import SubcategoryCamisetas from "../shopPage/shopBy/SubCategories/SubcategoryCamisetas";
+import SubcategoryZapatillas from "./shopBy/SubCategories/SubcategoryZapatillas";
+import SubcategoryAccesorios from "./shopBy/SubCategories/SubcategoryAccesorios";
+import SubcategoryIndumentaria from "./shopBy/SubCategories/SubcategoryIndumentaria";
 import SizeMedias from "../shopPage/shopBy/SizeMedias";
 import Brand from "../shopPage/shopBy/Brand";
 import { useSelector, useDispatch } from "react-redux";
@@ -76,9 +79,12 @@ const ProductBanner = ({ itemsPerPageFromBanner, handleSort }) => {
               <div className="w-full h-full bg-primeColor p-6">
                 <div>
                   <h1 className="text-2xl">Filtrar por:</h1>
-                  <button 
-                  className="bg-[#fc148c] px-2 py-2 rounded-lg my-2"
-                  onClick={handleCleanFilters}>Borrar todo</button>
+                  <button
+                    className="bg-[#fc148c] px-2 py-2 rounded-lg my-2"
+                    onClick={handleCleanFilters}
+                  >
+                    Borrar todo
+                  </button>
                 </div>
 
                 <div className="mt-4 space-y-2">
@@ -102,6 +108,15 @@ const ProductBanner = ({ itemsPerPageFromBanner, handleSort }) => {
                   ) : selectedCategories.length &&
                     selectedCategories[0].title === "Camisetas" ? (
                     <SubcategoryCamisetas />
+                  ) : selectedCategories.length &&
+                    selectedCategories[0].title === "Zapatillas" ? (
+                    <SubcategoryZapatillas />
+                  ) : selectedCategories.length &&
+                    selectedCategories[0].title === "Indumentaria" ? (
+                    <SubcategoryIndumentaria />
+                  ) : selectedCategories.length &&
+                    selectedCategories[0].title === "Accesorios" ? (
+                    <SubcategoryAccesorios />
                   ) : (
                     ""
                   )}
