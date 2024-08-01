@@ -27,7 +27,6 @@ const createOrder = async (req, res) => {
     }
     const order_number = firstOrder.order_number;
 
-
     const items = products?.map((product) => ({
       title: product.name,
       unit_price: Number(product.price),
@@ -38,7 +37,6 @@ const createOrder = async (req, res) => {
       category_id: Number(product.variant.id),
     }));
 
-    
     // if(shippingCost){
     //   items.push({
     //     title: "Costo de envío",
@@ -49,7 +47,7 @@ const createOrder = async (req, res) => {
     // }
 
     const body = {
-       items: items,
+      items: items,
       shipments: {
         receiver_address: {
           zip_code: payer.zipCode,
@@ -63,7 +61,6 @@ const createOrder = async (req, res) => {
           aclaration: payer.aclaration,
         },
       },
-
       payer: {
         phone: {
           number: payer.phone,
@@ -72,16 +69,30 @@ const createOrder = async (req, res) => {
         name: payer.payerName,
       },
       external_reference: order_id,
-     
       notification_url: "https://6ff4-131-161-239-212.ngrok-free.app/webhook",
       // notification_url: "https://sitiosports-production.up.railway.app/webhook",
       payment_methods: {
+        excluded_payment_types: [
+          { id: "credit_card" },
+          { id: "debit_card" },
+          { id: "prepaid_card" },
+          { id: "ticket" },
+          { id: "atm" },
+          { id: "bank_transfer" },
+          { id: "digital_currency" },
+          { id: "account_money" },
+        ],
+        included_payment_methods: [
+          { id: "pagofacil" },
+          { id: "rapipago" },
+          { id: "efectivo" }
+        ],
         installments: 12 
       },
       back_urls: {
-        success: `https://www.sitiosports.com/orden-mp-confirmada/4`,
-        // failure: `https://www.sitiosports.com/orden-mp-rechazada/${order_number}`,
-        // pending: `https://www.sitiosports.com/orden-mp-pendiente/${order_number}`,
+        success: `https://www.sitiosports.com/orden-mp-confirmada/${order_number}`,
+        failure: `https://www.sitiosports.com/orden-mp-rechazada/${order_number}`,
+        pending: `https://www.sitiosports.com/orden-mp-pendiente/${order_number}`,
       },
       auto_return: "approved",
     };
