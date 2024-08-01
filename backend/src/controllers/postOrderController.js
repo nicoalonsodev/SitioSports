@@ -4,6 +4,7 @@ const orderTransferCreate = require("../helpers/mailsTemplate/orderTransferCreat
 const { mailHandler } = require("../handlers/postMailHandler");
 const itemTemplate = require("../helpers/itemsTemplate");
 const formatPrice = require("../helpers/formatPrice");
+
 const postOrderController = async (
   items,
   name,
@@ -26,7 +27,7 @@ const postOrderController = async (
     // Obtener el número de la última orden
     const lastOrderNumber = await getLastOrderNumber();
     const newOrderNumber = lastOrderNumber ? lastOrderNumber + 1 : 1; // Ejemplo: incrementar en 1
-const discount = transaction_details.total_paid_amount * 0.15;
+    const discount = transaction_details.total_paid_amount * 0.15;
     const address = `${shipment.street_name} ${shipment.street_number}, ${shipment.state_name}, ${shipment.zipCode}`;
 
     // Mapear items para crear el HTML
@@ -53,9 +54,10 @@ const discount = transaction_details.total_paid_amount * 0.15;
       .replace(/%ORDER_TOTAL%/g, `$${formatPrice(transaction_amount)}`); // Agrega el total
 
     const asunto = `Gracias por comprar en Sitio Sports`;
-    const destinatario = email;
+    const destinatarios = [email, "sitiosports.contacto@gmail.com"];
 
-    await mailHandler(destinatario, asunto, cuerpo);
+    // Enviar el correo a todos los destinatarios
+    await mailHandler(destinatarios, asunto, cuerpo);
 
     // Crear la nueva orden
     const order = await Order.create({
