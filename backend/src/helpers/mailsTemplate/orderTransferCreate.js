@@ -82,10 +82,10 @@ const orderTemplate = `
         <p>Estamos esperando la confirmación del pago de %ORDER_TOTAL% para confirmar su compra, en cuanto recibamos el comprobante de pago vía Whatsapp, confirmaremos la misma.</p>
          <div class="account-info">
             <p><strong>Medio de pago:</strong> Transferencia bancaria (Recuerda enviar el comprobante)</p>
-            <p><strong>NOMBRE DEL TITULAR:</strong> Avril Agostina Zarate</p>
-            <p><strong>CBU:</strong> 0110012930001214331679</p>
-            <p><strong>ALIAS:</strong> AvrilZaratte</p>
-            <p><strong>CUIL/CUIT:</strong> 27-45418611-2</p>
+            <p><strong>TITULAR:</strong> SITIO SPORTS S. A. S.</p>
+            <p><strong>CBU:</strong> 0000003100002741761918</p>
+            <p><strong>ALIAS:</strong> sitiosports.sas</p>
+            <p><strong>CUIL/CUIT:</strong> 30-71844900-2</p>
             <p><strong>BANCO:</strong> Banco de la Nación Argentina</p>
             <p>Pasar comprobante a <a href="https://wa.me/+5493813624693">+54 9 3813624693</a> o <a href="mailto:sitiosports.contacto@gmail.com">sitiosports.contacto@gmail.com</a></p>
         </div>

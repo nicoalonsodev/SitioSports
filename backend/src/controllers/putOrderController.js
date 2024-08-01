@@ -80,7 +80,7 @@ const putOrderController = async (order_id, cleanedItems) => {
     const address = `${shipment.street_name} ${shipment.street_number}, ${shipment.state_name}, ${shipment.zipCode}`;
 
     const asunto = `Orden de compra #${order_number}`;
-    const destinatario = client_email;
+    const destinatario = [client_email, "sitiosports.contacto@gmail.com"];
     const itemsHtml = items.map(item => {
       return itemTemplate
         .replace(/%PRODUCT_IMAGE_URL%/g, item.variant.imgUrl[0])
