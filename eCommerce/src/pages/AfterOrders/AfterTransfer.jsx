@@ -29,10 +29,10 @@ const AfterTransfer = () => {
               Podes hacer la trasnferencia o depósito en la siguiente cuenta.
             </p>
             <div>
-              <p>TITULAR: PEDRO GONZALEZ</p>
-              <p>CVU: 123456789876554</p>
-              <p>ALIAS: PEDRO.GONZALEZ</p>
-              <p>DNI: 38546333</p>
+              <p>TITULAR: SITIO SPORTS S. A. S.</p>
+              <p>CVU: 0000003100002741761918</p>
+              <p className="uppercase">ALIAS: sitiosports.sas</p>
+              <p>CUIT/CUIL: 30-71844900-2</p>
             </div>
             <p>
               Por favor enviar comprobante mediante WhatsApp{" "}
