@@ -81,7 +81,7 @@ const orderTemplate = `
 </head>
 <body>
     <div class="container">
-        <img src="https://res.cloudinary.com/dtf3dfpnw/image/upload/v1717610508/logoTransparent_gdflvq.png" alt="Logo de la empresa" class="logo">
+        <img src="https://res.cloudinary.com/de2r6mtda/image/upload/v1722537197/Sitio/logoTransparent_qgzoo5.png" alt="Logo de la empresa" class="logo">
         <h2>Su transacción ha sido exitosa</h2>
         <p>Gracias por su compra. Su pago ha sido confirmado y su orden está en proceso.</p>
         <div class="shipping-info">
