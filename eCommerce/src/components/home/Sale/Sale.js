@@ -4,7 +4,7 @@ import {
 offer1, offer2, video_arg
 } from "../../../assets/images/index";
 import Image from "../../designLayouts/Image";
-import ShopNow from "../../designLayouts/buttons/ShopNow";
+import camiseta_offer from "../../../assets/images/camiseta_offer.jpg"
 
 const Sale = () => {
   return (
@@ -28,7 +28,7 @@ const Sale = () => {
           <Link to="/catalogo">
             <Image
               className="h-full w-full object-cover"
-              imgSrc={offer1}
+              imgSrc={camiseta_offer}
             />
           </Link>
         </div>

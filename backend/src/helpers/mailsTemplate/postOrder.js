@@ -97,7 +97,7 @@ const orderTemplate = `
             <p><strong>Envío:</strong> %ORDER_SHIPPING_COST%</p>
             <p><strong>Total:</strong> %ORDER_TOTAL%</p>
         </div>
-        <p>Si tiene alguna consulta o necesita más información, no dude en comunicarse con nuestro equipo de atención al cliente respondiendo a esta direccion de correo o a nuestro whatsapp <a href="https://wa.me/+5493813624693">haciendo click aqui</a>.</p>
+        <p>Si tiene alguna consulta o necesita más información, no dude en comunicarse con nuestro equipo de atención al cliente respondiendo a esta direccion de correo o a nuestro whatsapp <a href="https://wa.me/+5493812097082">haciendo click aqui</a>.</p>
         <p>Atentamente,</p>
         <p>El equipo de Sitio Sports</p>
         <p>© 2024 Sitio Sports S.A.S  </p>      

@@ -38,10 +38,10 @@ const AfterTransfer = () => {
               Por favor enviar comprobante mediante WhatsApp{" "}
               <a
                 className="underline text-pink-600"
-                href="https://wa.me/+5493813624693"
+                href="https://wa.me/+5493812097082"
                 target="_blank"
               >
-                (54 9 3813624693)
+                (+54 9 3812 09‑7082)
               </a>
               , hasta no enviar el comprobante no es computada la compra. (Por
               favor si es posible enviar en formato documento, es necesario que
