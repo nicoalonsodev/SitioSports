@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Slider from "react-slick";
 import CustomSlide from "./CustomSlide";
 import { banner1, banner2, banner2_mobile } from "../../assets/images";
+import banner_prueba from "../../assets/banner_prueba.png"
+import banner_prueba2 from "../../assets/banner_prueba2.png"
 const Banner = () => {
   const [dotActive, setDotActive] = useState(0);
 
@@ -19,7 +21,7 @@ const Banner = () => {
   const slides = [
     {
       imgSrc:
-        banner1,
+        banner_prueba,
       text: "Quality Printing Solutions",
       Subtext:
         "Discover our wide range of printers and consumables designed for professional printing needs.",
@@ -27,7 +29,16 @@ const Banner = () => {
       buttonText: "Comprar Ahora",
     },
     {
-      imgSrc: banner2,
+      imgSrc:
+      banner1,
+      text: "Quality Printing Solutions",
+      Subtext:
+        "Discover our wide range of printers and consumables designed for professional printing needs.",
+      buttonLink: "/catalogo",
+      buttonText: "Comprar Ahora",
+    },
+    {
+      imgSrc: banner_prueba2,
       text: "Enhance Your Printing Experience",
       Subtext:
         "Explore our premium printers and consumables for exceptional results",

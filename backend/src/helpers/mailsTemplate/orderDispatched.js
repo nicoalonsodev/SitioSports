@@ -53,7 +53,7 @@ const orderTemplate = `
     <div class="container">
         <img src="https://res.cloudinary.com/de2r6mtda/image/upload/v1722537197/Sitio/logoTransparent_qgzoo5.png" alt="Logo de la empresa" class="logo">
         <h2>Su orden ha sido %STATUS%. Tu código de seguimiento es: %TRACK_ID%</h2>
-        <p>Si tiene alguna consulta o necesita más información, no dude en comunicarse con nuestro equipo de atención al cliente respondiendo a esta direccion de correo o a nuestro whatsapp <a href="https://wa.me/+5493813624693">haciendo click aqui</a> .</p>
+        <p>Si tiene alguna consulta o necesita más información, no dude en comunicarse con nuestro equipo de atención al cliente respondiendo a esta direccion de correo o a nuestro whatsapp <a href="https://wa.me/+5493812097082">haciendo click aqui</a> .</p>
         <p>Atentamente,</p>
         <p>El equipo de Sitio Sports</p>
         <p>© 2024 Sitio Sports S.A.S</p>

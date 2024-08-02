@@ -11,7 +11,7 @@ const AfterMp = () => {
           <p>Muchas gracias por comprar en Sitio Sports</p>
          
           <p>
-            Cualquier consulta puede ser realizada al siguiente numero de Whatsapp <a className='underline hover:text-pink-600' href="https://wa.me/+5493813624693" target="_blank">(54 9 3813624693)</a>, también le pedimos
+            Cualquier consulta puede ser realizada al siguiente numero de Whatsapp <a className='underline hover:text-pink-600' href="https://wa.me/+5493812097082" target="_blank">(54 9 3813624693)</a>, también le pedimos
             amablemente que nos indique el número de orden de su compra.
           </p>
         </div>

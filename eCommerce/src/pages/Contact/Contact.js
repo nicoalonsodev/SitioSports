@@ -9,17 +9,17 @@ const Contact = () => {
       <p>Servicio disponible de Lun - Vie: 9:00 AM a 9:00 PM y Sab: 10:00 AM a 6:00 PM</p>
       <div className="flex flex-wrap lg:flex-nowrap items-start gap-4">
         <div className="w-full lg:w-auto">
-          <a href="https://wa.me/+5493813624693" target="_blank"><FaWhatsapp className="text-8xl" /></a>
+          <a href="https://wa.me/+5493812097082" target="_blank"><FaWhatsapp className="text-8xl" /></a>
         </div>
         <div className="space-y-4 text-left w-full lg:w-2/3">
           <h1 className="text-gray-700 font-bold text-xl">Whatsapp</h1>
           <p className="text-lg">
-            Añade +54 9 3813 62-4693 a la lista de contactos en tu smartphone y
+            Añade +54 9 3812 09‑7082 a la lista de contactos en tu smartphone y
             comunícate con nosotros.
           </p>
           <p className="text-lg">
             Si necesitas ayuda a través de WhatsApp, por favor comunícate con
-            nosotros al número +54 9 3813 62-4693. Recuerda que adidas nunca iniciará
+            nosotros al número +54 9 3812 09‑7082. Recuerda que adidas nunca iniciará
             la comunicación ni te buscará por este canal, solamente
             responderemos a tus mensajes.
           </p>

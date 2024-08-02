@@ -120,8 +120,8 @@ const Footer = () => {
               </a>
             </li>
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              <a href="https://wa.me/+5493813624693" target="_blank">
-                +54 9 3813 62-4693
+              <a href="https://wa.me/+5493812097082" target="_blank">
+              +54 9 3812 09‑7082
               </a>
             </li>
           </ul>

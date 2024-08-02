@@ -87,7 +87,7 @@ const orderTemplate = `
             <p><strong>ALIAS:</strong> sitiosports.sas</p>
             <p><strong>CUIL/CUIT:</strong> 30-71844900-2</p>
             <p><strong>BANCO:</strong> Banco de la Nación Argentina</p>
-            <p>Pasar comprobante a <a href="https://wa.me/+5493813624693">+54 9 3813624693</a> o <a href="mailto:sitiosports.contacto@gmail.com">sitiosports.contacto@gmail.com</a></p>
+            <p>Pasar comprobante a <a href="https://wa.me/+5493812097082">+54 9 3812097082</a> o <a href="mailto:sitiosports.contacto@gmail.com">sitiosports.contacto@gmail.com</a></p>
         </div>
         <div class="shipping-info">
           
@@ -105,7 +105,7 @@ const orderTemplate = `
     <p><strong>Envío:</strong> Gratis</p>
     <p><strong>Total:</strong> %ORDER_TOTAL%</p>
 </div>
-        <p>Si tiene alguna consulta o necesita más información, no dude en comunicarse con nuestro equipo de atención al cliente respondiendo a esta direccion de correo o a nuestro whatsapp <a href="https://wa.me/+5493813624693">haciendo click aqui</a>.</p>
+        <p>Si tiene alguna consulta o necesita más información, no dude en comunicarse con nuestro equipo de atención al cliente respondiendo a esta direccion de correo o a nuestro whatsapp <a href="https://wa.me/+5493812097082">haciendo click aqui</a>.</p>
         <p>Atentamente,</p>
         <p>El equipo de Sitio Sports</p>
         <p>© 2024 Sitio Sports S.A.S</p>     
