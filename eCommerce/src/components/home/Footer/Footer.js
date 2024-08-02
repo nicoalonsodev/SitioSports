@@ -106,6 +106,9 @@ const Footer = () => {
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
               <a href="/ayuda"> Ayuda</a>
             </li>
+            <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+              <a href="/sobre-nosotros"> Sobre Nosotros</a>
+            </li>
           </ul>
         </div>
         <div className="col-span-2">

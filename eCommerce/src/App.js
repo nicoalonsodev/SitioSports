@@ -56,6 +56,7 @@ import Login from "./components/AdminLogin/AdminLogin";
 import { getProtectedData } from "./utils/api";
 import NotFound from "./pages/NotFound/NotFound"; 
 import WhatsAppButton from "./components/Whatsapp/WhatsappButton";
+import AboutUs from "./pages/AboutUs/AboutUs";
 
 const Layout = () => {
   const location = useLocation();
@@ -120,6 +121,7 @@ const App = () => {
           <Route path="/encargo" element={<ShopByCommissions />}></Route>
           <Route path="/about" element={<About />}></Route>
           <Route path="/ayuda" element={<Help />}></Route>
+          <Route path="/sobre-nosotros" element={<AboutUs />}></Route>
           <Route
             path="/terminos-y-condiciones"
             element={<TermsAndCondition />}

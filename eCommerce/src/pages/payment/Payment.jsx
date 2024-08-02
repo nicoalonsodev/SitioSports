@@ -57,12 +57,13 @@ const Payment = (props) => {
     let finalAmount;
     if (paymentMethod === "tb") {
       if (shippmentCharge === "Gratis") {
-        finalAmount = totalAmt * 0.85;
+        finalAmount = totalAmt * 0.88;
       } else {
-        finalAmount = (totalAmt + shippmentCharge) * 0.85;
+        finalAmount = (totalAmt + shippmentCharge) * 0.88;
       }
-      let disc = finalAmount * 0.15;
+      let disc = totalAmt * 0.12;      
       setTransferDiscount(disc);
+      
     } else {
       if (totalAmt !== "" && totalAmt > 45000) {
         finalAmount = totalAmt;
@@ -257,6 +258,16 @@ const Payment = (props) => {
                     : `$${formatPrice(shippmentCharge)}`}
                 </span>
               </p>
+              {paymentMethod === "tb" && transferDiscount !== 0 ? (
+              <p className="flex items-center justify-between border-b-0 py-1.5 text-lg font-medium">
+                Descuento
+                <span className="font-semibold tracking-wide font-titleFont">
+                  -${formatPrice(transferDiscount)}
+                </span>
+              </p>
+            ) : (
+              ""
+            )}
               <p className="flex items-center justify-between text-pink-600 py-1.5 text-xl font-bold">
                 Total
                 <span className="font-bold tracking-wide text-xl font-titleFont">
@@ -288,7 +299,7 @@ const Payment = (props) => {
             </div>
           </div>
           <div className="h-auto w-auto text-black ">
-            {readyToPay ? (
+            {addressReady ? (
               <button
                 onClick={handleEditMail}
                 className="p-2 border-[1px] border-gray-300 rounded-sm hover:bg-gray-700 hover:text-gray-200"
@@ -437,7 +448,7 @@ const Payment = (props) => {
                       <h1 className="text-lg">Transferencia Bancaria</h1>
                     </div>
                   </div>
-                  <div className="font-semibold">15% de descuento</div>
+                  <div className="font-semibold">12% de descuento</div>
                 </div>
                 {paymentMethod === "tb" ? (
                   <div className="py-3 text-left text-md text-gray-500">
