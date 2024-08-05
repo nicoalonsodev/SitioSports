@@ -23,6 +23,9 @@ import { fetchCommissionsFromBackend } from "../../../utils/api";
 const Header = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.orebiReducer.cartProducts);
+  const categories = useSelector((state) => state.orebiReducer.checkedCategorys);
+  console.log(categories);
+  
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(true);
   const [sidenav, setSidenav] = useState(false);
@@ -87,10 +90,33 @@ const Header = () => {
     setShowSearchBar(!showSearchBar);
   };
 
+  const handleNavMobile = (item) => {
+if(item.title === "Botines"){
+  setSidenav(false);
+  dispatch(cleanFilters());
+  dispatch(toggleCategory( { _id: 9006, title: "Botines" }));
+} else if(item.title === "Camisetas"){
+  setSidenav(false);
+  dispatch(cleanFilters());
+  dispatch(toggleCategory( { _id: 9009, title: "Camisetas" }));
+}else if(item.title === "Accesorios"){
+  setSidenav(false);
+  dispatch(cleanFilters());
+  dispatch(toggleCategory( { _id: 9007, title: "Accesorios" }));
+}else if(item.title === "Indumentaria"){
+  setSidenav(false);
+  dispatch(cleanFilters());
+  dispatch(toggleCategory( { _id: 9005, title: "Indumentaria" }));
+}else if(item.title === "Zapatillas"){
+  setSidenav(false);
+  dispatch(cleanFilters());
+  dispatch(toggleCategory( { _id: 9004, title: "Zapatillas" }));
+}
+  };
   return (
     <div className="w-full h-auto lg:h-28 bg-white sticky top-0 z-50 border-b-[1px] border-b-gray-200">
-      <nav className="h-full px-4 max-w-container mx-auto relative">
-        <Flex className="flex flex-wrap lg:flex-nowrap items-center justify-between h-full mx-10 py-2 lg:py-0">
+      <nav className="h-full px-4 md:px-0 lg:px-0 xl:px-4 max-w-container mx-auto relative">
+        <Flex className="flex flex-wrap lg:flex-nowrap items-center justify-between h-full lg:mx-4 xl:mx-10 py-2 lg:py-0">
           <Link className="w-full flex justify-center" to="/">
             <div>
               <Image
@@ -99,7 +125,7 @@ const Header = () => {
               />
             </div>
           </Link>
-          <div className="w-3/5">
+          <div className="w-3/5 ">
             {showMenu && (
               <motion.ul
                 initial={{ y: 30, opacity: 0 }}
@@ -107,13 +133,10 @@ const Header = () => {
                 transition={{ duration: 0.5 }}
                 className="flex items-center justify-center w-full z-50 p-0 gap-x-4"
               >
-                <div
-                  className="relative"
-                 
-                >
+                <div className="relative">
                   <NavLink
                     key={1002}
-                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
+                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center  text-sm lg:text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
                     to={"/catalogo"}
                     state={{ data: location.pathname.split("/")[1] }}
                     onClick={() => {
@@ -130,7 +153,7 @@ const Header = () => {
                 >
                   <NavLink
                     key={1003}
-                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
+                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center  text-sm lg:text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
                     to={"/catalogo"}
                     state={{ data: location.pathname.split("/")[1] }}
                     onClick={() => {
@@ -160,7 +183,7 @@ const Header = () => {
                 >
                   <NavLink
                     key={1004}
-                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
+                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center text-sm lg:text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
                     to={"/catalogo"}
                     state={{ data: location.pathname.split("/")[1] }}
                     onClick={() => {
@@ -190,7 +213,7 @@ const Header = () => {
                 >
                   <NavLink
                     key={1005}
-                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
+                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center mx-4 text-sm lg:text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
                     to={"/catalogo"}
                     state={{ data: location.pathname.split("/")[1] }}
                     onClick={() => {
@@ -198,7 +221,11 @@ const Header = () => {
                       dispatch(toggleCategory(allCategories[3]));
                     }}
                   >
-                    <li style={{ color: showIndumentaria ? "#fc148c" : "#767676" }}>
+                    <li
+                      style={{
+                        color: showIndumentaria ? "#fc148c" : "#767676",
+                      }}
+                    >
                       Indumentaria
                     </li>
                   </NavLink>
@@ -218,7 +245,7 @@ const Header = () => {
                 >
                   <NavLink
                     key={1006}
-                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
+                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center  text-sm lg:text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
                     to={"/catalogo"}
                     state={{ data: location.pathname.split("/")[1] }}
                     onClick={() => {
@@ -226,7 +253,9 @@ const Header = () => {
                       dispatch(toggleCategory(allCategories[4]));
                     }}
                   >
-                    <li style={{ color: showZapatillas ? "#fc148c" : "#767676" }}>
+                    <li
+                      style={{ color: showZapatillas ? "#fc148c" : "#767676" }}
+                    >
                       Zapatillas
                     </li>
                   </NavLink>
@@ -242,7 +271,7 @@ const Header = () => {
                 <div className="relative">
                   <NavLink
                     key={1007}
-                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
+                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center  text-sm lg:text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
                     to={"/encargo"}
                     state={{ data: location.pathname.split("/")[1] }}
                     onClick={handleCommissionClick}
@@ -254,7 +283,7 @@ const Header = () => {
                 <div className="relative">
                   <NavLink
                     key={1009}
-                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center px-12 text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
+                    className="flex font-normal hover:font-bold w-20 h-6 justify-center items-center  text-sm lg:text-base text-[#767676] hover:underline underline-offset-[4px] decoration-[1px] hover:text-[#fc148c] hoverEffect"
                     to={"/ayuda"}
                     state={{ data: location.pathname.split("/")[1] }}
                   >
@@ -286,7 +315,9 @@ const Header = () => {
                           <NavLink
                             to={item.link}
                             state={{ data: location.pathname.split("/")[1] }}
-                            onClick={() => setSidenav(false)}
+                            onClick={() => 
+                              handleNavMobile(item)
+                            }
                           >
                             {item.title}
                           </NavLink>

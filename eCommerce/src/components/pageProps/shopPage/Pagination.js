@@ -199,7 +199,7 @@ const Pagination = ({ itemsPerPage, commissions, sort, searchTag, handleChangeSe
     <div>
       {empty ? (
         <div className="w-full">
-          <h1 className="text-center text-gray-800 font-semibold text-xl px-4 lg:px-20 px-32">
+          <h1 className="text-center text-gray-800 font-semibold text-xl px-4 lg:px-20">
             Tus parámetros de busqueda no concuerdan con <br/>ninguno de nuestros
             productos, sigue buscando!
           </h1>

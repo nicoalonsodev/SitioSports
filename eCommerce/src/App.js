@@ -57,6 +57,7 @@ import { getProtectedData } from "./utils/api";
 import NotFound from "./pages/NotFound/NotFound"; 
 import WhatsAppButton from "./components/Whatsapp/WhatsappButton";
 import AboutUs from "./pages/AboutUs/AboutUs";
+import ArrowUpScroll from "./components/ArrowUpScroll/ArrowUpScroll";
 
 const Layout = () => {
   const location = useLocation();
@@ -91,6 +92,7 @@ const Layout = () => {
       <Footer />
       <FooterBottom />
       <WhatsAppButton />
+      <ArrowUpScroll />
     </div>
   );
 };

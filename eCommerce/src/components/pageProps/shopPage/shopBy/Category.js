@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ImPlus } from "react-icons/im";
 import NavTitle from "./NavTitle";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,9 +8,10 @@ import {
   cleanSubcategories,
   cleanSizes,
 } from "../../../../redux/orebiSlice";
- 
+
 const Category = () => {
   const [showSubCatOne, setShowSubCatOne] = useState(false);
+  const [checkedCategoriesState, setCheckedCategoriesState] = useState([]);
 
   const checkedCategorys = useSelector(
     (state) => state.orebiReducer.checkedCategorys
@@ -48,6 +49,10 @@ const Category = () => {
     dispatch(toggleCategory(category));
   };
 
+  useEffect(() => {
+    setCheckedCategoriesState(checkedCategorys);
+  }, [checkedCategorys]);
+
   return (
     <div className="w-full">
       <NavTitle title="Categoria" icons={true} />
@@ -57,13 +62,12 @@ const Category = () => {
             <li
               key={item._id}
               className="border-b-[1px] cursor-pointer border-b-[#F0F0F0] pb-2 flex items-center gap-2 lg:hover:text-primeColor hover:border-gray-400 duration-300"
-              onClick={() => handleToggleCategory(item)}
             >
               <input
                 type="checkbox"
                 id={item._id}
-                checked={checkedCategorys.some((b) => b._id === item._id)}
-                // onChange={() => handleToggleCategory(item)}
+                checked={checkedCategoriesState.some((b) => b._id === item._id)}
+                onChange={() => handleToggleCategory(item)}
               />
               {item.title}
               {item.icons && (
@@ -76,7 +80,6 @@ const Category = () => {
               )}
             </li>
           ))}
-          {/* <li onClick={() => console.log(checkedCategorys)}>test</li> */}
         </ul>
       </div>
     </div>
