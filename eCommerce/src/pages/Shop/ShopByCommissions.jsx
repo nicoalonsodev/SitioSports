@@ -31,7 +31,7 @@ const ShopByCommissions = () => {
       <div className="max-w-container mx-auto px-4">
         <Breadcrumbs title="" />
 
-        <div className="px-72 py-4 flex flex-wrap">
+        <div className="px-0 lg:px-72 py-4 flex flex-wrap">
           <p className="text-balance text-left text-2xl font-semibold">
             TE PRESENTAMOS NUESTRO CATÁLOGO POR ENCARGO. TE TRAEMOS EL MODELO Y
             TALLE QUE NOS PIDAS! UNA VEZ QUE TENGAS TU MODELO HACE{" "}
