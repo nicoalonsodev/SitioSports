@@ -124,7 +124,7 @@ const DropdownBotines = () => {
           </button>
         </div>
         <div className=" w-[50%] space-y-1">
-          <h1 className="font-bold text-lg"> Busca segun tu talle</h1>
+          <h1 className="font-bold text-lg"> Busca según tu talle</h1>
           <FilterSizes sizes={sizes} cat={category} />
         </div>
       </div>

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
-import { resetCart } from "../../redux/orebiSlice";
+import { resetCart, deleteItem, increaseQuantity, drecreaseQuantity,  } from "../../redux/orebiSlice";
 import { emptyCart } from "../../assets/images/index";
 import ItemCard from "./ItemCard";
 import { IoIosInformationCircleOutline } from "react-icons/io";
@@ -14,19 +16,10 @@ const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const products = useSelector((state) => state.orebiReducer.cartProducts);
+  const allProducts = useSelector((state) => state.orebiReducer.products);
   const [totalAmt, setTotalAmt] = useState("");
   const [shippingCharge, setShippingCharge] = useState("");
 
-
-
-  let totalWithShipping = 0;
-  if (shippingCharge === "Gratis") {
-    totalWithShipping = totalAmt;
-  } else {
-    totalWithShipping = totalAmt; //+ shippingCharge;
-  }
-  const ivaPercentage = 17.356;
-  const ivaAmount = ((ivaPercentage / 100) * totalWithShipping).toFixed(2);
   useEffect(() => {
     let price = 0;
     products.map((item) => {
@@ -35,15 +28,46 @@ const Cart = () => {
     });
     setTotalAmt(price);
   }, [products]);
+
   useEffect(() => {
-    // if (totalAmt <= 45000) {
-    //   setShippingCharge(5000);
-    // }  else if (totalAmt > 45000) {
-    //   setShippingCharge(0);
-    // }
     setShippingCharge(0);
   }, [totalAmt]);
-console.log(products);
+
+  useEffect(() => {
+    products.forEach(cartItem => {
+      const foundProduct = allProducts.find(product => product.id === cartItem.id);
+      if (foundProduct) {
+        const foundVariant = foundProduct.variants.find(variant => variant.id === cartItem.variant.id);
+        if (foundVariant) {
+          const foundSize = foundVariant.sizes.find(size => size.size === cartItem.size);
+          if (foundSize) {
+            if (foundSize.stock < cartItem.quantity) {
+              const difference = cartItem.quantity - foundSize.stock;
+              for (let i = 0; i < difference; i++) {
+                dispatch(drecreaseQuantity({ id: cartItem.id }));
+              }
+              toast.info(`${cartItem.name} ahora tiene ${foundSize.stock} unidades disponibles.`, {
+                autoClose: 10000
+              });
+              if (foundSize.stock === 0) {
+                dispatch(deleteItem({ id: cartItem.id, size: cartItem.size }));
+                toast.error(`${cartItem.name} fue quitado del carrito por falta de stock.`, {
+                  autoClose: 10000
+                });
+              }
+            }
+          } else {
+            console.log("NO SIZE FOUND");
+          }
+        } else {
+          console.log("NO VARIANT FOUND");
+        }
+      } else {
+        console.log("NO PRODUCT FOUND");
+      }
+    });
+  }, [products, allProducts]);
+
   const handlePaymentGateway = () => {
     navigate(`/paymentgateway`, {
       state: {
@@ -52,12 +76,15 @@ console.log(products);
       },
     });
   };
+
   let numberOfProducts = 0;
   if (products) {
     for (const product of products) {
       numberOfProducts += product.quantity;
     }
   }
+
+
 
   return (
     <div className="flex flex-col max-w-container mx-auto px-3 lg:px-32 relative">

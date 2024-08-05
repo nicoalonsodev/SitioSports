@@ -16,7 +16,7 @@ const Product = (props) => {
     }
   
   }, [props]);
-console.log(variantNumber);
+
   const navigate = useNavigate();
   const productItem = props;
   const handleProductDetails = () => {

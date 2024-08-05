@@ -59,7 +59,7 @@ const Banner = () => {
   const filteredSlides =
     window.innerWidth >= 1024
       ? slides.slice(0, 2) // Pantallas grandes: primeros 2 slides
-      : [slides[0], slides[2]]; // Pantallas pequeñas: primer y tercer slide
+      : [slides[0],  slides[3], slides[2]]; // Pantallas pequeñas: primer y tercer slide
 
   return (
     <div className="w-full bg-white overflow-hidden">
