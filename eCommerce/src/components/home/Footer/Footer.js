@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import FooterListTitle from "./FooterListTitle";
+import { NavLink} from "react-router-dom";
 import { tarjetas, otherPaymentMethods } from "../../../constants";
 import {
   cleanFilters,
@@ -58,56 +59,57 @@ const Footer = () => {
           <FooterListTitle title="Navegación" />
           <ul className="flex flex-col gap-2">
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              <a href="/">Inicio</a>
+              <NavLink to="/">Inicio</NavLink>
             </li>
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              <a href="/catalogo"> Catálogo</a>
+              <NavLink to="/catalogo"> Catálogo</NavLink>
             </li>
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              <a 
+              <NavLink 
+               to={"/catalogo"}
                onClick={() => {
                 dispatch(cleanFilters());
                 dispatch(toggleCategory(allCategories[0]));
               }}
-              href="/catalogo"> Botines</a>
+             > Botines</NavLink>
             </li>
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              <a
+              <NavLink
                onClick={() => {
                 dispatch(cleanFilters());
-                dispatch(toggleCategory(allCategories[1]));
+                dispatch(toggleCategory({ _id: 9009, title: "Camisetas" }));
               }}
-              href="/catalogo"> Camisetas</a>
+              to="/catalogo"> Camisetas</NavLink>
             </li>
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              <a 
+              <NavLink 
                onClick={() => {
                 dispatch(cleanFilters());
                 dispatch(toggleCategory(allCategories[3]));
               }}
-              href="/catalogo"> Indumentaria</a>
+              to="/catalogo"> Indumentaria</NavLink>
             </li>
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              <a 
+              <NavLink 
                onClick={() => {
                 dispatch(cleanFilters());
                 dispatch(toggleCategory(allCategories[4]));
               }}
-              href="/catalogo"> Zapatillas</a>
+              to="/catalogo"> Zapatillas</NavLink>
             </li>
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              <a 
+              <NavLink 
                onClick={() => {
                 dispatch(cleanFilters());
                 dispatch(toggleCategory(allCategories[2]));
               }}
-              href="/catalogo"> Accesorios</a>
+              to="/catalogo"> Accesorios</NavLink>
             </li>
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              <a href="/ayuda"> Ayuda</a>
+              <NavLink to="/ayuda"> Ayuda</NavLink>
             </li>
             <li className="font-titleFont text-base text-lightText hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
-              <a href="/sobre-nosotros"> Sobre Nosotros</a>
+              <NavLink to="/sobre-nosotros"> Sobre Nosotros</NavLink>
             </li>
           </ul>
         </div>
