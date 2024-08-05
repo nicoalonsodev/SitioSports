@@ -8,7 +8,7 @@ import {
   cleanSubcategories,
   cleanSizes,
 } from "../../../../redux/orebiSlice";
- 
+
 const Category = () => {
   const [showSubCatOne, setShowSubCatOne] = useState(false);
 
@@ -57,13 +57,12 @@ const Category = () => {
             <li
               key={item._id}
               className="border-b-[1px] cursor-pointer border-b-[#F0F0F0] pb-2 flex items-center gap-2 lg:hover:text-primeColor hover:border-gray-400 duration-300"
-              onClick={() => handleToggleCategory(item)}
             >
               <input
                 type="checkbox"
                 id={item._id}
                 checked={checkedCategorys.some((b) => b._id === item._id)}
-                // onChange={() => handleToggleCategory(item)}
+                onChange={() => handleToggleCategory(item)}
               />
               {item.title}
               {item.icons && (
@@ -76,7 +75,6 @@ const Category = () => {
               )}
             </li>
           ))}
-          {/* <li onClick={() => console.log(checkedCategorys)}>test</li> */}
         </ul>
       </div>
     </div>

@@ -52,6 +52,7 @@ const Payment = (props) => {
       setTotalAmt(price);
     }
   }, [productInfo]);
+console.log(shipmentPlusTotal);
 
   useEffect(() => {
     let finalAmount;
@@ -475,7 +476,7 @@ const Payment = (props) => {
                       />
                     </div>
                   </div>
-                  <div>3 cuotas sin interes</div>
+                  <div className="font-semibold">Hasta 12 cuotas</div>
                 </div>
                 {paymentMethod === "mp" ? (
                   <div className="flex flex-wrap py-3 gap-2">
