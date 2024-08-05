@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ImPlus } from "react-icons/im";
 import NavTitle from "./NavTitle";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,7 @@ import {
 
 const Category = () => {
   const [showSubCatOne, setShowSubCatOne] = useState(false);
+  const [checkedCategoriesState, setCheckedCategoriesState] = useState([]);
 
   const checkedCategorys = useSelector(
     (state) => state.orebiReducer.checkedCategorys
@@ -48,6 +49,10 @@ const Category = () => {
     dispatch(toggleCategory(category));
   };
 
+  useEffect(() => {
+    setCheckedCategoriesState(checkedCategorys);
+  }, [checkedCategorys]);
+
   return (
     <div className="w-full">
       <NavTitle title="Categoria" icons={true} />
@@ -61,7 +66,7 @@ const Category = () => {
               <input
                 type="checkbox"
                 id={item._id}
-                checked={checkedCategorys.some((b) => b._id === item._id)}
+                checked={checkedCategoriesState.some((b) => b._id === item._id)}
                 onChange={() => handleToggleCategory(item)}
               />
               {item.title}

@@ -90,9 +90,32 @@ const Header = () => {
     setShowSearchBar(!showSearchBar);
   };
 
+  const handleNavMobile = (item) => {
+if(item.title === "Botines"){
+  setSidenav(false);
+  dispatch(cleanFilters());
+  dispatch(toggleCategory( { _id: 9006, title: "Botines" }));
+} else if(item.title === "Camisetas"){
+  setSidenav(false);
+  dispatch(cleanFilters());
+  dispatch(toggleCategory( { _id: 9009, title: "Camisetas" }));
+}else if(item.title === "Accesorios"){
+  setSidenav(false);
+  dispatch(cleanFilters());
+  dispatch(toggleCategory( { _id: 9007, title: "Accesorios" }));
+}else if(item.title === "Indumentaria"){
+  setSidenav(false);
+  dispatch(cleanFilters());
+  dispatch(toggleCategory( { _id: 9005, title: "Indumentaria" }));
+}else if(item.title === "Zapatillas"){
+  setSidenav(false);
+  dispatch(cleanFilters());
+  dispatch(toggleCategory( { _id: 9004, title: "Zapatillas" }));
+}
+  };
   return (
     <div className="w-full h-auto lg:h-28 bg-white sticky top-0 z-50 border-b-[1px] border-b-gray-200">
-      <nav className="h-full lg:px-0 xl:px-4 max-w-container mx-auto relative">
+      <nav className="h-full px-4 md:px-0 lg:px-0 xl:px-4 max-w-container mx-auto relative">
         <Flex className="flex flex-wrap lg:flex-nowrap items-center justify-between h-full lg:mx-4 xl:mx-10 py-2 lg:py-0">
           <Link className="w-full flex justify-center" to="/">
             <div>
@@ -292,11 +315,9 @@ const Header = () => {
                           <NavLink
                             to={item.link}
                             state={{ data: location.pathname.split("/")[1] }}
-                            onClick={() => {
-                              setSidenav(false);
-                              dispatch(cleanFilters());
-                              dispatch(toggleCategory(item));
-                            }}
+                            onClick={() => 
+                              handleNavMobile(item)
+                            }
                           >
                             {item.title}
                           </NavLink>
