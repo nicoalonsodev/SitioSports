@@ -24,7 +24,6 @@ const Header = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.orebiReducer.cartProducts);
   const categories = useSelector((state) => state.orebiReducer.checkedCategorys);
-  console.log(categories);
   
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(true);

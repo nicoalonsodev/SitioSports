@@ -12,7 +12,7 @@ const ArrowUpScroll = () => {
   return (
     <div>
       <button
-        className="fixed bottom-4 left-4 bg-gray-400 hover:bg-gray-500 rounded-full h-32 w-32 flex justify-center items-center text-white z-10 duration-300"
+        className="fixed bottom-4 left-4 bg-gray-400 hover:bg-gray-500 opacity-75 rounded-full h-32 w-32 flex justify-center items-center text-white z-10 duration-300"
         style={{ height: "50px", width: "50px" }}
         onClick={scrollToTop}
       >
