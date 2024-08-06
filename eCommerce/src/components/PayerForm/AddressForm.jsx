@@ -190,6 +190,7 @@ const AddressForm = ({ handleAddress, email, payerInfo }) => {
         onChange={handleChange}
         placeholder=""
         error={formSubmitted && errors.payerName}
+        autoComplete="name"
       />
 
       <CustomInput

@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../../redux/orebiSlice";
 import Sizes from "../../Sizes/Sizes";
 import PaymentMethods from "./PaymentMethods";
-import { FaRulerHorizontal, FaLock } from "react-icons/fa";
+import { FaLock } from "react-icons/fa";
 import SizeGuide from "./SizeGuide";
 import { motion, AnimatePresence } from "framer-motion";
 import formatPrice from "../../../utils/formatPrice";
@@ -11,7 +11,6 @@ import formatPrice from "../../../utils/formatPrice";
 const ProductInfo = ({
   productInfo,
   handleSelectedImages,
-  discountedPrice,
 }) => {
   const [selectedSize, setSelectedSize] = useState(null);
   const [sizeMaxQuantity, setSizeMaxQuantity] = useState(0);
@@ -205,7 +204,7 @@ const ProductInfo = ({
         size: selectedSize,
         image: selectedVariant.imgUrl[0],
         badge: productInfo.badge,
-        price: discountedPrice ? discountedPrice : productInfo.price,
+        price: productInfo.price,
         color: productInfo.color,
         variant: selectedVariant,
       })

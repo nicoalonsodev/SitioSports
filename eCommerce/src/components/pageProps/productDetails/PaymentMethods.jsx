@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { visa, amex, mastercard, shipping } from "../../../assets/images";
 import { TiPlus } from "react-icons/ti";
+import { tarjetas, otherPaymentMethods } from "../../../constants";
+import { motion, AnimatePresence } from "framer-motion";
 
 const PaymentMethods = () => {
   const [viewPaymentMethods, setViewPaymentMethods] = useState(false);
-
   const handleViewPayment = () => {
     setViewPaymentMethods(!viewPaymentMethods);
   };
@@ -14,13 +15,13 @@ const PaymentMethods = () => {
       <div className="space-y-1 cursor-pointer" onClick={handleViewPayment}>
         <div className="flex">
           <div className="w-[48px]">
-            <img src={visa} alt="" />
+            <img src={visa} alt="Visa" />
           </div>
           <div className="w-[48px]">
-            <img src={amex} alt="" />
+            <img src={amex} alt="Amex" />
           </div>
           <div className="w-[48px]">
-            <img src={mastercard} alt="" />
+            <img src={mastercard} alt="Mastercard" />
           </div>
           <div className="w-[48px] flex items-center">
             <TiPlus className="text-xl text-[#fc148c]" />
@@ -32,29 +33,35 @@ const PaymentMethods = () => {
             transferencia bancaria
           </p>
         </div>
-        <div className="underline">VER MEDIOS DE PAGO</div>
+        <div className="underline">
+          VER MEDIOS DE PAGO
+          <AnimatePresence>
+            {viewPaymentMethods && (
+              <motion.div
+                layout
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.8 }}
+                className="flex flex-wrap py-3 gap-2"
+              >
+                {tarjetas?.map((tarjeta) => (
+                  <img key={tarjeta} className="w-14" src={tarjeta} alt="Tarjeta" />
+                ))}
+                {otherPaymentMethods?.map((payment) => (
+                  <img key={payment} src={payment} className="w-14" alt="Payment Method" />
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
       <div className="flex items-center gap-1">
-        <img width={32} src={shipping} alt="" />
+        <img width={32} src={shipping} alt="Envío gratis" />
         <p>
-          <span className="text-[#fc148c] font-bold">Envío Gratis </span>{" "}
-          {/* superando los $45.000,00 */} a todo el país.
+          <span className="text-[#fc148c] font-bold">Envío Gratis</span> a todo el país.
         </p>
       </div>
-    
-      {/* {viewPaymentMethods && (
-        <div className="fixed -top-4 left-0 w-screen h-screen bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-8 rounded-lg">
-            <h2 className="text-xl font-bold mb-4">Medios de Pago</h2>
-            {/* Aquí coloca el contenido de los métodos de pago */}
-            {/* <button className="bg-blue-500 text-white px-4 py-2 rounded-md"
-            onClick={handleViewPayment}
-            >
-              Cerrar
-            </button>
-          </div>
-        </div>
-      )} */} 
     </div>
   );
 };

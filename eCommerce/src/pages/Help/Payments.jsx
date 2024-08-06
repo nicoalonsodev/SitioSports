@@ -35,7 +35,7 @@ const Payments = () => {
             </h1>
             <p>
               {" "}
-              Ofrecemos un 12% de descuento a quienes optan por abonar con
+              Ofrecemos un 15% de descuento a quienes optan por abonar con
               transferencia bancaria, un vez que terminan su orden les brindamos
               la informacion detallada para poder transferir el monto de su
               orden.{" "}
