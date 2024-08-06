@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Slider from "react-slick";
 import CustomSlide from "./CustomSlide";
-import { banner1, banner2, banner2_mobile } from "../../assets/images";
+import { banner1} from "../../assets/images";
 import banner_prueba from "../../assets/banner_prueba.png"
 import banner_prueba2 from "../../assets/banner_prueba2.png"
+
 const Banner = () => {
   const [dotActive, setDotActive] = useState(0);
 
@@ -45,21 +46,13 @@ const Banner = () => {
       buttonLink: "/catalogo",
       buttonText: "Comprar Ahora",
     },
-    {
-      imgSrc: banner2_mobile,
-      text: "Efficiency Redefined",
-      Subtext:
-        "Maximize productivity with our advanced printers and high-quality consumables. ",
-      buttonLink: "/shop",
-      buttonText: "Comprar Ahora",
-    },
   ];
 
   // Filtrar slides según el tamaño de la pantalla
   const filteredSlides =
     window.innerWidth >= 1024
       ? slides.slice(0, 2) // Pantallas grandes: primeros 2 slides
-      : [slides[0],  slides[3], slides[2]]; // Pantallas pequeñas: primer y tercer slide
+      : [slides[0],  slides[1], slides[2]]; // Pantallas pequeñas: primer y tercer slide
 
   return (
     <div className="w-full bg-white overflow-hidden">

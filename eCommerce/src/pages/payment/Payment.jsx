@@ -58,11 +58,11 @@ console.log(shipmentPlusTotal);
     let finalAmount;
     if (paymentMethod === "tb") {
       if (shippmentCharge === "Gratis") {
-        finalAmount = totalAmt * 0.88;
+        finalAmount = totalAmt * 0.85;
       } else {
-        finalAmount = (totalAmt + shippmentCharge) * 0.88;
+        finalAmount = (totalAmt + shippmentCharge) * 0.85;
       }
-      let disc = totalAmt * 0.12;      
+      let disc = totalAmt * 0.15;      
       setTransferDiscount(disc);
       
     } else {
@@ -449,7 +449,7 @@ console.log(shipmentPlusTotal);
                       <h1 className="text-lg">Transferencia Bancaria</h1>
                     </div>
                   </div>
-                  <div className="font-semibold">12% de descuento</div>
+                  <div className="font-semibold">15% de descuento</div>
                 </div>
                 {paymentMethod === "tb" ? (
                   <div className="py-3 text-left text-md text-gray-500">
