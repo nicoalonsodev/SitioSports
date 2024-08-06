@@ -48,16 +48,11 @@ const Banner = () => {
     },
   ];
 
-  // Filtrar slides según el tamaño de la pantalla
-  const filteredSlides =
-    window.innerWidth >= 1024
-      ? slides.slice(0, 2) // Pantallas grandes: primeros 2 slides
-      : [slides[0],  slides[1], slides[2]]; // Pantallas pequeñas: primer y tercer slide
-
+  
   return (
     <div className="w-full bg-white overflow-hidden">
       <Slider {...settings}>
-        {filteredSlides.map((slide, index) => (
+        {slides.map((slide, index) => (
           <CustomSlide key={index} {...slide} />
         ))}
       </Slider>
