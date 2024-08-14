@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { logoTransparent } from "../../assets/images";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify"; // Asegúrate de importar ToastContainer
+import 'react-toastify/dist/ReactToastify.css'; // Importa los estilos de ToastContainer
+
 const OrderDetailBdd = () => {
   const [isChanging, setIsChanging] = useState(false);
   const { id } = useParams();
@@ -10,7 +13,8 @@ const OrderDetailBdd = () => {
   const [prevOrder, setPrevOrder] = useState("");
   const orders = useSelector((state) => state.orebiReducer.orders);
   const [changes, setChanges] = useState({});
-  const [laoding, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     if (orders) {
       const foundOrder = orders.find((order) => order.id === id);
@@ -51,7 +55,6 @@ const OrderDetailBdd = () => {
       axios
         .put(`https://sitiosports-production.up.railway.app/order/${order.id}`, changes)
         .then((response) => {
-          // Maneja la respuesta de la solicitud, por ejemplo, muestra una notificación de éxito
           alert("Cambios guardados con éxito");
           setIsChanging(false);
           setChanges({
@@ -60,7 +63,6 @@ const OrderDetailBdd = () => {
           setLoading(false);
         })
         .catch((error) => {
-          // Maneja errores, muestra una notificación de error, etc.
           console.error("Error al guardar los cambios", error);
           setIsChanging(false);
           setChanges({
@@ -77,8 +79,8 @@ const OrderDetailBdd = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setOrder((prevRegistro) => ({
-      ...prevRegistro,
+    setOrder((prevOrder) => ({
+      ...prevOrder,
       [name]: value,
     }));
     setChanges((prevChanges) => ({
@@ -91,6 +93,7 @@ const OrderDetailBdd = () => {
     setOrder(prevOrder);
     setIsChanging(!isChanging);
   };
+
   return (
     <>
       <div className="px-32 py-10">
@@ -115,8 +118,8 @@ const OrderDetailBdd = () => {
             >
               {!isChanging
                 ? "Realizar Cambios"
-                : laoding
-                ? "cargando..."
+                : loading
+                ? "Cargando..."
                 : "Guardar"}
             </button>
           </div>
@@ -132,7 +135,7 @@ const OrderDetailBdd = () => {
               <div className="flex flex-col justify-start text-md">
                 <h1 className="font-semibold text-lg">Cliente</h1>
                 <p>{order.name ? order.name : ""}</p>
-                <p>3 Productos</p>
+                <p>{`${order.items.length} ${order.items.length === 1 ? "Producto" : "Productos"}`}</p>
               </div>
               <div>
                 Estado:
@@ -143,7 +146,7 @@ const OrderDetailBdd = () => {
                       value={order.status}
                       onChange={handleChange}
                     >
-                     <option value="Cancelado">Cancelado</option>
+                      <option value="Cancelado">Cancelado</option>
                       <option value="Pago Pendiente">Pago pendiente</option>
                       <option value="Aprobado">Aprobado</option>
                       <option value="Enviado">Enviado</option>
@@ -151,14 +154,14 @@ const OrderDetailBdd = () => {
                     </select>
                     {order.status === "Enviado" ? (
                       <div>
-                        <label htmlFor="">Código de Seguimiento</label>
+                        <label htmlFor="track_id">Código de Seguimiento</label>
                         <input
                           type="text"
                           name="track_id"
                           id="track_id"
                           onChange={handleChange}
                           value={order.track_id}
-                          autocomplete="track_id"
+                          autoComplete="track_id"
                           className="border-[1px] border-gray-700"
                         />
                       </div>
@@ -176,15 +179,25 @@ const OrderDetailBdd = () => {
                 )}
               </div>
               <div className="flex flex-col justify-start text-md">
-                <h1 className="font-semibold text-lg">
-                  Informacion de Contacto{" "}
-                </h1>
-                <p>{order.email}</p>
+                <h1 className="font-semibold text-lg">Información de Contacto</h1>
+                {isChanging ? (
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    onChange={handleChange}
+                    value={order.email}
+                    autoComplete="email"
+                    className="border-[1px] border-gray-700 p-1"
+                  />
+                ) : (
+                  <p>{order.email}</p>
+                )}
                 <p>{order.phone}</p>
-                <p>Id: {order.client_id}</p>
+                <p>CUIL o CUIT: {order.client_id}</p>
               </div>
               <div className="flex flex-col justify-start text-md">
-                <h1 className="font-semibold text-lg"> Dirección de Envío </h1>
+                <h1 className="font-semibold text-lg">Dirección de Envío</h1>
                 <p>{order.name}</p>
                 <p>
                   {order.shipment.street_name} {order.shipment.street_number}{" "}
@@ -200,15 +213,19 @@ const OrderDetailBdd = () => {
             <div className="w-1/2 space-y-2">
               <div className="w-2/3 h-auto border-[1px] border-gray-500 rounded-lg space-y-4 p-4 flex flex-wrap justify-center items-center">
                 {order.items?.map((item) => (
-                  <div className="w-full flex justify-between ">
+                  <div className="w-full flex justify-between" key={item.name}>
                     <div className="w-20 ">
-                      <img className="w-full" src={item.variant.imgUrl[0]} />
+                      <img
+                        className="w-full"
+                        src={item.variant.imgUrl[0]}
+                        alt={item.name}
+                      />
                     </div>
                     <div className="w-auto text-gray-800">
                       <p>
                         {item.name}
-                        <span>
-                          ({item.description}) x{item.quantity}
+                        <span className="font-bold">
+                          ({item.size}) x{item.quantity}
                         </span>
                       </p>
                       <p className="text-[#fc148c]">${item.price} c/u</p>
@@ -226,8 +243,8 @@ const OrderDetailBdd = () => {
                     value={order.admin_comment}
                     autoComplete="admin_comment"
                     className="border-[1px] border-gray-400 rounded-lg p-1"
-                    rows="4" 
-                    cols="50" 
+                    rows="4"
+                    cols="50"
                   />
                 </div>
               ) : (
@@ -242,6 +259,7 @@ const OrderDetailBdd = () => {
           ""
         )}
       </div>
+      <ToastContainer />
     </>
   );
 };

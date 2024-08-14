@@ -17,6 +17,7 @@ const putOrderController = async (id, updatedFields) => {
       items,
       name,
       phone,
+      email,
       shipment,
       order_type,
       status,
@@ -39,6 +40,9 @@ const putOrderController = async (id, updatedFields) => {
 
     if (items) {
       order.items = items;
+    }
+    if (email) {
+      order.email = email;
     }
     if (name) {
       order.name = name;
