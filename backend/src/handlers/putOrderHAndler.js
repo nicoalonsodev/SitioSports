@@ -19,6 +19,7 @@ const putOrderHandler = async (req, res) => {
       transaction_details,
       admin_comment,
       track_id,
+      email
     } = req.body;
     const updatedFields = {
       items,
@@ -37,6 +38,7 @@ const putOrderHandler = async (req, res) => {
       transaction_details,
       admin_comment,
       track_id,
+      email
     };
     try {
       await putOrderController(id, updatedFields);
