@@ -23,8 +23,10 @@ import { fetchCommissionsFromBackend } from "../../../utils/api";
 const Header = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.orebiReducer.cartProducts);
-  const categories = useSelector((state) => state.orebiReducer.checkedCategorys);
-  
+  const categories = useSelector(
+    (state) => state.orebiReducer.checkedCategorys
+  );
+
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(true);
   const [sidenav, setSidenav] = useState(false);
@@ -90,27 +92,28 @@ const Header = () => {
   };
 
   const handleNavMobile = (item) => {
-if(item.title === "Botines"){
-  setSidenav(false);
-  dispatch(cleanFilters());
-  dispatch(toggleCategory( { _id: 9006, title: "Botines" }));
-} else if(item.title === "Camisetas"){
-  setSidenav(false);
-  dispatch(cleanFilters());
-  dispatch(toggleCategory( { _id: 9009, title: "Camisetas" }));
-}else if(item.title === "Accesorios"){
-  setSidenav(false);
-  dispatch(cleanFilters());
-  dispatch(toggleCategory( { _id: 9007, title: "Accesorios" }));
-}else if(item.title === "Indumentaria"){
-  setSidenav(false);
-  dispatch(cleanFilters());
-  dispatch(toggleCategory( { _id: 9005, title: "Indumentaria" }));
-}else if(item.title === "Zapatillas"){
-  setSidenav(false);
-  dispatch(cleanFilters());
-  dispatch(toggleCategory( { _id: 9004, title: "Zapatillas" }));
-}
+    setSidenav(false);
+    if (item.title === "Botines") {
+      setSidenav(false);
+      dispatch(cleanFilters());
+      dispatch(toggleCategory({ _id: 9006, title: "Botines" }));
+    } else if (item.title === "Camisetas") {
+      setSidenav(false);
+      dispatch(cleanFilters());
+      dispatch(toggleCategory({ _id: 9009, title: "Camisetas" }));
+    } else if (item.title === "Accesorios") {
+      setSidenav(false);
+      dispatch(cleanFilters());
+      dispatch(toggleCategory({ _id: 9007, title: "Accesorios" }));
+    } else if (item.title === "Indumentaria") {
+      setSidenav(false);
+      dispatch(cleanFilters());
+      dispatch(toggleCategory({ _id: 9005, title: "Indumentaria" }));
+    } else if (item.title === "Zapatillas") {
+      setSidenav(false);
+      dispatch(cleanFilters());
+      dispatch(toggleCategory({ _id: 9004, title: "Zapatillas" }));
+    }
   };
   return (
     <div className="w-full h-auto lg:h-28 bg-white sticky top-0 z-50 border-b-[1px] border-b-gray-200">
@@ -314,9 +317,9 @@ if(item.title === "Botines"){
                           <NavLink
                             to={item.link}
                             state={{ data: location.pathname.split("/")[1] }}
-                            onClick={() => 
-                              handleNavMobile(item)
-                            }
+                            onClick={
+                           
+                              () => handleNavMobile(item)}
                           >
                             {item.title}
                           </NavLink>
