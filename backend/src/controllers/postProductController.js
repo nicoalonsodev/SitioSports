@@ -6,6 +6,21 @@ const createSlug = (name) => {
     .replace(/[^a-z0-9]+/g, '-') // Reemplaza caracteres no alfanuméricos por guiones
     .replace(/(^-|-$)+/g, '');   // Elimina guiones al principio y al final
 };
+
+const generateUniqueSlug = async (baseSlug) => {
+  let slug = baseSlug;
+  let count = 1;
+
+  // Verificar si existe un producto con el mismo slug
+  while (await Product.findOne({ where: { slug } })) {
+    // Si existe, añadir un número al final del slug
+    slug = `${baseSlug}-${count}`;
+    count++;
+  }
+
+  return slug;
+};
+
 const postProductController = async (
   productName,
   price,
@@ -22,33 +37,30 @@ const postProductController = async (
   tags
 ) => {
   // Generar slug a partir del productName
-  const slug = createSlug(productName);
+  const baseSlug = createSlug(productName);
 
-  // Buscar si existe un producto con el mismo slug
-  let product = await Product.findOne({ where: { slug } });
+  // Generar un slug único
+  const slug = await generateUniqueSlug(baseSlug);
 
-  if (!product) {
-    // No se encontró un producto con el mismo slug, crear uno nuevo
-    product = await Product.create({
-      productName,
-      slug, // Guardar el slug en la base de datos
-      price,
-      brand,
-      cat,
-      sub_cat,
-      sizes,
-      variants,
-      color,
-      badge,
-      image,
-      description,
-      compare_price,
-      tags
-    });
-  }
+  // Crear el producto con el slug único
+  const product = await Product.create({
+    productName,
+    slug, // Guardar el slug único en la base de datos
+    price,
+    brand,
+    cat,
+    sub_cat,
+    sizes,
+    variants,
+    color,
+    badge,
+    image,
+    description,
+    compare_price,
+    tags,
+  });
+
   return product;
 };
 
 module.exports = postProductController;
-
-
