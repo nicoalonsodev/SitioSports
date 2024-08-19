@@ -1,12 +1,6 @@
 import logo from "./sitioLogo.jpg";
 import logoTransparent from "./logoTransparent.png";
 import logoLight from "./logoLight.png";
-import bannerImgOne from "./banner/bannerImgOne.webp";
-import bannerImgTwo from "./banner/bannerImgTwo.webp";
-import bannerImgThree from "./banner/bannerImgThree.webp";
-import bannerImgFour from "./sitio/banner.jpeg";
-import bannerImgFive from "./sitio/banner2.jpg";
-import bannerImgSix from "./sitio/banner3.jpg";
 import saleImgOne from "./sale/saleImgOne.webp";
 import saleImgTwo from "./sale/saleImgTwo.webp";
 import saleImgThree from "./sale/saleImgThree.webp";
@@ -52,9 +46,7 @@ import medias3 from "./sitio/medias/medias3.jpeg";
 
 import shipping from "./shipping.svg";
 
-import banner1 from "./banner1.jpg";
-import banner2 from "./banner2.webp";
-import banner2_mobile from "./banner2_mobile.webp";
+import banner1 from "./banner1.webp";
 import offer1 from "./offer1.webp";
 import offer2 from "./offer2.webp";
 import video_arg from "./video_arg.mp4";
@@ -81,12 +73,6 @@ export {
   visa,
   amex,
   shipping,
-  bannerImgOne,
-  bannerImgTwo,
-  bannerImgThree,
-  bannerImgFour,
-  bannerImgFive,
-  bannerImgSix,
   saleImgOne,
   saleImgTwo,
   saleImgThree,
@@ -110,8 +96,6 @@ export {
   paymentCard,
   emptyCart,
   banner1,
-  banner2,
-  banner2_mobile,
   offer1,
   offer2,
   video_arg,

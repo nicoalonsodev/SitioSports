@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Slider from "react-slick";
 import CustomSlide from "./CustomSlide";
 import { banner1} from "../../assets/images";
-import banner_prueba from "../../assets/banner_prueba.png"
-import banner_prueba2 from "../../assets/banner_prueba2.png"
+import banner_prueba from "../../assets/banner_prueba.webp"
+import banner_prueba2 from "../../assets/banner_prueba2.webp"
 
 const Banner = () => {
   const [dotActive, setDotActive] = useState(0);
