@@ -4,7 +4,7 @@ import {
 offer1, offer2, video_arg
 } from "../../../assets/images/index";
 import Image from "../../designLayouts/Image";
-import camiseta_offer from "../../../assets/images/camiseta_offer.jpg"
+import camiseta_offer from "../../../assets/images/camiseta_offer.webp"
 
 const Sale = () => {
   return (
