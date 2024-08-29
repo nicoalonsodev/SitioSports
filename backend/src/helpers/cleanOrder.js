@@ -1,28 +1,31 @@
-const cleanData = (data) => {
+const cleanObject = (obj) => {
+  Object.keys(obj).forEach(key => {
+    if (typeof obj[key] === 'object' && obj[key] !== null) {
+      cleanObject(obj[key]); // Llama recursivamente para limpiar objetos anidados
+    }
+    if (obj[key] == null || obj[key] === "" || (typeof obj[key] === 'object' && Object.keys(obj[key]).length === 0)) {
+      delete obj[key];
+    }
+  });
+};
 
-  const items = data.additional_info.items || [];
+const cleanData = (data) => {
+  const items = data.additional_info?.items || [];
   const filteredItems = items.filter(item => item.title !== "Costo de envío");
 
-  const name = data.additional_info.payer.first_name || "";
-  const phone = data.additional_info.payer.phone.number || "";
+  const name = data.additional_info?.payer?.first_name || "";
+  const phone = data.additional_info?.payer?.phone?.number || "";
 
-  const zipCode =
-    data.additional_info.shipments.receiver_address.zip_code || "";
-  const state_name =
-    data.additional_info.shipments.receiver_address.state_name || "";
-  const city_name =
-    data.additional_info.shipments.receiver_address.city_name || "";
-  const street_name =
-    data.additional_info.shipments.receiver_address.street_name || "";
-  const street_number =
-    data.additional_info.shipments.receiver_address.street_number || "";
-  const apartment =
-    data.additional_info.shipments.receiver_address.apartment || "";
-  const floor = data.additional_info.shipments.receiver_address.floor || "";
-  const aclaration =
-    data.additional_info.shipments.receiver_address.aclaration || "";
+  const zipCode = data.additional_info?.shipments?.receiver_address?.zip_code || "";
+  const state_name = data.additional_info?.shipments?.receiver_address?.state_name || "";
+  const city_name = data.additional_info?.shipments?.receiver_address?.city_name || "";
+  const street_name = data.additional_info?.shipments?.receiver_address?.street_name || "";
+  const street_number = data.additional_info?.shipments?.receiver_address?.street_number || "";
+  const apartment = data.additional_info?.shipments?.receiver_address?.apartment || "";
+  const floor = data.additional_info?.shipments?.receiver_address?.floor || "";
+  const aclaration = data.additional_info?.shipments?.receiver_address?.aclaration || "";
 
-  const order_type = data.order.type || "";
+  const order_type = data.order?.type || "";
   const payerMp = data.payer || "";
 
   const payment_method = data.payment_method || "";
@@ -35,14 +38,13 @@ const cleanData = (data) => {
   const shipping_amount = data.shipping_amount || "";
   const transaction_amount = data.transaction_amount || "";
   const transaction_details = data.transaction_details || "";
-  //   const payer_info = additional_info.;
 
   const cleanedObject = {
     items: filteredItems,
-    name: name,
-    phone: phone,
+    name,
+    phone,
     shipment: {
-      zipCode: zipCode,
+      zipCode,
       state_name,
       city_name,
       street_name,
@@ -58,11 +60,14 @@ const cleanData = (data) => {
     payment_method,
     payment_method_id,
     payment_type_id,
-
     shipping_amount,
     transaction_amount,
     transaction_details,
   };
+
+  // Limpia el objeto resultante recursivamente
+  cleanObject(cleanedObject);
+
   return cleanedObject;
 };
 
