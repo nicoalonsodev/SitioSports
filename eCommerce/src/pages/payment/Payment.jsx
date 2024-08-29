@@ -52,7 +52,7 @@ const Payment = (props) => {
       setTotalAmt(price);
     }
   }, [productInfo]);
-console.log(shipmentPlusTotal);
+
 
   useEffect(() => {
     let finalAmount;

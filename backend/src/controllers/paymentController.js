@@ -15,15 +15,15 @@ const createOrder = async (req, res) => {
   const preference = new Preference(client);
   const products = req.body.productInfo;
   const payer = req.body.payerInfo;
-  const shippingCost = req.body.shipment;
+  // const shippingCost = req.body.shipment;
 
   const order_id = uuidv4();
   try {
-    let firstOrder;
+    let firstOrder; 
     if (payer) {
       const client_email = payer.email;
       const client_id = payer.client_id;
-      firstOrder = await postFirstOrderController(order_id, client_email, client_id, products);
+      firstOrder = await postFirstOrderController(order_id, client_email, client_id, products, payer);
     }
     const order_number = firstOrder.order_number;
 

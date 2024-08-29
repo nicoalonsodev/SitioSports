@@ -142,7 +142,7 @@ const AddressForm = ({ handleAddress, email, payerInfo }) => {
       errors.state = "Debe completar con su provincia.";
     }
     if (!form.city) {
-      errors.zipCode = "Debe ingresar su código postalcompletar con su ciudad.";
+      errors.city = "Debe completar con su ciudad.";
     }
     if (!form.street) {
       errors.street = "Debe ingresar su calle.";
@@ -184,7 +184,7 @@ const AddressForm = ({ handleAddress, email, payerInfo }) => {
   return (
     <div className="space-y-4">
       <CustomInput
-        label="Nombre"
+        label="Nombre y Apellido"
         name="payerName"
         value={form.payerName}
         onChange={handleChange}
