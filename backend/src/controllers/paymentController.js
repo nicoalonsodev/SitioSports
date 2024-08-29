@@ -114,7 +114,7 @@ const receiveWebhook = async (req, res) => {
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${process.env.MERCADOPAGO_API_KEY}`, // Asegúrate de usar process.env aquí
+          Authorization: `Bearer ${MERCADOPAGO_API_KEY}`, // Asegúrate de usar process.env aquí
         },
       }
     );
