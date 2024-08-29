@@ -1,14 +1,3 @@
-const cleanObject = (obj) => {
-  Object.keys(obj).forEach(key => {
-    if (typeof obj[key] === 'object' && obj[key] !== null) {
-      cleanObject(obj[key]); // Llama recursivamente para limpiar objetos anidados
-    }
-    if (obj[key] == null || obj[key] === "" || (typeof obj[key] === 'object' && Object.keys(obj[key]).length === 0)) {
-      delete obj[key];
-    }
-  });
-};
-
 const cleanData = (data) => {
   const items = data.additional_info?.items || [];
   const filteredItems = items.filter(item => item.title !== "Costo de envío");
@@ -39,6 +28,7 @@ const cleanData = (data) => {
   const transaction_amount = data.transaction_amount || "";
   const transaction_details = data.transaction_details || "";
 
+  // Construir el objeto limpiado sin incluir propiedades nulas o indefinidas
   const cleanedObject = {
     items: filteredItems,
     name,
@@ -65,8 +55,12 @@ const cleanData = (data) => {
     transaction_details,
   };
 
-  // Limpia el objeto resultante recursivamente
-  cleanObject(cleanedObject);
+  // Eliminar propiedades nulas o indefinidas
+  Object.keys(cleanedObject).forEach(key => {
+    if (cleanedObject[key] == null || cleanedObject[key] === "") {
+      delete cleanedObject[key];
+    }
+  });
 
   return cleanedObject;
 };

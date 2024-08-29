@@ -9,6 +9,9 @@ const putOrderController = async (order_id, cleanedItems) => {
     if (!order) {
       throw new Error("No se encontró el producto");
     }
+console.log(order_id);
+console.log(cleanedItems);
+
 
     // Desestructurar los campos actualizados del objeto updatedFields
     const {

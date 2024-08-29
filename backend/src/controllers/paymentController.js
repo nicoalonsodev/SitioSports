@@ -73,7 +73,7 @@ const createOrder = async (req, res) => {
       },
       external_reference: order_id,
      
-      // notification_url: "https://6ff4-131-161-239-212.ngrok-free.app/webhook",
+       //notification_url: "https://b927-131-161-236-213.ngrok-free.app/webhook",
       notification_url: "https://sitiosports-production.up.railway.app/webhook",
       payment_methods: {
         installments: 12 
@@ -97,31 +97,42 @@ const createOrder = async (req, res) => {
 };
 
 const receiveWebhook = async (req, res) => {
-  const paymentId = req.query.id;
+  // Intentar obtener el paymentId desde diferentes lugares
+  const paymentId = req.query['data.id'] || req.query.id || req.body.id;
   const type = req.body.type;
   const topic = req.body.topic;
+
+
+  if (!paymentId) {
+    // Si paymentId no está definido, responder con un error
+    return res.status(400).json({ message: "Payment ID not found" });
+  }
+
   try {
     const response = await fetch(
       `https://api.mercadopago.com/v1/payments/${paymentId}`,
       {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${MERCADOPAGO_API_KEY}`,
+          Authorization: `Bearer ${process.env.MERCADOPAGO_API_KEY}`, // Asegúrate de usar process.env aquí
         },
       }
     );
 
     if (response.ok) {
       const data = await response.json();
+      console.log(data, "ladata");
 
       const order_id = data.external_reference;
       const cleanedItems = cleanData(data);
 
-      const update =
-        cleanedItems.status === "approved"
-          ? updateStock(cleanedItems.items)
-          : "";
-      const orderUpdate = putOrderController(order_id, cleanedItems);
+      if (cleanedItems.status === "approved") {
+        await updateStock(cleanedItems.items);
+      }
+      await putOrderController(order_id, cleanedItems);
+    } else {
+      console.error("Error fetching payment data from Mercado Pago");
+      return res.status(500).json({ message: "Error fetching payment data" });
     }
 
     res.sendStatus(201);
