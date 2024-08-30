@@ -18,8 +18,10 @@ const ProductForm = () => {
     color: "",
     description: "",
     sub_cat: "",
-    tags: [], 
+    tags: [],
   });
+  const [isCustomBrand, setIsCustomBrand] = useState(false); // Estado para manejar si es una marca personalizada
+  const [customBrand, setCustomBrand] = useState(""); // Estado para almacenar la marca personalizada
   const [errors, setErrors] = useState({});
 
   const tagOptions = ["Hombre", "Mujer", "Deportivo", "Urbano"];
@@ -134,8 +136,8 @@ const ProductForm = () => {
       error = "El nombre del producto es obligatorio";
     if (name === "price" && (!value || value <= 0))
       error = "El precio debe ser mayor que 0";
-    // if (name === "compare_price" && (!value || value <= 0)) error = "El precio de comparación debe ser mayor que 0";
-    if (name === "brand" && !value) error = "La marca es obligatoria";
+    if (name === "brand" && !value && !isCustomBrand)
+      error = "La marca es obligatoria";
     if (name === "cat" && !value) error = "La categoría es obligatoria";
     if (name === "sub_cat" && form.cat !== "Medias" && !value)
       error = "La subcategoría es obligatoria";
@@ -169,20 +171,45 @@ const ProductForm = () => {
       [name]: error,
     }));
 
-    setForm((prevForm) => {
-      if (name === "cat") {
-        return {
+    if (name === "brand") {
+      if (value === "Otro") {
+        setIsCustomBrand(true);
+        setForm((prevForm) => ({
           ...prevForm,
-          [name]: value,
-          sub_cat: "",
-        };
+          brand: "",
+        }));
       } else {
-        return {
+        setIsCustomBrand(false);
+        setForm((prevForm) => ({
           ...prevForm,
-          [name]: value,
-        };
+          brand: value,
+        }));
       }
-    });
+    } else {
+      setForm((prevForm) => {
+        if (name === "cat") {
+          return {
+            ...prevForm,
+            [name]: value,
+            sub_cat: "",
+          };
+        } else {
+          return {
+            ...prevForm,
+            [name]: value,
+          };
+        }
+      });
+    }
+  };
+
+  const handleCustomBrandChange = (e) => {
+    const { value } = e.target;
+    setCustomBrand(value);
+    setForm((prevForm) => ({
+      ...prevForm,
+      brand: value,
+    }));
   };
 
   const handleSizes = (size, id) => {
@@ -474,20 +501,33 @@ const ProductForm = () => {
                   id="brand"
                   name="brand"
                   onChange={handleChange}
-                  value={form.brand}
+                  value={isCustomBrand ? "Otro" : form.brand}
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                 >
-                  <option value="" disabled selected hidden>
+                  <option value="" disabled hidden>
                     Selecciona una opción
                   </option>
                   <option value="Adidas">Adidas</option>
                   <option value="Nike">Nike</option>
                   <option value="Puma">Puma</option>
+                  <option value="Otro">Otro</option>
                 </select>
                 {errors.brand && (
                   <p className="text-red-600 text-sm">{errors.brand}</p>
                 )}
               </div>
+              {isCustomBrand && (
+                <div class="mt-2">
+                  <input
+                    type="text"
+                    name="customBrand"
+                    value={customBrand}
+                    onChange={handleCustomBrandChange}
+                    placeholder="Ingrese otra marca"
+                    class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                  />
+                </div>
+              )}
             </div>
 
             <div class="sm:col-span-3">
@@ -505,7 +545,7 @@ const ProductForm = () => {
                   onChange={handleChange}
                   class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                 >
-                  <option value="" disabled selected hidden>
+                  <option value="" disabled hidden>
                     Selecciona una opción
                   </option>
                   <option>Camisetas</option>
