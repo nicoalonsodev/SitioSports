@@ -16,6 +16,7 @@ const createOrder = async (req, res) => {
   const products = req.body.productInfo;
   const payer = req.body.payerInfo;
   // const shippingCost = req.body.shipment;
+console.log(payer);
 
   const order_id = uuidv4();
   try {
@@ -121,7 +122,6 @@ const receiveWebhook = async (req, res) => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log(data, "ladata");
 
       const order_id = data.external_reference;
       const cleanedItems = cleanData(data);
