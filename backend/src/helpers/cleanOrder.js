@@ -5,14 +5,14 @@ const cleanData = (data) => {
   const name = data.additional_info?.payer?.first_name || "";
   const phone = data.additional_info?.payer?.phone?.number || "";
 
-  const zipCode = data.additional_info?.shipments?.receiver_address?.zip_code || "";
-  const state_name = data.additional_info?.shipments?.receiver_address?.state_name || "";
-  const city_name = data.additional_info?.shipments?.receiver_address?.city_name || "";
-  const street_name = data.additional_info?.shipments?.receiver_address?.street_name || "";
-  const street_number = data.additional_info?.shipments?.receiver_address?.street_number || "";
-  const apartment = data.additional_info?.shipments?.receiver_address?.apartment || "";
-  const floor = data.additional_info?.shipments?.receiver_address?.floor || "";
-  const aclaration = data.additional_info?.shipments?.receiver_address?.aclaration || "";
+  // const zipCode = data.additional_info?.shipments?.receiver_address?.zip_code || "";
+  // const state_name = data.additional_info?.shipments?.receiver_address?.state_name || "";
+  // const city_name = data.additional_info?.shipments?.receiver_address?.city_name || "";
+  // const street_name = data.additional_info?.shipments?.receiver_address?.street_name || "";
+  // const street_number = data.additional_info?.shipments?.receiver_address?.street_number || "";
+  // const apartment = data.additional_info?.shipments?.receiver_address?.apartment || "";
+  // const floor = data.additional_info?.shipments?.receiver_address?.floor || "";
+  // const aclaration = data.additional_info?.shipments?.receiver_address?.aclaration || "";
 
   const order_type = data.order?.type || "";
   const payerMp = data.payer || "";
