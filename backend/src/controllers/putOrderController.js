@@ -9,15 +9,12 @@ const putOrderController = async (order_id, cleanedItems) => {
     if (!order) {
       throw new Error("No se encontró el producto");
     }
-console.log(order_id);
-console.log(cleanedItems);
 
 
     // Desestructurar los campos actualizados del objeto updatedFields
     const {
         name,
         phone,
-        shipment,
         order_type,
         status,
         status_detail,
@@ -35,9 +32,6 @@ console.log(cleanedItems);
     }
     if (phone) {
       order.phone = phone;
-    }
-    if (shipment) {
-      order.shipment = shipment;
     }
     if (order_type) {
       order.order_type = order_type;
@@ -77,6 +71,7 @@ console.log(cleanedItems);
     const items = order.items;
     const client_email = order.email;
     const order_number = order.order_number;
+    const shipment = order.shipment
     if (!client_email) {
       throw new Error("No se encontró el email del cliente en la orden");
     }
