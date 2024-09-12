@@ -23,6 +23,16 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: 0,
     },
+    remainingUses: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
+    usageRecord: {
+      type: DataTypes.ARRAY(DataTypes.JSONB),
+      allowNull: true,
+      defaultValue: [],
+    },
     disabled: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,

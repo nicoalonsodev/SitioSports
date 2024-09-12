@@ -1,8 +1,9 @@
 const { Discount } = require('../db');
 
-const putDiscountsController = async (id, code, description, percentage, disabled) => {
+const putDiscountsController = async ( code, description, percentage, disabled, remainingUses, usageRecord) => {
+  let newUsageRecord = usageRecord
     // Busca el registro en la base de datos por su ID
-    const discount = await Discount.findOne({ where: { id } })
+    const discount = await Discount.findOne({ where: { code } })
     if (!discount) {
       throw new Error('No se encontró el cupon de descuento');
     }
@@ -16,6 +17,25 @@ const putDiscountsController = async (id, code, description, percentage, disable
     }
     if(percentage){
       discount.percentage = percentage;
+    }
+    if(remainingUses){
+      discount.remainingUses = remainingUses;
+    }
+    if (newUsageRecord) {
+      if (!Array.isArray(discount.usageRecord)) {
+        discount.usageRecord = []; // Inicializamos el array si está vacío o no existe
+      }
+      discount.usageRecord.push(newUsageRecord); // Agregamos el nuevo uso al array
+
+      // Solo restamos un uso si llega un nuevo `usageRecord`
+      if (discount.remainingUses > 0) {
+        discount.remainingUses--;
+      }
+
+      // Si los usos restantes llegan a 0, deshabilitamos el cupón automáticamente
+      if (discount.remainingUses === 0) {
+        discount.disabled = true;
+      }
     }
     if(disabled){
       discount.disabled = disabled;

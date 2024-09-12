@@ -7,6 +7,7 @@ const postDiscountsController = async (code, description, percentage) => {
     code,
     description,
     percentage,
+    remainingUses
   });
   return discount;
 };
