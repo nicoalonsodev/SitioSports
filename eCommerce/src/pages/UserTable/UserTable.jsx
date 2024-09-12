@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import { getUsers, updateFilteredUsers } from "../../redux/actions";
-// import ExcelDownloadButton from "../../componentes/ExcellButton/excellButton";
-// import Dropdown from "../../componentes/Dropdown/Dropdown";
 import { up, down } from "../../assets/images";
 import { fetchUsersFromBackend } from "../../utils/api";
 import { setBackendUsers } from "../../redux/orebiSlice";

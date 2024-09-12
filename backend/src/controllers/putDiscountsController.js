@@ -21,11 +21,11 @@ const putDiscountsController = async ( code, description, percentage, disabled, 
     if(remainingUses){
       discount.remainingUses = remainingUses;
     }
-    if (newUsageRecord) {
+    if (usageRecord) {
       if (!Array.isArray(discount.usageRecord)) {
         discount.usageRecord = []; // Inicializamos el array si está vacío o no existe
       }
-      discount.usageRecord.push(newUsageRecord); // Agregamos el nuevo uso al array
+      discount.usageRecord.push(usageRecord); // Agregamos el nuevo uso al array
 
       // Solo restamos un uso si llega un nuevo `usageRecord`
       if (discount.remainingUses > 0) {

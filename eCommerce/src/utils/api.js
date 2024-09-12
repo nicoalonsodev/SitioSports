@@ -25,6 +25,14 @@ export const fetchUsersFromBackend = async () => {
     throw error;
   }
 };
+export const fetchDiscountsFromBackend = async () => {
+  try {
+    const response = await axios.get("https://sitiosports-production.up.railway.app/discounts");
+    return response.data; 
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const fetchOrdersFromBackend = async () => {
   try {
