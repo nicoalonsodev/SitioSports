@@ -28,12 +28,16 @@ const { deleteUserHandler } = require("../handlers/deleteUserHandler");
 const {
   deleteCommissionhandler,
 } = require("../handlers/deleteCommissionHandler");
+const {getDiscountsHandler} = require("../handlers/getDiscountsHandler");
+const {postDiscountsHandler} = require("../handlers/postDiscountsHandler");
+const { putDiscountsHandler } = require("../handlers/putDiscountsHandler")
 
 router.get("/products", getAllProductsHandler);
 router.get("/products/:slug", getProductByIdHandler);
 router.get("/users", getUsersHandler);
 router.get("/orders", getOrdersHandler);
 router.get("/commissions", getAllCommissionsHandler);
+router.get("/discounts", getDiscountsHandler);
 
 // router.get('/success', (req, res)=> res.send(req.query.payment_id));
 // router.get('/pending', (req, res)=> res.send("pend") );
@@ -48,11 +52,13 @@ router.post("/commissions", postCommissionsHandler);
 router.post("/create-order", createOrder);
 router.post("/webhook", receiveWebhook);
 router.post("/order", postOrderHandler);
+router.post("/discounts", postDiscountsHandler);
 
 router.put("/products/:id", putProductHandler);
 router.put("/users/:id", putUserHandler);
 router.put("/commissions/:id", putCommissionsHandler);
 router.put("/order/:id", putOrderHandler);
+router.put("/discounts/:id", putDiscountsHandler);
 
 router.delete("/product/:id", deleteProductHandler);
 router.delete("/user/:id", deleteUserHandler);
