@@ -10,7 +10,6 @@ import {
 import Footer from "./components/home/Footer/Footer";
 import FooterBottom from "./components/home/Footer/FooterBottom";
 import Header from "./components/home/Header/Header";
-import HeaderBottom from "./components/home/Header/HeaderBottom";
 import SpecialCase from "./components/SpecialCase/SpecialCase";
 import About from "./pages/About/About";
 import SignIn from "./pages/Account/SignIn";
@@ -36,6 +35,8 @@ import ProductDetailBdd from "./pages/ProductDetailBdd/ProductDetailBdd";
 import ShopByCommissions from "./pages/Shop/ShopByCommissions";
 import CommissionsTableBdd from "./pages/CommissionsBdd/CommissionsTableBdd";
 import Admin from "./pages/Admin/Admin";
+import DiscountsTable from "./pages/Discounts/DiscountsTable";
+import DiscountsForm from "./pages/Discounts/DiscountsForm";
 import { useLocation } from "react-router-dom";
 import HeaderPayment from "./components/home/Header/HeaderPayment";
 import CommissionsDetailBdd from "./pages/CommissionsBdd/CommissionsDetail";
@@ -195,6 +196,8 @@ const App = () => {
           element={isAuthenticated ? <ProductDetailBdd /> : <Login />}
         ></Route>
         <Route path="/uploadproduct" element={isAuthenticated ? <ProductForm /> : <Login />}></Route>
+        <Route path="/discounts" element={isAuthenticated ? <DiscountsTable /> : <Login />}></Route>
+        <Route path="/discounts-form" element={isAuthenticated ? <DiscountsForm /> : <Login />}></Route>
         <Route
           path="/cargar-producto-encargo"
           element={isAuthenticated ? <ProductCommissionsForm /> : <Login />}

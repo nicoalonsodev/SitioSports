@@ -14,6 +14,7 @@ const initialState = {
   users: [],
   orders: [],
   idProduct: [],
+  discounts: [],
 };
 export const orebiSlice = createSlice({
   name: "orebi",
@@ -163,6 +164,9 @@ export const orebiSlice = createSlice({
     setBackendCommissions: (state, action) => {
       state.commissions = action.payload;
     },
+    setBackendDiscounts: (state, action) => {
+      state.discounts = action.payload;
+    },
     setBackendUsers: (state, action) => {
       const usersObject = action.payload;
       const count = usersObject.users?.length;
@@ -196,6 +200,7 @@ export const {
   cleanSubcategories,
   setProductById,
   cleanProductById,
-  toggleTags
+  toggleTags,
+  setBackendDiscounts
 } = orebiSlice.actions;
 export default orebiSlice.reducer;

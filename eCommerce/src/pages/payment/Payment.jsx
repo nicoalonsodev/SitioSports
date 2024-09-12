@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react";
-import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
-import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import AddressForm from "../../components/PayerForm/AddressForm";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import ContactForm from "../../components/PayerForm/ContactForm";
-import { tarjetas, otherPaymentMethods } from "../../constants";
 import { resetCart } from "../../redux/orebiSlice";
 import { motion } from "framer-motion";
 import { IoIosArrowDown } from "react-icons/io";
 import formatPrice from "../../utils/formatPrice";
 
-const Payment = (props) => {
+const Payment = () => {
   const [showDetails, setShowDetails] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,7 +19,7 @@ const Payment = (props) => {
   const [readyToPay, setReadyToPay] = useState(false);
   const [productInfo, setProductInfo] = useState("");
   const [paymentMethod, setPaymentMethod] = useState(""); // el tipo de metodo de pago, mp o tb
-  const [shipping, setShipping] = useState(""); //el tipo de envio
+  const [shipping, setShipping] = useState(""); // el tipo de envio
   const [shippmentCharge, setShippmentCharge] = useState(0); //el costo del envio
   const [shipmentPlusTotal, setShipmentPlusTotal] = useState(0); //el total mas el costo del envio
   const [totalAmt, setTotalAmt] = useState(""); //el total de los productos
@@ -35,6 +31,14 @@ const Payment = (props) => {
     payerInfo: "",
     shipment: "",
   });
+
+  // Estado para el cupón de descuento
+  const [couponCode, setCouponCode] = useState("");
+  const [couponValid, setCouponValid] = useState(false);
+  const [couponDiscount, setCouponDiscount] = useState(0);
+
+  // Cálculo de total con cupón
+  const totalWithCoupon = shipmentPlusTotal - (shipmentPlusTotal * couponDiscount) / 100;
 
   useEffect(() => {
     setProductInfo(location.state.item);
@@ -53,7 +57,6 @@ const Payment = (props) => {
     }
   }, [productInfo]);
 
-
   useEffect(() => {
     let finalAmount;
     if (paymentMethod === "tb") {
@@ -62,9 +65,8 @@ const Payment = (props) => {
       } else {
         finalAmount = (totalAmt + shippmentCharge) * 0.85;
       }
-      let disc = totalAmt * 0.15;      
+      let disc = totalAmt * 0.15;
       setTransferDiscount(disc);
-      
     } else {
       if (totalAmt !== "" && totalAmt > 45000) {
         finalAmount = totalAmt;
@@ -72,7 +74,6 @@ const Payment = (props) => {
         finalAmount = totalAmt + shippmentCharge;
       }
     }
-
     setShipmentPlusTotal(finalAmount);
   }, [totalAmt, shippmentCharge, paymentMethod]);
 
@@ -85,20 +86,17 @@ const Payment = (props) => {
           order
         );
         const preferenceId = response.data.id;
-
         const redirectUrl = `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=${preferenceId}`;
         dispatch(resetCart());
         window.location.href = redirectUrl;
         setProcessing(false);
       } catch (error) {
-        // Manejar errores si la solicitud falla
         console.error("Error creating order:", error);
         setProcessing(false);
       }
     } else {
       try {
         setProcessing(true);
-
         const postOrder = {
           items: productInfo,
           name: order.payerInfo.payerName,
@@ -114,7 +112,7 @@ const Payment = (props) => {
             floor: order.payerInfo.floor,
             aclaration: order.payerInfo.aclaration,
           },
-          order_type: "Trasferencia Bancaria",
+          order_type: "Transferencia Bancaria",
           status: "Pago Pendiente",
           status_detail: "Cliente debe realizar la transferencia",
           transaction_amount: shipmentPlusTotal,
@@ -146,6 +144,7 @@ const Payment = (props) => {
     setEmail(email);
     setContactReady(true);
   };
+
   const handleAddress = (addressForm) => {
     setOrder({
       productInfo: productInfo,
@@ -157,10 +156,6 @@ const Payment = (props) => {
   const handleEditMail = () => {
     setAddressReady(false);
   };
-
-  // const subtotal = productInfo.price * productInfo.quantity
-  const ivaPercentage = 17.356;
-  const ivaAmount = ((ivaPercentage / 100) * shipmentPlusTotal).toFixed(2);
 
   const handleClickShippingType = (value) => {
     setShipping(value);
@@ -187,6 +182,38 @@ const Payment = (props) => {
       shipment: shippmentCharge,
     }));
   }, [totalAmt, shippmentCharge]);
+
+  // Función para validar y aplicar el cupón
+  const handleApplyCoupon = async () => {
+    try {
+      const usageRecord = {
+        //userId: 1234,  // Aquí puedes agregar el ID del usuario que aplica el cupón
+       // orderId: 5678, // Aquí puedes agregar el ID de la orden donde se usó el cupón
+        dateUsed: new Date() // Fecha en que se aplicó el cupón
+      };
+  
+      const response = await axios.put(
+        `https://sitiosports-production.up.railway.app/discounts/${couponCode}`, // Usamos PUT y pasamos el code como parámetro
+        { usageRecord } // Mandamos el registro de uso en el body
+      );
+  
+      const { valid, discount } = response.data;
+  
+      if (valid) {
+        setCouponValid(true);
+        setCouponDiscount(discount); // Aplica el descuento retornado
+        alert(`Cupón aplicado: ${discount}% de descuento`);
+      } else {
+        setCouponValid(false);
+        alert("Código de cupón no válido o no tiene usos disponibles");
+      }
+    } catch (error) {
+      console.error("Error al aplicar el cupón:", error);
+      alert("Hubo un error al aplicar el cupón.");
+    }
+  };
+
+
 
   return (
     <div className="flex flex-wrap w-screen h-full justify-start items-start px-2 lg:px-32 xl:px-44 pb-20 relative">
@@ -243,6 +270,7 @@ const Payment = (props) => {
                   </div>
                 </div>
               ))}
+              
             </div>
             <div>
               <p className="flex items-center justify-between border-b-0 py-1.5 text-lg font-medium">
@@ -275,7 +303,10 @@ const Payment = (props) => {
                   ${formatPrice(shipmentPlusTotal)}
                 </span>
               </p>
-              {/* <p className="text-sm">(IVA incluido ${ivaAmount})</p> */}
+              <div>
+               
+                cupon de descuento
+              </div>
             </div>
           </div>
         </motion.div>
