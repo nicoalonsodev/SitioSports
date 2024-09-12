@@ -58,7 +58,7 @@ router.put("/products/:id", putProductHandler);
 router.put("/users/:id", putUserHandler);
 router.put("/commissions/:id", putCommissionsHandler);
 router.put("/order/:id", putOrderHandler);
-router.put("/discounts/:id", putDiscountsHandler);
+router.put("/discounts/:code", putDiscountsHandler);
 
 router.delete("/product/:id", deleteProductHandler);
 router.delete("/user/:id", deleteUserHandler);

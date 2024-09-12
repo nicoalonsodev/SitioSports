@@ -2,11 +2,12 @@ const postDiscountsController = require("../controllers/postDiscountsController"
 
 const postDiscountsHandler = async (req, res) => {
   try {
-    const { code, description, percentage } = req.body;
+    const { code, description, percentage, remainingUses } = req.body;
     const discount = await postDiscountsController(
       code,
       description,
-      percentage
+      percentage,
+      remainingUses
     );
     return res.status(200).json(discount);
   } catch (error) {
