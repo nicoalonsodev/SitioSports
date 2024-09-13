@@ -6,6 +6,9 @@ import { resetCart } from "../../redux/orebiSlice";
 import { motion } from "framer-motion";
 import { IoIosArrowDown } from "react-icons/io";
 import formatPrice from "../../utils/formatPrice";
+import AddressForm from "../../components/PayerForm/AddressForm";
+import ContactForm from "../../components/PayerForm/ContactForm";
+import { tarjetas, otherPaymentMethods } from "../../constants/index";
 
 const Payment = () => {
   const [showDetails, setShowDetails] = useState(false);
@@ -26,6 +29,7 @@ const Payment = () => {
   const [transferDiscount, setTransferDiscount] = useState(0); //el dinero que se ahorra el cliente usando transferencia
   const [processing, setProcessing] = useState(false); //avisa cuando se esta procesando la orden
   const location = useLocation();
+
   const [order, setOrder] = useState({
     productInfo: "",
     payerInfo: "",
@@ -38,7 +42,8 @@ const Payment = () => {
   const [couponDiscount, setCouponDiscount] = useState(0);
 
   // Cálculo de total con cupón
-  const totalWithCoupon = shipmentPlusTotal - (shipmentPlusTotal * couponDiscount) / 100;
+  const totalWithCoupon =
+    shipmentPlusTotal - (shipmentPlusTotal * couponDiscount) / 100;
 
   useEffect(() => {
     setProductInfo(location.state.item);
@@ -59,7 +64,10 @@ const Payment = () => {
 
   useEffect(() => {
     let finalAmount;
+    
+    // Cálculo inicial según el método de pago
     if (paymentMethod === "tb") {
+      // Si es transferencia bancaria (tb), aplicar el 15% de descuento
       if (shippmentCharge === "Gratis") {
         finalAmount = totalAmt * 0.85;
       } else {
@@ -68,14 +76,40 @@ const Payment = () => {
       let disc = totalAmt * 0.15;
       setTransferDiscount(disc);
     } else {
+      // Si es otro método de pago
       if (totalAmt !== "" && totalAmt > 45000) {
         finalAmount = totalAmt;
       } else {
         finalAmount = totalAmt + shippmentCharge;
       }
     }
+  
+    // Aplicar el cupón si es válido
+    if (couponValid && couponDiscount > 0) {
+      finalAmount = finalAmount - (finalAmount * couponDiscount) / 100;
+    }
+  
+    // Actualizamos el total final con descuento por transferencia o cupón
     setShipmentPlusTotal(finalAmount);
-  }, [totalAmt, shippmentCharge, paymentMethod]);
+  }, [totalAmt, shippmentCharge, paymentMethod, couponDiscount, couponValid]);
+  
+  
+
+  useEffect(() => {
+    let finalAmount;
+    if (shippmentCharge !== 0) {
+      finalAmount = totalAmt + shippmentCharge;
+    } else {
+      finalAmount = totalAmt;
+    }
+    setShipmentPlusTotal(finalAmount);
+    setOrder((prevOrder) => ({
+      ...prevOrder,
+      shipment: shippmentCharge,
+    }));
+  }, [totalAmt, shippmentCharge]);
+
+
 
   const handlePay = async () => {
     if (paymentMethod === "mp") {
@@ -169,36 +203,24 @@ const Payment = () => {
     setPaymentMethod("");
   };
 
-  useEffect(() => {
-    let finalAmount;
-    if (shippmentCharge !== 0) {
-      finalAmount = totalAmt + shippmentCharge;
-    } else {
-      finalAmount = totalAmt;
-    }
-    setShipmentPlusTotal(finalAmount);
-    setOrder((prevOrder) => ({
-      ...prevOrder,
-      shipment: shippmentCharge,
-    }));
-  }, [totalAmt, shippmentCharge]);
+
 
   // Función para validar y aplicar el cupón
   const handleApplyCoupon = async () => {
     try {
       const usageRecord = {
         //userId: 1234,  // Aquí puedes agregar el ID del usuario que aplica el cupón
-       // orderId: 5678, // Aquí puedes agregar el ID de la orden donde se usó el cupón
-        dateUsed: new Date() // Fecha en que se aplicó el cupón
+        // orderId: 5678, // Aquí puedes agregar el ID de la orden donde se usó el cupón
+        dateUsed: new Date(), // Fecha en que se aplicó el cupón
       };
-  
+
       const response = await axios.put(
         `https://sitiosports-production.up.railway.app/discounts/${couponCode}`, // Usamos PUT y pasamos el code como parámetro
         { usageRecord } // Mandamos el registro de uso en el body
       );
-  
+
       const { valid, discount } = response.data;
-  
+
       if (valid) {
         setCouponValid(true);
         setCouponDiscount(discount); // Aplica el descuento retornado
@@ -212,8 +234,6 @@ const Payment = () => {
       alert("Hubo un error al aplicar el cupón.");
     }
   };
-
-
 
   return (
     <div className="flex flex-wrap w-screen h-full justify-start items-start px-2 lg:px-32 xl:px-44 pb-20 relative">
@@ -270,7 +290,6 @@ const Payment = () => {
                   </div>
                 </div>
               ))}
-              
             </div>
             <div>
               <p className="flex items-center justify-between border-b-0 py-1.5 text-lg font-medium">
@@ -288,24 +307,46 @@ const Payment = () => {
                 </span>
               </p>
               {paymentMethod === "tb" && transferDiscount !== 0 ? (
-              <p className="flex items-center justify-between border-b-0 py-1.5 text-lg font-medium">
-                Descuento
-                <span className="font-semibold tracking-wide font-titleFont">
-                  -${formatPrice(transferDiscount)}
-                </span>
-              </p>
-            ) : (
-              ""
-            )}
+                <p className="flex items-center justify-between border-b-0 py-1.5 text-lg font-medium">
+                  Descuento
+                  <span className="font-semibold tracking-wide font-titleFont">
+                    -${formatPrice(transferDiscount)}
+                  </span>
+                </p>
+              ) : (
+                ""
+              )}
               <p className="flex items-center justify-between text-pink-600 py-1.5 text-xl font-bold">
                 Total
                 <span className="font-bold tracking-wide text-xl font-titleFont">
                   ${formatPrice(shipmentPlusTotal)}
                 </span>
               </p>
-              <div>
-               
-                cupon de descuento
+              <div className="my-4">
+                <p className="text-lg font-semibold">Cupón de Descuento</p>
+                <div className="flex gap-2 items-center mt-2">
+                  <input
+                    type="text"
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value)}
+                    placeholder="Ingresa tu código"
+                    className="border border-gray-300 rounded px-4 py-2 w-full"
+                  />
+                  <button
+                    onClick={handleApplyCoupon}
+                    className="bg-primeColor text-white px-4 py-2 rounded hover:bg-pink-600 duration-300"
+                  >
+                    Aplicar
+                  </button>
+                </div>
+                {couponValid && couponDiscount > 0 && (
+                  <p className="text-green-600 mt-2">
+                    Cupón aplicado: {couponDiscount}% de descuento
+                  </p>
+                )}
+                {!couponValid && couponCode !== "" && (
+                  <p className="text-red-600 mt-2">Cupón no válido</p>
+                )}
               </div>
             </div>
           </div>
@@ -606,7 +647,32 @@ const Payment = () => {
                 ${formatPrice(shipmentPlusTotal)}
               </span>
             </p>
-            {/* <p className="text-sm">(IVA incluido ${ivaAmount})</p> */}
+            <div className="my-4">
+                <p className="text-lg font-semibold">Cupón de Descuento</p>
+                <div className="flex gap-2 items-center mt-2">
+                  <input
+                    type="text"
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value)}
+                    placeholder="Ingresa tu código"
+                    className="border border-gray-300 rounded px-4 py-2 w-full"
+                  />
+                  <button
+                    onClick={handleApplyCoupon}
+                    className="bg-primeColor text-white px-4 py-2 rounded hover:bg-pink-600 duration-300"
+                  >
+                    Aplicar
+                  </button>
+                </div>
+                {couponValid && couponDiscount > 0 && (
+                  <p className="text-green-600 mt-2">
+                    Cupón aplicado: {couponDiscount}% de descuento
+                  </p>
+                )}
+                {!couponValid && couponCode !== "" && (
+                  <p className="text-red-600 mt-2">Cupón no válido</p>
+                )}
+              </div>
           </div>
         </div>
       </div>

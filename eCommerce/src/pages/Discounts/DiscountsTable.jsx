@@ -49,6 +49,10 @@ const DiscountsTable = () => {
               <th className="py-2 px-4 border-b text-center">
                 Fecha de Creación
               </th>
+              <th className="py-2 px-4 border-b text-center">
+                Usos Restantes
+              </th>
+              <th className="py-2 px-4 border-b text-center">Veces Usado</th>
             </tr>
           </thead>
           <tbody>
@@ -67,11 +71,17 @@ const DiscountsTable = () => {
                   <td className="py-2 px-4 border-b text-center">
                     {new Date(discount.createdAt).toLocaleDateString()}
                   </td>
+                  <td className="py-2 px-4 border-b text-center">
+                    {discount.remainingUses}
+                  </td>
+                  <td className="py-2 px-4 border-b text-center">
+                    {discount.usageRecord ? discount.usageRecord.length : 0}
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="4" className="text-center py-4">
+                <td colSpan="6" className="text-center py-4">
                   No se encontraron cupones de descuento.
                 </td>
               </tr>
