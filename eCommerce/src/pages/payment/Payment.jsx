@@ -40,10 +40,7 @@ const Payment = () => {
   const [couponCode, setCouponCode] = useState("");
   const [couponValid, setCouponValid] = useState(false);
   const [couponDiscount, setCouponDiscount] = useState(0);
-
-  // Cálculo de total con cupón
-  const totalWithCoupon =
-    shipmentPlusTotal - (shipmentPlusTotal * couponDiscount) / 100;
+  const [couponSent, setCouponSent] = useState(false)
 
   useEffect(() => {
     setProductInfo(location.state.item);
@@ -207,6 +204,7 @@ const Payment = () => {
 
   // Función para validar y aplicar el cupón
   const handleApplyCoupon = async () => {
+    setCouponSent(true);
     try {
       const usageRecord = {
         //userId: 1234,  // Aquí puedes agregar el ID del usuario que aplica el cupón
@@ -339,12 +337,12 @@ const Payment = () => {
                     Aplicar
                   </button>
                 </div>
-                {couponValid && couponDiscount > 0 && (
+                {couponValid && couponDiscount > 0 && couponSent && (
                   <p className="text-green-600 mt-2">
                     Cupón aplicado: {couponDiscount}% de descuento
                   </p>
                 )}
-                {!couponValid && couponCode !== "" && (
+                {!couponValid && couponCode !== "" && couponSent && (
                   <p className="text-red-600 mt-2">Cupón no válido</p>
                 )}
               </div>
@@ -664,12 +662,12 @@ const Payment = () => {
                     Aplicar
                   </button>
                 </div>
-                {couponValid && couponDiscount > 0 && (
+                {couponValid && couponDiscount > 0 && couponSent && (
                   <p className="text-green-600 mt-2">
                     Cupón aplicado: {couponDiscount}% de descuento
                   </p>
                 )}
-                {!couponValid && couponCode !== "" && (
+                {!couponValid && couponCode !== "" && couponSent && (
                   <p className="text-red-600 mt-2">Cupón no válido</p>
                 )}
               </div>
