@@ -1,7 +1,7 @@
 const { Discount } = require('../db');
 
 const putDiscountsController = async ( code, description, percentage, disabled, remainingUses, usageRecord) => {
-  let newUsageRecord = usageRecord
+ 
     // Busca el registro en la base de datos por su ID
     const discount = await Discount.findOne({ where: { code } })
     if (!discount) {
@@ -22,10 +22,7 @@ const putDiscountsController = async ( code, description, percentage, disabled, 
       discount.remainingUses = remainingUses;
     }
     if (usageRecord) {
-      if (!Array.isArray(discount.usageRecord)) {
-        discount.usageRecord = []; // Inicializamos el array si está vacío o no existe
-      }
-      discount.usageRecord.push(usageRecord); // Agregamos el nuevo uso al array
+     discount.usageRecord = [...(discount.usageRecord || []), usageRecord];
 
       // Solo restamos un uso si llega un nuevo `usageRecord`
       if (discount.remainingUses > 0) {
@@ -36,6 +33,7 @@ const putDiscountsController = async ( code, description, percentage, disabled, 
       if (discount.remainingUses === 0) {
         discount.disabled = true;
       }
+
     }
     if(disabled){
       discount.disabled = disabled;

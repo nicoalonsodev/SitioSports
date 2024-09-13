@@ -1,6 +1,6 @@
 const { Discount } = require("../db");
 
-const postDiscountsController = async (code, description, percentage) => {
+const postDiscountsController = async (code, description, percentage, remainingUses) => {
   let discount;
 
   discount = await Discount.create({

@@ -8,7 +8,7 @@ const putDiscountsHandler = async (req, res) => {
     // Llamamos al controlador para actualizar el descuento
     const updatedDiscount = await putDiscountsController(
       code,
-      description,
+      description, 
       percentage,
       disabled,
       remainingUses,
