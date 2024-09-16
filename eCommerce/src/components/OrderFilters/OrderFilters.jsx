@@ -75,6 +75,16 @@ const OrderFilter = ({ filters, handleOrderFilter }) => {
               />
               Cancelado
             </label>
+            <label className="flex items-center px-4 py-2">
+              <input
+                type="checkbox"
+                name="rejected"
+                checked={filters.rejected}
+                onChange={handleCheckboxChange}
+                className="mr-2"
+              />
+              Tarjeta Rechazada
+            </label>
           </div>
         </div>
       )}

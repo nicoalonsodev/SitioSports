@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
-import { resetCart, deleteItem, increaseQuantity, drecreaseQuantity,  } from "../../redux/orebiSlice";
+import { resetCart, deleteItem, increaseQuantity, drecreaseQuantity, updatePrice } from "../../redux/orebiSlice";
 import { emptyCart } from "../../assets/images/index";
 import ItemCard from "./ItemCard";
 import { IoIosInformationCircleOutline } from "react-icons/io";
@@ -29,15 +29,29 @@ const Cart = () => {
     setTotalAmt(price);
   }, [products]);
 
+
+
+
   useEffect(() => {
     setShippingCharge(0);
   }, [totalAmt]);
+console.log(products);
 
   useEffect(() => {
     products.forEach(cartItem => {
       const foundProduct = allProducts.find(product => product.id === cartItem.id);
       if (foundProduct) {
+        if (cartItem.price !== foundProduct.price) {
+          // Despacha una acción para actualizar el precio
+          dispatch(updatePrice({ id: cartItem.id, newPrice: foundProduct.price }));
+          
+          toast.info(`El precio de ${cartItem.name} ha cambiado a $${foundProduct.price}.`, {
+            autoClose: 10000
+          });
+        }
+//quiero hacer aca que si cartItem.price que coincide con un producto de allProducts es distinto de el producto que coincide en allProducts lo cambie por el nuevo price
         const foundVariant = foundProduct.variants.find(variant => variant.id === cartItem.variant.id);
+        
         if (foundVariant) {
           const foundSize = foundVariant.sizes.find(size => size.size === cartItem.size);
           if (foundSize) {
