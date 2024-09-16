@@ -177,6 +177,13 @@ export const orebiSlice = createSlice({
         (a, b) => a.order_number - b.order_number
       );
     },
+    updatePrice: (state, action) => {
+      const { id, newPrice } = action.payload;
+      const productInCart = state.cartProducts.find((item) => item.id === id);
+      if (productInCart) {
+        productInCart.price = newPrice; // Actualizamos el precio
+      }
+    },
   },
 });
 
@@ -201,6 +208,7 @@ export const {
   setProductById,
   cleanProductById,
   toggleTags,
-  setBackendDiscounts
+  setBackendDiscounts,
+  updatePrice
 } = orebiSlice.actions;
 export default orebiSlice.reducer;

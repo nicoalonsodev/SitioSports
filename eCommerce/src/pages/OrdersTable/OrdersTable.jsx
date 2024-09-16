@@ -15,14 +15,15 @@ const OrdersTable = () => {
     Entregado: true,
     "Pago Pendiente": true,
     Cancelado: false,
+    rejected: false,
   });
 
   const [search, setSearch] = useState("");
-  const [isSearching, setIsSearching] = useState(false);
   const [order, setOrder] = useState("asc");
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredOrders, setFilteredOrders] = useState([]);
 
+  // 1. Cargar las órdenes del backend al montar el componente
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -32,21 +33,27 @@ const OrdersTable = () => {
         console.error("Error fetching orders:", error);
       }
     };
-
     fetchData();
   }, [dispatch]);
 
+  // 2. Filtrar órdenes cuando los filtros o las órdenes cambien
   useEffect(() => {
-    // Aplica los filtros cada vez que `filters` o `orders` cambien
     const applyFilters = () => {
-      const filtered = orders.filter(order => {
-        if (filters.Cancelado && (order.status === "Cancelado" || order.status === "")) {
+      const filtered = orders.filter((order) => {
+        // Verificar si el estado de la orden coincide con los filtros seleccionados
+        const status = order.status || "Desconocido";
+
+        // Si el estado de la orden está habilitado en los filtros
+        if (filters[status]) {
           return true;
         }
-        if (order.status === "Pago Pendiente" && filters["Pago Pendiente"]) {
+
+        // Si el estado está vacío o no definido, lo consideramos "Cancelado"
+        if (status === "" && filters["Cancelado"]) {
           return true;
         }
-        return filters[order.status] === true;
+
+        return false;
       });
 
       setFilteredOrders(filtered);
@@ -55,6 +62,7 @@ const OrdersTable = () => {
     applyFilters();
   }, [filters, orders]);
 
+  // 3. Manejar el cambio de filtros
   const handleOrderFilter = (name, checked) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
@@ -62,10 +70,10 @@ const OrdersTable = () => {
     }));
   };
 
+  // 4. Paginación
   const count = filteredOrders.length;
   const usersPerPage = 10;
   const totalPages = Math.ceil(count / usersPerPage);
-  const lastPage = totalPages - 1;
   const range = 2;
 
   const startPage = Math.max(currentPage - range, 1);
@@ -85,10 +93,10 @@ const OrdersTable = () => {
       <div className="my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 pr-10 lg:px-8">
         <div className="align-middle rounded-tl-lg rounded-tr-lg inline-block w-full py-6 mt-4 bg-white shadow-lg px-12">
           <div className="flex justify-start space-x-6 items-center pb-4">
-            <a href="/admin"><img className="w-20" src={logoTransparent} alt="" /></a>
-            <h1 className="text-3xl font-bold text-gray-700">
-              Ordenes Sitio Sports
-            </h1>
+            <a href="/admin">
+              <img className="w-20" src={logoTransparent} alt="" />
+            </a>
+            <h1 className="text-3xl font-bold text-gray-700">Ordenes Sitio Sports</h1>
           </div>
           <div className="flex justify-between">
             <div className="inline-flex border rounded w-7/12 px-2 lg:px-6 bg-transparent">
@@ -98,45 +106,8 @@ const OrdersTable = () => {
                   onChange={(e) => setSearch(e.target.value)}
                   type="text"
                   className="flex-shrink flex-grow flex-auto leading-normal tracking-wide w-px border border-none border-l-0 rounded rounded-l-none px-3 relative focus:outline-none text-xxs lg:text-base text-gray-500 font-thin"
-                  placeholder="Search"
+                  placeholder="Buscar"
                 />
-                <div className="flex">
-                  {isSearching ? (
-                    <button
-                      onClick={() => setIsSearching(false)}
-                      className="flex items-center leading-normal bg-transparent rounded rounded-r-none border border-r-0 border-none lg:px-3 py-2 whitespace-no-wrap text-grey-dark text-sm"
-                    >
-                      X
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => setIsSearching(true)}
-                      className="flex items-center leading-normal bg-transparent rounded rounded-r-none border border-r-0 border-none lg:px-3 py-2 whitespace-no-wrap text-grey-dark text-sm"
-                    >
-                      <svg
-                        width="18"
-                        height="18"
-                        className="w-4 lg:w-auto"
-                        viewBox="0 0 18 18"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M8.11086 15.2217C12.0381 15.2217 15.2217 12.0381 15.2217 8.11086C15.2217 4.18364 12.0381 1 8.11086 1C4.18364 1 1 4.18364 1 8.11086C1 12.0381 4.18364 15.2217 8.11086 15.2217Z"
-                          stroke="#455A64"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M16.9993 16.9993L13.1328 13.1328"
-                          stroke="#455A64"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </button>
-                  )}
-                </div>
               </div>
             </div>
             <div className="flex">
@@ -144,15 +115,17 @@ const OrdersTable = () => {
             </div>
           </div>
         </div>
+
         <div className="align-middle inline-block min-w-full shadow bg-white shadow-dashboard px-8 pt-3 rounded-bl-lg rounded-br-lg">
           <table className="align-middle min-w-full">
             <thead>
               <tr>
-                <th className="my-custom-header-style px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider align-middle lg:my-lg-custom-header-style"></th>
-                <th className="my-custom-header-style my-lg-custom-header-style px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider align-middle">
+                {/* Encabezado de la tabla */}
+                <th className="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-blue-500 tracking-wider align-middle"></th>
+                <th className="px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider align-middle">
                   Nombre
                 </th>
-                <th className="px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider xl:ml-15">
+                <th className="px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
                   Mail
                 </th>
                 <th className="px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
@@ -164,160 +137,43 @@ const OrdersTable = () => {
                 <th className="px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
                   Estado
                 </th>
-                <th className="px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider relative">
+                <th className="px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
                   Fecha de Creación
-                  {order === "asc" ? (
-                    <button
-                      onClick={() => setOrder("desc")}
-                    >
-                      <img
-                        src={down}
-                        alt="arrow down"
-                        className="absolute top-1/2 transform -translate-y-1/2 text-blue-500"
-                        style={{ width: "16px", height: "16px" }}
-                      />
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => setOrder("asc")}
-                    >
-                      <img
-                        src={up}
-                        alt="arrow up"
-                        className="absolute top-1/2 transform -translate-y-1/2 text-blue-500"
-                        style={{ width: "16px", height: "16px" }}
-                      />
-                    </button>
-                  )}
                 </th>
-                <th className="px-6 py-3 border-b-2 border-gray-300"></th>
               </tr>
             </thead>
 
             <tbody className="bg-white">
               {filteredOrders?.map((order) => (
-                <tr key={order.order_id}>
+                <tr key={order.id}>
+                  {/* Renderiza cada fila de la tabla */}
                   <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                    <div className="flex items-center">
-                      <div>
-                        <div className="text-sm leading-5 text-gray-800">
-                          #{order.order_number}
-                        </div>
-                      </div>
-                    </div>
+                    <div className="text-sm leading-5 text-gray-800">#{order.order_number}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-                    <div className="text-center text-sm leading-5 text-blue-900">
-                      {order.name}
-                    </div>
+                    <div className="text-sm leading-5 text-blue-900">{order.name}</div>
                   </td>
-                  <td className="text-center px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
                     {order.email}
                   </td>
-                  <td className="text-center px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
+                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
                     ${order.transaction_amount}
                   </td>
-                  <td className="text-center px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
-                    {order.order_type} 
+                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                    {order.order_type}
                   </td>
-
-                  <td className="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5">
-                    <span className="flex justify-center text-center relative px-3 py-1 font-semibold text-green-900 leading-tight">
-                      <span
-                        aria-hidden
-                        className={` 
-                          ${
-                            order.status === "approved" ||
-                            order.status === "Aprobado" ||
-                            order.status === "Enviado"
-                              ? "absolute inset-0 bg-green-200 opacity-50 rounded-full"
-                              : order.status === "Entregado"
-                              ? "absolute inset-0 bg-yellow-200 opacity-50 rounded-full"
-                              : "absolute inset-0 bg-red-200 opacity-50 rounded-full"
-                          }
-                        `}
-                      ></span>
-                      <span className="relative text-xs">{order.status}</span>
+                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
+                    <span className={`flex justify-center text-center px-3 py-1 font-semibold ${order.status === 'approved' || order.status === 'Aprobado' ? 'bg-green-200' : order.status === 'Enviado' ? "bg-yellow-200": order.status === 'Pago Pendiente' ? "bg-blue-200" : 'bg-red-200'}`}>
+                      {order.status === "rejected" ? "Tarjeta Rechazada" : order.status}
                     </span>
                   </td>
-
-                  <td className="text-center px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5">
+                  <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
                     {order.createdAt.slice(0, 10)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
-                    <a
-                      href={`/orderdetailbdd/${order.id}`}
-                      className="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none"
-                    >
-                      Ver Detalle
-                    </a>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <div className="sm:flex-1 sm:flex sm:items-center sm:justify-between mt-4 work-sans">
-            <div>
-              <nav className="relative z-0 inline-flex shadow-sm" />
-              <div className="flex">
-                {currentPage !== 1 ? (
-                  <button
-                    className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
-                    aria-label="Previous"
-                    onClick={() => handlePageChange(currentPage - 1)}
-                  >
-                    <svg
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                ) : (
-                  ""
-                )}
-                {pageRange?.map((pag) => (
-                  <button
-                    key={pag}
-                    className={`-ml-px relative inline-flex items-center px-4 py-2 border border-gray-300 ${
-                      pag === currentPage
-                        ? "bg-blue-600 text-white"
-                        : "bg-white text-blue-600"
-                    } text-sm leading-5 font-medium text-blue-600 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-tertiary active:text-gray-700 transition ease-in-out duration-150 hover:bg-tertiary`}
-                    onClick={() => handlePageChange(pag)}
-                  >
-                    {pag}
-                  </button>
-                ))}
-                {/* {currentPage !== pageButtons[lastPage] ? (
-                  <button
-                    className="-ml-px relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150"
-                    aria-label="Next"
-                    onClick={() => handlePageChange(currentPage + 1)}
-                  >
-                    <svg
-                      className="h-5 w-5"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 01-1.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                ) : (
-                  ""
-                )} */}
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
