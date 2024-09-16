@@ -8,7 +8,7 @@
 //                 / \\|||  :  |||// \
 //                / _||||| -:- |||||- \
 //               |   | \\\  -  /// |   |
-//               | \_|  ''\---/''  |_/ | 
+//               | \_|  ''\---/''  |_/ |
 //               \  .-\__  '-'  ___/-. /
 //             ___'. .'  /--.--\  `. .'___
 //          ."" '<  `.___\_<|>_/___.' >' "".
@@ -17,12 +17,18 @@
 //     =====`-.____`.___ \_____/___.-`___.-'=====
 //                       `=---='
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 const server = require("./src/app.js");
 const { conn } = require("./src/db.js");
 const { PORT } = process.env;
+const { destroyOrders } = require('./src/controllers/destroyOrders.js'); // Importar la función
 
 // Syncing all the models at once.
-conn.sync({ alter: true }).then(() => {
+conn.sync({ alter: true }).then(async () => {
+  // Llamar la función para eliminar órdenes después de la sincronización de los modelos
+  await destroyOrders(); // Aquí se eliminarán las órdenes
+
+  // Iniciar el servidor
   server.listen(PORT, () => {
     console.log(`%s listening at ${PORT}`); // eslint-disable-line no-console
   });
