@@ -140,6 +140,9 @@ const OrdersTable = () => {
                 <th className="px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
                   Fecha de Creación
                 </th>
+                <th className="px-6 py-3 border-b-2 border-gray-300 text-sm leading-4 text-blue-500 tracking-wider">
+                
+                </th>
               </tr>
             </thead>
 
@@ -169,6 +172,14 @@ const OrdersTable = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
                     {order.createdAt.slice(0, 10)}
+                  </td>
+                  <td className="py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5">
+                    <a
+                      href={`/orderdetailbdd/${order.id}`}
+                      className="px-5 py-2 border-blue-500 border text-blue-500 rounded transition duration-300 hover:bg-blue-700 hover:text-white focus:outline-none"
+                    >
+                      Detalle
+                    </a>
                   </td>
                 </tr>
               ))}
