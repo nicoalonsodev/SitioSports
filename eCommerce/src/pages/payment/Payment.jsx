@@ -430,6 +430,7 @@ const Payment = () => {
 
         <div className="w-full space-y-4">
           <p className="font-bold text-2xl uppercase">Opciones de Entrega</p>
+          <span className="text-sm">(Debe seleccionar una opción de Envío)</span>
           {order.payerInfo ? (
             <>
               {/* <div
