@@ -204,7 +204,7 @@ const Payment = () => {
 
   // Función para validar y aplicar el cupón
   const handleApplyCoupon = async () => {
-    setCouponSent(true);
+    
     try {
       const usageRecord = {
         //userId: 1234,  // Aquí puedes agregar el ID del usuario que aplica el cupón
@@ -227,9 +227,11 @@ const Payment = () => {
         setCouponValid(false);
         alert("Código de cupón no válido o no tiene usos disponibles");
       }
+      setCouponSent(true);
     } catch (error) {
       console.error("Error al aplicar el cupón:", error);
       alert("Hubo un error al aplicar el cupón.");
+      setCouponSent(true);
     }
   };
 
