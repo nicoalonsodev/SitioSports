@@ -154,7 +154,7 @@ const ProductForm = () => {
       if (!variant.imgUrl || variant.imgUrl.length === 0)
         variantErrors.imgUrl = "La imagen es obligatoria";
       if (!variant.sizes || variant.sizes.length === 0)
-        variantErrors.sizes = "El tamaño es obligatorio";
+        variantErrors.sizes = "El talle es obligatorio";
       if (Object.keys(variantErrors).length > 0) {
         variantsErrors[index] = variantErrors;
       }
