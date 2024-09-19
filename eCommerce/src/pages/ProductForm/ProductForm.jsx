@@ -141,8 +141,7 @@ const ProductForm = () => {
     if (name === "cat" && !value) error = "La categoría es obligatoria";
     if (name === "sub_cat" && form.cat !== "Medias" && !value)
       error = "La subcategoría es obligatoria";
-    if (name === "description" && !value)
-      error = "La descripción es obligatoria";
+   
     return error;
   };
 
@@ -339,16 +338,12 @@ const ProductForm = () => {
       formErrors.productName = "El nombre del producto es obligatorio";
     if (!form.price || form.price <= 0)
       formErrors.price = "El precio debe ser mayor que 0";
-    if (!form.compare_price || form.compare_price <= 0)
-      formErrors.compare_price =
-        "El precio de comparación debe ser mayor que 0";
+   
     if (!form.brand) formErrors.brand = "La marca es obligatoria";
     if (!form.cat) formErrors.cat = "La categoría es obligatoria";
     if (form.cat !== "Medias" && !form.sub_cat)
       formErrors.sub_cat = "La subcategoría es obligatoria";
-    if (!form.description)
-      formErrors.description = "La descripción es obligatoria";
-
+   
     const variantsErrors = validateVariants();
     if (variantsErrors.length > 0) {
       formErrors.variants = variantsErrors;
