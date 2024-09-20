@@ -1,14 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GiSandsOfTime } from "react-icons/gi";
 import { useParams, useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchOrdersFromBackend } from "../../utils/api";
+import { setBackendOrders } from "../../redux/orebiSlice";
 import formatPrice from "../../utils/formatPrice";
+
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
+
 const AfterTransfer = () => {
-  const { orden } = useParams();
+  const { orden } = useParams(); // Obtener el número de orden de los params
   const query = useQuery();
-  const precio = query.get("monto");
+  const precio = query.get("monto"); // Obtener el monto de la URL (por query params)
+  
+  const dispatch = useDispatch();
+  const orders = useSelector((state) => state.orebiReducer.orders); // Obtener las órdenes de Redux
+  const [order, setOrder] = useState(null); // Estado local para almacenar la orden específica
+
+  // Cargar las órdenes del backend y guardarlas en Redux
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const fetchedOrders = await fetchOrdersFromBackend();
+        dispatch(setBackendOrders(fetchedOrders)); 
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    };
+    fetchData();
+  }, [dispatch]);
+
+  // Encontrar la orden por su número
+  useEffect(() => {
+    if (orders.length > 0) {
+      const foundOrder = orders.find((order) => order.order_number === parseInt(orden, 10));
+      if (foundOrder) {
+        setOrder(foundOrder);
+
+        // Enviar el evento Purchase a Google Tag Manager
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "Purchase",
+          eventCategory: "Purchase", 
+          transaction_id: foundOrder.order_number, // Número de la orden
+          value: foundOrder.transaction_amount, // Monto de la transacción
+          currency: "ARS", // Moneda en pesos argentinos
+          content_type: "product", // Tipo de contenido
+          email: foundOrder.email, // Correo del usuario
+          full_name: foundOrder.name, // Nombre completo del usuario
+          phone_number: foundOrder.phone, // Teléfono del usuario
+        });
+      }
+    }
+  }, [orders, orden]);
 
   return (
     <div className="px-4 lg:px-20 flex justify-center">
