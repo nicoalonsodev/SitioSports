@@ -209,6 +209,16 @@ const ProductInfo = ({
         variant: selectedVariant,
       })
     );
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "AddToCart", 
+      eventCategory: "AddToCart", 
+      content_ids: [productInfo.id],  
+      content_name: productInfo.productName,  
+      content_type: "product", 
+      value: productInfo.price,  
+      currency: "ARS",  
+    })
   };
 
   const handleVariantChange = (variant) => {

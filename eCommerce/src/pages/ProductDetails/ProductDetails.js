@@ -42,9 +42,28 @@ const ProductDetails = () => {
     };
   }, [location, slug, dispatch]);
 
+
+
+
   const [images, setImages] = useState("");
 
   const product = useSelector((state) => state.orebiReducer.idProduct);
+console.log(product);
+
+  useEffect(() => {
+    if (product && !isLoading) {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "MetaViewContent",
+        eventCategory: "ViewContent",  
+        content_ids: [product.id],  // ID del producto
+        content_name: product.productName,  // Nombre del producto
+        content_type: "product",  // Tipo de contenido
+        value: product.price,  // Valor del producto (precio)
+        currency: "ARS",  // Moneda, ajusta según sea necesario
+      });
+    }
+  }, [product, isLoading]);
 
   const handleSelectedImages = (variantImgs) => {
     setImages(variantImgs);

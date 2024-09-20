@@ -46,6 +46,16 @@ const Payment = () => {
     setProductInfo(location.state.item);
     setResume(true);
     setShippmentCharge(location.state.shippingCharge);
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "InitiateCheckout", 
+      eventCategory: "InitiateCheckout", 
+      content_ids: [productInfo.id],  // ID del producto
+      content_name: productInfo.productName,  // Nombre del producto
+      content_type: "product",  // Tipo de contenido
+      value: productInfo.price,  // Precio del producto
+      currency: "ARS",  // Moneda
+    });
   }, [location]);
 
   useEffect(() => {
@@ -182,6 +192,22 @@ const Payment = () => {
       payerInfo: addressForm,
     });
     setAddressReady(true);
+console.log(addressForm);
+
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "AddPaymentInfo", 
+      eventCategory: "AddPaymentInfo", 
+      content_ids: [order.productInfo.id],  // ID del producto
+      content_name: order.productInfo.productName,  // Nombre del producto
+      content_type: "product",  // Tipo de contenido
+      value: order.productInfo.price,  // Precio del producto
+      currency: "ARS",  // Moneda
+      customer_id: addressForm.client_id || null,  // ID del cliente si está registrado
+      email: addressForm.email,  // Correo del usuario
+      full_name: addressForm.payerName,  // Nombre completo del usuario
+      phone_number: addressForm.phone,  // Número de teléfono
+    });
   };
 
   const handleEditMail = () => {
