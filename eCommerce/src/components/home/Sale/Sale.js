@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { offer1, offer2, video_arg } from "../../../assets/images/index";
 import Image from "../../designLayouts/Image";
@@ -14,6 +14,48 @@ import { allCategories, allBrands } from "../../../constants";
 
 const Sale = () => {
   const dispatch = useDispatch();
+  const videoRef = useRef(null); // Usamos una referencia para el video
+  const [isVideoVisible, setIsVideoVisible] = useState(false); // Estado para el estado visible del video
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Cuando el video está visible, lo reproducimos
+            setIsVideoVisible(true);
+          } else {
+            // Cuando el video no está visible, lo pausamos
+            setIsVideoVisible(false);
+          }
+        });
+      },
+      {
+        threshold: 0.5, // El 50% del video debe estar visible para que se considere dentro del viewport
+      }
+    );
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current); // Observamos el elemento del video
+    }
+
+    return () => {
+      if (videoRef.current) {
+        observer.unobserve(videoRef.current); // Dejamos de observar el video cuando el componente se desmonta
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      if (isVideoVisible) {
+        videoRef.current.play(); // Reproducir el video si es visible
+      } else {
+        videoRef.current.pause(); // Pausar el video si no es visible
+      }
+    }
+  }, [isVideoVisible]);
+
   return (
     <div className="py-0 lg:py-20 flex flex-col md:flex-row items-start justify-between gap-4">
       <div className="bg-[#f3f3f3] w-full md:w-2/3 lg:w-1/2 f-full flex flex-col justify-center items-center text-black">
@@ -24,10 +66,10 @@ const Sale = () => {
             dispatch(toggleCategory(allCategories[1]));
             dispatch(toggleBrand(allBrands[1]));
           }}
-          className="relative  h-[610px] aspect-w-4 aspect-h-3 w-full"
+          className="relative h-[610px] aspect-w-4 aspect-h-3 w-full"
         >
           <video
-            autoPlay
+            ref={videoRef} // Referencia al video
             loop
             muted
             playsInline
@@ -36,7 +78,6 @@ const Sale = () => {
             <source src={video_arg} type="video/mp4" />
             Tu navegador no soporta la reproducción de video.
           </video>
-          {/* <Image className="h-full w-full object-cover" imgSrc={saleImgFour} /> */}
         </Link>
       </div>
 
@@ -63,7 +104,7 @@ const Sale = () => {
               dispatch(toggleCategory(allCategories[0]));
             }}
           >
-            <Image className="h-full w-full object-cover " imgSrc={offer2} />
+            <Image className="h-full w-full object-cover" imgSrc={offer2} />
           </Link>
         </div>
       </div>
