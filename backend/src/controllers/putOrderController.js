@@ -68,39 +68,44 @@ const putOrderController = async (order_id, cleanedItems) => {
       order.transaction_details = transaction_details;
     }
 
-    const items = order.items;
-    const client_email = order.email;
-    const order_number = order.order_number;
-    const shipment = order.shipment
-    if (!client_email) {
-      throw new Error("No se encontró el email del cliente en la orden");
+    if (status === "approved" || status === "Aprobado") {
+      const items = order.items;
+      const client_email = order.email;
+      const order_number = order.order_number;
+      const shipment = order.shipment;
+
+      if (!client_email) {
+        throw new Error("No se encontró el email del cliente en la orden");
+      }
+
+      const address = `${shipment.street_name} ${shipment.street_number}, ${shipment.state_name}, ${shipment.zipCode}`;
+
+      const asunto = `Orden de compra #${order_number}`;
+      const destinatario = [client_email, "sitiosports.contacto@gmail.com"];
+      const itemsHtml = items.map(item => {
+        return itemTemplate
+          .replace(/%PRODUCT_IMAGE_URL%/g, item.variant.imgUrl[0])
+          .replace(/%PRODUCT_NAME%/g, item.name)
+          .replace(/%PRODUCT_COLOR%/g, item.variant.variant)
+          .replace(/%PRODUCT_SIZE%/g, item.size)
+          .replace(/%PRODUCT_PRICE%/g, `$${formatPrice(item.price)}`);
+      }).join('');
+
+      let cuerpo = orderTemplate
+        .replace(/%CUSTOMER_NAME%/g, name)
+        .replace(/%CUSTOMER_PHONE%/g, phone)
+        .replace(/%CUSTOMER_ADDRESS%/g, address)
+        .replace(/%CUSTOMER_FLOOR%/g, shipment.floor)
+        .replace(/%CUSTOMER_APT%/g, shipment.apt)
+        .replace(/%ORDER_ITEMS%/g, itemsHtml)
+        .replace(/%ORDER_SUBTOTAL%/g, `$${formatPrice(transaction_amount)}`)
+        .replace(/%ORDER_SHIPPING_COST%/g, "Gratis")
+        .replace(/%ORDER_TOTAL%/g, `$${formatPrice(transaction_amount)}`);
+
+      // Enviar el correo
+      await mailHandler(destinatario, asunto, cuerpo);
     }
-    const address = `${shipment.street_name} ${shipment.street_number}, ${shipment.state_name}, ${shipment.zipCode}`;
 
-    const asunto = `Orden de compra #${order_number}`;
-    const destinatario = [client_email, "sitiosports.contacto@gmail.com"];
-    const itemsHtml = items.map(item => {
-      return itemTemplate
-        .replace(/%PRODUCT_IMAGE_URL%/g, item.variant.imgUrl[0])
-        .replace(/%PRODUCT_NAME%/g, item.name)
-        .replace(/%PRODUCT_COLOR%/g, item.variant.variant)
-        .replace(/%PRODUCT_SIZE%/g, item.size)
-        .replace(/%PRODUCT_PRICE%/g, `$${formatPrice(item.price)}`);
-    }).join('');
-
-  
-    let cuerpo = orderTemplate
-      .replace(/%CUSTOMER_NAME%/g, name)
-      .replace(/%CUSTOMER_ADDRESS%/g, address)
-      .replace(/%CUSTOMER_FLOOR%/g, shipment.floor)
-      .replace(/%CUSTOMER_APT%/g, shipment.apt)
-      .replace(/%ORDER_ITEMS%/g, itemsHtml)
-      .replace(/%ORDER_SUBTOTAL%/g, `$${formatPrice(transaction_amount)}`)
-      .replace(/%ORDER_SHIPPING_COST%/g, "Gratis")
-      .replace(/%ORDER_TOTAL%/g, `$${formatPrice(transaction_amount)}`);
-
-
-    await mailHandler(destinatario, asunto, cuerpo);
     // Guardar los cambios en la base de datos
     await order.save();
 
