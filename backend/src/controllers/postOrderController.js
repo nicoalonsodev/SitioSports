@@ -44,6 +44,7 @@ const postOrderController = async (
     let cuerpo = orderTransferCreate
       .replace(/%ORDER_NUMBER%/g, newOrderNumber)
       .replace(/%CUSTOMER_NAME%/g, name)
+      .replace(/%CUSTOMER_PHONE%/g, phone)
       .replace(/%CUSTOMER_ADDRESS%/g, address)
       .replace(/%CUSTOMER_FLOOR%/g, shipment.floor)
       .replace(/%CUSTOMER_APT%/g, shipment.apt)

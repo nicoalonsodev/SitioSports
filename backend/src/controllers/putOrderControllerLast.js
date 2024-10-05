@@ -11,7 +11,7 @@ const putOrderController = async (id, updatedFields) => {
     if (!order) {
       throw new Error("No se encontró el producto");
     }
-
+ 
     // Desestructurar los campos actualizados del objeto updatedFields
     const {
       items,

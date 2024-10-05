@@ -92,6 +92,7 @@ const orderTemplate = `
         <div class="shipping-info">
           
             <p><strong>Nombre completo:</strong> %CUSTOMER_NAME%</p>
+            <p><strong>Número de contacto:</strong> %CUSTOMER_PHONE%</p>
             <p><strong>Dirección:</strong> %CUSTOMER_ADDRESS%</p>
             <p><strong>Piso:</strong> %CUSTOMER_FLOOR%</p>
             <p><strong>Depto:</strong> %CUSTOMER_APT%</p>
