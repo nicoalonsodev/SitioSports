@@ -19,33 +19,13 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 const server = require("./src/app.js");
-const { conn, Product  } = require("./src/db.js");
+const { conn  } = require("./src/db.js");
 const { PORT } = process.env;
-const { Op } = require("sequelize"); // Importa Op de sequelize
 
 // Syncing all the models at once.
 conn.sync({ alter: true }).then(async () => {
   try {
-    // Encuentra y actualiza todos los productos con categoría "Accesorios", "Camisetas" o "Indumentaria"
-    await Product.update(
-      {
-        dimensions: {
-          weight: 200,
-          height: 2,
-          width: 10,
-          length: 5,
-        },
-      },
-      {
-        where: {
-          cat: {
-            [Op.or]: ["Accesorios", "Camisetas", "Indumentaria"], // Condición para Accesorios, Camisetas e Indumentaria
-          },
-        },
-      }
-    );
-
-    console.log("Dimensions updated for products in categories 'Accesorios', 'Camisetas', and 'Indumentaria'");
+   
 
 
     // Iniciar el servidor
