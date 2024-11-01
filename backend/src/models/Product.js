@@ -117,5 +117,12 @@ module.exports = (sequelize) => {
       allowNull: true,
       defaultValue: [],
     },
+    dimensions: {
+      type: DataTypes.JSON,
+      allowNull: true,
+      defaultValue: {
+
+      },
+    } 
   });
 };
