@@ -7,7 +7,8 @@ const postFirstOrderController = async (
   client_email,
   client_id,
   products,
-  payer
+  payer,
+  shipment
 ) => {
   try {
     // Obtener el número de la última orden
@@ -32,8 +33,10 @@ const postFirstOrderController = async (
         street_number: payer.streetNumber,
         floor: payer.floor,
         aclaration: payer.aclaration,
+        rate: shipment
       },
       phone: payer.phone,
+      shipping_amount: shipment.price
     });
 
     // Preparar los datos para enviar a Google Sheets
