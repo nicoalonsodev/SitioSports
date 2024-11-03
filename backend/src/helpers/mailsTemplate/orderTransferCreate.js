@@ -96,6 +96,9 @@ const orderTemplate = `
             <p><strong>Dirección:</strong> %CUSTOMER_ADDRESS%</p>
             <p><strong>Piso:</strong> %CUSTOMER_FLOOR%</p>
             <p><strong>Depto:</strong> %CUSTOMER_APT%</p>
+            <p><strong>Tipo de Envío:</strong> %SHIPPING_TYPE%</p>
+            <p><strong>Costo de Envío:</strong> %SHIPPING_CHARGE%</p>
+            <p> %SHIPPING_TIME%</p>
             
         </div>
         <div class="order-details">
