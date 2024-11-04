@@ -16,7 +16,7 @@ const createOrder = async (req, res) => {
   const products = req.body.productInfo;
   const payer = req.body.payerInfo;
   const shipment = req.body.shipment;
-console.log(payer);
+const shippingCost = req.body.shipment.price
 
   const order_id = uuidv4();
   try {
@@ -40,14 +40,14 @@ console.log(payer);
     }));
 
     
-    // if(shippingCost){
-    //   items.push({
-    //     title: "Costo de envío",
-    //     unit_price: Number(shippingCost),
-    //     currency_id: "ARS",
-    //     quantity: 1,
-    //   });
-    // }
+    if(shippingCost){
+      items.push({
+        title: "Costo de envío",
+        unit_price: Number(shippingCost),
+        currency_id: "ARS",
+        quantity: 1,
+      });
+    }
 
     const body = {
        items: items,
