@@ -90,7 +90,7 @@ const orderTemplate = `
             <p><strong>Dirección:</strong> %CUSTOMER_ADDRESS%</p>
             <p><strong>Piso:</strong> %CUSTOMER_FLOOR%</p>
             <p><strong>Depto:</strong> %CUSTOMER_APT%</p>
-                        <p><strong>Tipo de Envío:</strong> %SHIPPING_TYPE%</p>
+            <p><strong>Tipo de Envío:</strong> %SHIPPING_TYPE%</p>
             <p><strong>Costo de Envío:</strong> %SHIPPING_CHARGE%</p>
             <p> %SHIPPING_TIME%</p>
         </div>
@@ -98,7 +98,7 @@ const orderTemplate = `
             <h3>Detalle de la orden</h3>
             %ORDER_ITEMS%
             <p><strong>Subtotal:</strong> %ORDER_SUBTOTAL%</p>
-            <p><strong>Envío:</strong> %ORDER_SHIPPING_COST%</p>
+    <p><strong>Envío:</strong> $%SHIPPING_CHARGE%</p>
             <p><strong>Total:</strong> %ORDER_TOTAL%</p>
         </div>
         <p>Si tiene alguna consulta o necesita más información, no dude en comunicarse con nuestro equipo de atención al cliente respondiendo a esta direccion de correo o a nuestro whatsapp <a href="https://wa.me/+5493812097082">haciendo click aqui</a>.</p>

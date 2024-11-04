@@ -106,7 +106,7 @@ const orderTemplate = `
     %ORDER_ITEMS%  <!-- Aquí se insertarán los items -->
     <p><strong>Subtotal:</strong> %ORDER_SUBTOTAL%</p>
     <p><strong>Descuento (pago con transferencia):</strong> %ORDER_DISCOUNT%</p>
-    <p><strong>Envío:</strong> Gratis</p>
+    <p><strong>Envío:</strong> $%SHIPPING_CHARGE%</p>
     <p><strong>Total:</strong> %ORDER_TOTAL%</p>
 </div>
         <p>Si tiene alguna consulta o necesita más información, no dude en comunicarse con nuestro equipo de atención al cliente respondiendo a esta direccion de correo o a nuestro whatsapp <a href="https://wa.me/+5493812097082">haciendo click aqui</a>.</p>
