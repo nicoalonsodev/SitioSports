@@ -54,7 +54,6 @@ const postOrderController = async (
       .replace(/%ORDER_ITEMS%/g, itemsHtml)  // Inserta los items en el template
       .replace(/%ORDER_SUBTOTAL%/g, `$${formatPrice(transaction_details.total_paid_amount)}`) // Agrega el subtotal
       .replace(/%ORDER_DISCOUNT%/g, `$${formatPrice(discount)}`) // Agrega el descuento
-      .replace(/%ORDER_SHIPPING_COST%/g, "Gratis") // Agrega el costo de envío
       .replace(/%ORDER_TOTAL%/g, `$${formatPrice(transaction_amount)}`); // Agrega el total
 
     const asunto = `Gracias por comprar en Sitio Sports`;

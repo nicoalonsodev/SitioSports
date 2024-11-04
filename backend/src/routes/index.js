@@ -30,7 +30,8 @@ const {
 } = require("../handlers/deleteCommissionHandler");
 const {getDiscountsHandler} = require("../handlers/getDiscountsHandler");
 const {postDiscountsHandler} = require("../handlers/postDiscountsHandler");
-const { putDiscountsHandler } = require("../handlers/putDiscountsHandler")
+const { putDiscountsHandler } = require("../handlers/putDiscountsHandler");
+const {getCorreoArgentinoToken} = require("../handlers/getCorreoArgentinoToken");
 
 router.get("/products", getAllProductsHandler);
 router.get("/products/:slug", getProductByIdHandler);
@@ -38,6 +39,7 @@ router.get("/users", getUsersHandler);
 router.get("/orders", getOrdersHandler);
 router.get("/commissions", getAllCommissionsHandler);
 router.get("/discounts", getDiscountsHandler);
+router.get("/correo-argentino-token", getCorreoArgentinoToken);
 
 // router.get('/success', (req, res)=> res.send(req.query.payment_id));
 // router.get('/pending', (req, res)=> res.send("pend") );
