@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const getCombinedRatesHandler = async (req, res) => {
+const getRatesHandler = async (req, res) => {
   const { postalCodeDestination, dimensions, token } = req.body;
 
   try {
@@ -55,5 +55,5 @@ const getCombinedRatesHandler = async (req, res) => {
 };
 
 module.exports = {
-  getCombinedRatesHandler,
+    getRatesHandler,
 };
