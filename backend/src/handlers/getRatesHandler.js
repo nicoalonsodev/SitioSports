@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 const getRatesHandler = async (req, res) => {
     const { postalCodeDestination, dimensions, deliveredType, token } = req.body;
   
