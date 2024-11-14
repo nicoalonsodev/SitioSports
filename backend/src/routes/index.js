@@ -31,7 +31,8 @@ const {
 const {getDiscountsHandler} = require("../handlers/getDiscountsHandler");
 const {postDiscountsHandler} = require("../handlers/postDiscountsHandler");
 const { putDiscountsHandler } = require("../handlers/putDiscountsHandler");
-const {getCorreoArgentinoToken} = require("../handlers/getCorreoArgentinoToken");
+const { getCorreoArgentinoToken } = require("../handlers/getCorreoArgentinoToken");
+const { getRatesHandler } = require("../handlers/getRatesHandler");
 
 router.get("/products", getAllProductsHandler);
 router.get("/products/:slug", getProductByIdHandler);
@@ -40,6 +41,7 @@ router.get("/orders", getOrdersHandler);
 router.get("/commissions", getAllCommissionsHandler);
 router.get("/discounts", getDiscountsHandler);
 router.get("/correo-argentino-token", getCorreoArgentinoToken);
+
 
 // router.get('/success', (req, res)=> res.send(req.query.payment_id));
 // router.get('/pending', (req, res)=> res.send("pend") );
@@ -55,6 +57,7 @@ router.post("/create-order", createOrder);
 router.post("/webhook", receiveWebhook);
 router.post("/order", postOrderHandler);
 router.post("/discounts", postDiscountsHandler);
+router.post("/rates", getRatesHandler);
 
 router.put("/products/:id", putProductHandler);
 router.put("/users/:id", putUserHandler);

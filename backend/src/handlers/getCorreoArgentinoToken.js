@@ -2,11 +2,11 @@ const axios = require('axios');
 
 const getCorreoArgentinoToken = async (req, res) => {
   try {
-    const username = process.env.CORREO_ARGENTINO_USERNAME;
-    const password = process.env.CORREO_ARGENTINO_PASSWORD;
+    // const username = process.env.CORREO_ARGENTINO_USERNAME;
+    // const password = process.env.CORREO_ARGENTINO_PASSWORD;
 
     // Codificar el username y password en base64 para la autenticación Basic
-    const authToken = Buffer.from(`${username}:${password}`).toString('base64');
+    const authToken = Buffer.from(`${process.env.CORREO_ARGENTINO_USERNAME}:${process.env.CORREO_ARGENTINO_PASSWORD}`).toString('base64');
 
     const response = await axios.post(
       'https://api.correoargentino.com.ar/micorreo/v1/token',
