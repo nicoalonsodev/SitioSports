@@ -33,6 +33,7 @@ const {postDiscountsHandler} = require("../handlers/postDiscountsHandler");
 const { putDiscountsHandler } = require("../handlers/putDiscountsHandler");
 const { getCorreoArgentinoToken } = require("../handlers/getCorreoArgentinoToken");
 const { getRatesHandler } = require("../handlers/getRatesHandler");
+const { getAgenciesHandler } = require("../handlers/getAgenciesHandler");
 
 router.get("/products", getAllProductsHandler);
 router.get("/products/:slug", getProductByIdHandler);
@@ -41,6 +42,7 @@ router.get("/orders", getOrdersHandler);
 router.get("/commissions", getAllCommissionsHandler);
 router.get("/discounts", getDiscountsHandler);
 router.get("/correo-argentino-token", getCorreoArgentinoToken);
+router.get("/agencies", getAgenciesHandler);
 
 
 // router.get('/success', (req, res)=> res.send(req.query.payment_id));
