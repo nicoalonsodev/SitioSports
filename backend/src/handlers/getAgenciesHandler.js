@@ -1,11 +1,11 @@
 const axios = require("axios");
 
 const getAgenciesHandler = async (req, res) => {
-  const { postalCodeDestination, token } = req.body;
+  const { postalCodeDestination, token, provinceCode } = req.body;
 
   try {
     const response = await axios.get(
-      `https://api.correoargentino.com.ar/micorreo/v1/agencies?postalCode=${postalCodeDestination}`,
+      `https://api.correoargentino.com.ar/micorreo/v1/agencies?customerId=0000550997&provinceCode=${provinceCode}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
