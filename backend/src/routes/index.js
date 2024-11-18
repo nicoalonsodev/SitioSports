@@ -42,7 +42,7 @@ router.get("/orders", getOrdersHandler);
 router.get("/commissions", getAllCommissionsHandler);
 router.get("/discounts", getDiscountsHandler);
 router.get("/correo-argentino-token", getCorreoArgentinoToken);
-router.get("/agencies", getAgenciesHandler);
+
 
 
 // router.get('/success', (req, res)=> res.send(req.query.payment_id));
@@ -60,6 +60,7 @@ router.post("/webhook", receiveWebhook);
 router.post("/order", postOrderHandler);
 router.post("/discounts", postDiscountsHandler);
 router.post("/rates", getRatesHandler);
+router.post("/agencies", getAgenciesHandler);
 
 router.put("/products/:id", putProductHandler);
 router.put("/users/:id", putUserHandler);
