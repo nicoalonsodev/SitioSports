@@ -97,7 +97,7 @@ const putOrderController = async (order_id, cleanedItems) => {
         .replace(/%CUSTOMER_ADDRESS%/g, address)
         .replace(/%CUSTOMER_FLOOR%/g, shipment.floor)
         .replace(/%CUSTOMER_APT%/g, shipment.apt)
-        .replace(/%SHIPPING_TYPE%/g, `${shipment.rate.productName} ${shipment.rate.deliveredType === "D" ? "a Domicilio" : "por Sucursal"}`)
+        .replace(/%SHIPPING_TYPE%/g, `${shipment.rate.productName} ${shipment.rate.deliveredType === "D" ? "a Domicilio" : `por Sucursal ${shipment.rate.agencyAddress ? shipment.rate.agencyAddress : ""}`}`)
         .replace(/%SHIPPING_CHARGE%/g, shipment.rate.price)
         .replace(/%SHIPPING_TIME%/g, `De ${shipment.rate.deliveryTimeMin} dias a ${shipment.rate.deliveryTimeMax} dias.`)
         .replace(/%ORDER_ITEMS%/g, itemsHtml)
