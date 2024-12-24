@@ -28,12 +28,17 @@ const { deleteUserHandler } = require("../handlers/deleteUserHandler");
 const {
   deleteCommissionhandler,
 } = require("../handlers/deleteCommissionHandler");
-const {getDiscountsHandler} = require("../handlers/getDiscountsHandler");
-const {postDiscountsHandler} = require("../handlers/postDiscountsHandler");
+const { getDiscountsHandler } = require("../handlers/getDiscountsHandler");
+const { postDiscountsHandler } = require("../handlers/postDiscountsHandler");
 const { putDiscountsHandler } = require("../handlers/putDiscountsHandler");
-const { getCorreoArgentinoToken } = require("../handlers/getCorreoArgentinoToken");
+const {
+  getCorreoArgentinoToken,
+} = require("../handlers/getCorreoArgentinoToken");
 const { getRatesHandler } = require("../handlers/getRatesHandler");
 const { getAgenciesHandler } = require("../handlers/getAgenciesHandler");
+const { getPromotionHandler } = require("../handlers/getPromotionHandler");
+const { putPromotionHandler } = require("../handlers/putPromotionHandler");
+const { postPromotionHandler } = require("../handlers/postPromotionHandler");
 
 router.get("/products", getAllProductsHandler);
 router.get("/products/:slug", getProductByIdHandler);
@@ -42,8 +47,7 @@ router.get("/orders", getOrdersHandler);
 router.get("/commissions", getAllCommissionsHandler);
 router.get("/discounts", getDiscountsHandler);
 router.get("/correo-argentino-token", getCorreoArgentinoToken);
-
-
+router.get("/promotion", getPromotionHandler);
 
 // router.get('/success', (req, res)=> res.send(req.query.payment_id));
 // router.get('/pending', (req, res)=> res.send("pend") );
@@ -61,12 +65,14 @@ router.post("/order", postOrderHandler);
 router.post("/discounts", postDiscountsHandler);
 router.post("/rates", getRatesHandler);
 router.post("/agencies", getAgenciesHandler);
+router.post("/promotion", postPromotionHandler);
 
 router.put("/products/:id", putProductHandler);
 router.put("/users/:id", putUserHandler);
 router.put("/commissions/:id", putCommissionsHandler);
 router.put("/order/:id", putOrderHandler);
 router.put("/discounts/:code", putDiscountsHandler);
+router.put("/promotion/:id", putPromotionHandler);
 
 router.delete("/product/:id", deleteProductHandler);
 router.delete("/user/:id", deleteUserHandler);
