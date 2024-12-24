@@ -39,6 +39,7 @@ const { getAgenciesHandler } = require("../handlers/getAgenciesHandler");
 const { getPromotionHandler } = require("../handlers/getPromotionHandler");
 const { putPromotionHandler } = require("../handlers/putPromotionHandler");
 const { postPromotionHandler } = require("../handlers/postPromotionHandler");
+const {deletePromotionHandler} = require("../handlers/deletePromotionHandler");
 
 router.get("/products", getAllProductsHandler);
 router.get("/products/:slug", getProductByIdHandler);
@@ -75,6 +76,7 @@ router.put("/discounts/:code", putDiscountsHandler);
 router.put("/promotion/:id", putPromotionHandler);
 
 router.delete("/product/:id", deleteProductHandler);
+router.delete("/promotion/:id", deletePromotionHandler);
 router.delete("/user/:id", deleteUserHandler);
 router.delete("/commissions/:id", deleteCommissionhandler);
 
