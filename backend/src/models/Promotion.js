@@ -49,6 +49,7 @@ module.exports = (sequelize) => {
     gift: {
       type: DataTypes.JSONB, // Objeto con información del producto de regalo (e.g., { id, nombre }).
       allowNull: true,
+      defaultValue: [],
     },
 
     // Registro de uso de la promoción
