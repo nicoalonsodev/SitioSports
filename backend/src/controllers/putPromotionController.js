@@ -1,4 +1,11 @@
 const { Promotion } = require('../db');
+// Función para crear un slug a partir del nombre del producto
+const createSlug = (name) => {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-') // Reemplaza caracteres no alfanuméricos por guiones
+    .replace(/(^-|-$)+/g, '');   // Elimina guiones al principio y al final
+};
 
 const putPromotionController = async ( id, type, title, description, img, products, disabled, categories, usageRecord, gift, endDate) => {
  
@@ -14,6 +21,7 @@ const putPromotionController = async ( id, type, title, description, img, produc
     }
     if(title) {
         promotion.title = title;
+        product.slug = createSlug(title);
     }
     if(img) {
         promotion.img = img;

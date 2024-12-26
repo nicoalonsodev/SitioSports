@@ -8,7 +8,11 @@ module.exports = (sequelize) => {
       allowNull: false,
       primaryKey: true,
     },
-
+    slug: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "",
+    },
     // Breve descripción de la promoción
     description: {
       type: DataTypes.STRING(2080),
