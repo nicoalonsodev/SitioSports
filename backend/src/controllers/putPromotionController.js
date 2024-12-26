@@ -21,7 +21,7 @@ const putPromotionController = async ( id, type, title, description, img, produc
     }
     if(title) {
         promotion.title = title;
-        product.slug = createSlug(title);
+        promotion.slug = createSlug(title);
     }
     if(img) {
         promotion.img = img;
