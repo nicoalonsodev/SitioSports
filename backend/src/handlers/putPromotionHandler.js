@@ -1,7 +1,7 @@
 const { putPromotionController } = require('../controllers/putPromotionController.js');
 
 const putPromotionHandler = async (req, res) => {
-  const id = req.params.code; // Obtiene el ID del código de promoción desde la URL
+  const id = req.params.id; // Obtiene el ID del código de promoción desde la URL
   const { type,title, description, img, products, disabled, categories, usageRecord, gift, endDate } = req.body;
 
   // Validación básica de datos
@@ -15,7 +15,7 @@ const putPromotionHandler = async (req, res) => {
       id,
       type,
       title,
-      img,
+      img, 
       description,
       products,
       disabled,
