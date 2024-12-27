@@ -12,7 +12,7 @@ const generateUniqueSlug = async (baseSlug) => {
   let count = 1;
 
   // Verificar si existe un producto con el mismo slug
-  while (await Product.findOne({ where: { slug } })) {
+  while (await Promotion.findOne({ where: { slug } })) {
     // Si existe, añadir un número al final del slug
     slug = `${baseSlug}-${count}`;
     count++;
