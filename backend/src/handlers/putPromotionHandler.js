@@ -1,12 +1,27 @@
-const { putPromotionController } = require('../controllers/putPromotionController.js');
+const {
+  putPromotionController,
+} = require("../controllers/putPromotionController.js");
 
 const putPromotionHandler = async (req, res) => {
   const id = req.params.id; // Obtiene el ID del código de promoción desde la URL
-  const { type,title, description, img, products, disabled, categories, usageRecord, gift, endDate } = req.body;
+  const {
+    type,
+    title,
+    description,
+    img,
+    products,
+    disabled,
+    categories,
+    usageRecord,
+    gift,
+    endDate,
+  } = req.body;
 
   // Validación básica de datos
   if (!id) {
-    return res.status(400).json({ error: "El código de promoción (ID) es obligatorio." });
+    return res
+      .status(400)
+      .json({ error: "El código de promoción (ID) es obligatorio." });
   }
 
   try {
@@ -15,7 +30,7 @@ const putPromotionHandler = async (req, res) => {
       id,
       type,
       title,
-      img, 
+      img,
       description,
       products,
       disabled,
@@ -31,12 +46,22 @@ const putPromotionHandler = async (req, res) => {
     }
 
     // Envia respuesta de éxito
-    res.status(200).json({ message: "Promoción modificada correctamente", updatedPromotion });
+    res
+      .status(200)
+      .json({
+        message: "Promoción modificada correctamente",
+        updatedPromotion,
+      });
   } catch (error) {
     console.error(error);
 
     // Manejo de errores inesperados
-    res.status(500).json({ error: "Error al modificar la promoción.", details: error.message });
+    res
+      .status(500)
+      .json({
+        error: "Error al modificar la promoción.",
+        details: error.message,
+      });
   }
 };
 
