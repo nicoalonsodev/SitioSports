@@ -40,6 +40,7 @@ const { getPromotionHandler } = require("../handlers/getPromotionHandler");
 const { putPromotionHandler } = require("../handlers/putPromotionHandler");
 const { postPromotionHandler } = require("../handlers/postPromotionHandler");
 const {deletePromotionHandler} = require("../handlers/deletePromotionHandler");
+const {getPromotionBySlugHandler} = require("../handlers/getPromotionBySlugHandler");
 
 router.get("/products", getAllProductsHandler);
 router.get("/products/:slug", getProductByIdHandler);
@@ -49,6 +50,7 @@ router.get("/commissions", getAllCommissionsHandler);
 router.get("/discounts", getDiscountsHandler);
 router.get("/correo-argentino-token", getCorreoArgentinoToken);
 router.get("/promotion", getPromotionHandler);
+router.get("/promotion/:slug", getPromotionBySlugHandler);
 
 // router.get('/success', (req, res)=> res.send(req.query.payment_id));
 // router.get('/pending', (req, res)=> res.send("pend") );
