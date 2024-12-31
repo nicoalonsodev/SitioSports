@@ -12,6 +12,7 @@ const putPromotionHandler = async (req, res) => {
     products,
     disabled,
     categories,
+    subcategories,
     usageRecord,
     gift,
     endDate,
@@ -35,6 +36,7 @@ const putPromotionHandler = async (req, res) => {
       products,
       disabled,
       categories,
+      subcategories,
       usageRecord,
       gift,
       endDate

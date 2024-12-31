@@ -20,7 +20,7 @@ const generateUniqueSlug = async (baseSlug) => {
 
   return slug;
 };
-const postPromotionController = async (type, description, title, img, products, disabled, categories, usageRecord, gift, endDate) => {
+const postPromotionController = async (type, description, title, img, products, disabled, categories, subcategories, usageRecord, gift, endDate) => {
   let promotion;
   // Generar slug a partir del productName
   const baseSlug = createSlug(title);
@@ -28,7 +28,7 @@ const postPromotionController = async (type, description, title, img, products, 
   // Generar un slug único
   const slug = await generateUniqueSlug(baseSlug);
   promotion = await Promotion.create({
-    type, slug, description, title, img, products, disabled, categories, usageRecord, gift, endDate
+    type, slug, description, title, img, products, disabled, categories,subcategories,usageRecord, gift, endDate
   });
   return promotion;
 };
