@@ -54,6 +54,17 @@ module.exports = (sequelize) => {
       allowNull: true,
       defaultValue: [],
     },
+    giftCategories: {
+      type: DataTypes.ARRAY(DataTypes.STRING), // Lista de IDs o nombres de categorías.
+      allowNull: true,
+      defaultValue: [],
+    },
+    
+    giftSubcategories: {
+      type: DataTypes.ARRAY(DataTypes.STRING), // Lista de IDs o nombres de categorías.
+      allowNull: true,
+      defaultValue: [],
+    },
 
     // Productos de regalo (si aplica)
     gift: {
