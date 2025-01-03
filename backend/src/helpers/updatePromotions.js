@@ -1,22 +1,27 @@
-const { Promotion } = require("../db"); // Asegúrate de que esté correctamente configurado
+const { Promotion } = require("../db.js");
 
 const updatePromotions = async () => {
   try {
     const now = new Date();
 
-    // Actualizar directamente todas las promociones que cumplan la condición
-    const [updatedCount] = await Promotion.update(
-      { disabled: true }, // Cambios a realizar
-      { where: { endDate: { [Op.lte]: now }, disabled: false } } // Condiciones
+    // Encuentra las promociones caducadas
+    const expiredPromotions = await Promotion.findAll({
+      where: {
+        endDate: { [Op.lt]: now }, // Promociones con endDate anterior a la fecha actual
+        disabled: false, // Solo actualiza las promociones que no están deshabilitadas
+      },
+    });
+
+    // Actualiza cada promoción encontrada
+    await Promise.all(
+      expiredPromotions.map((promotion) =>
+        promotion.update({ disabled: true })
+      )
     );
 
-    if (updatedCount > 0) {
-      console.log(`[TASK] Promotions updated: ${updatedCount}`);
-    } else {
-      console.log("[TASK] No promotions to update.");
-    }
+    console.log(`Promotions updated: ${expiredPromotions.length}`);
   } catch (error) {
-    console.error("[TASK] Error updating promotions:", error);
+    console.error("Error updating promotions:", error);
   }
 };
 
