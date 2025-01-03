@@ -3,13 +3,15 @@ const { Promotion } = require("../db"); // Asegúrate de que esté correctamente
 const updatePromotions = async () => {
   try {
     const now = new Date();
-    const promotions = await Promotion.find({ endDate: { $lte: now }, disabled: false });
 
-    if (promotions.length > 0) {
-      for (const promo of promotions) {
-        await Promotion.updateOne({ id: promo.id }, { $set: { disabled: true } });
-      }
-      console.log(`[TASK] Promotions updated: ${promotions.length}`);
+    // Actualizar directamente todas las promociones que cumplan la condición
+    const [updatedCount] = await Promotion.update(
+      { disabled: true }, // Cambios a realizar
+      { where: { endDate: { [Op.lte]: now }, disabled: false } } // Condiciones
+    );
+
+    if (updatedCount > 0) {
+      console.log(`[TASK] Promotions updated: ${updatedCount}`);
     } else {
       console.log("[TASK] No promotions to update.");
     }
