@@ -7,8 +7,7 @@ const updatePromotions = async () => {
 
     if (promotions.length > 0) {
       for (const promo of promotions) {
-        promo.disabled = true;
-        await promo.save();
+        await Promotion.updateOne({ id: promo.id }, { $set: { disabled: true } });
       }
       console.log(`[TASK] Promotions updated: ${promotions.length}`);
     } else {
