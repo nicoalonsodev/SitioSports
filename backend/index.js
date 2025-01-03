@@ -3,7 +3,9 @@ const server = require("./src/app.js");
 const { conn } = require("./src/db.js");
 const { PORT } = process.env;
 const startPromotionCronJob = require('./src/helpers/startPromotionCronJob.js');
+const updatePromotions = require("./src/helpers/updatePromotions.js")
 
+updatePromotions();
 // Iniciar el cron job
 startPromotionCronJob();
 
