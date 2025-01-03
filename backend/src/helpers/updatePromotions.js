@@ -1,4 +1,5 @@
 const { Promotion } = require("../db.js");
+const { Op } = require("sequelize"); // Importar Op desde Sequelize
 
 const updatePromotions = async () => {
   try {

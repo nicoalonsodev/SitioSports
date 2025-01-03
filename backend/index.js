@@ -10,7 +10,7 @@ conn.sync({ alter: true }).then(async () => {
   try {
     updatePromotions();
     // Iniciar el cron job
-    startPromotionCronJob();
+    // startPromotionCronJob();
     server.listen(PORT, () => {
       console.log(`%s listening at ${PORT}`); // eslint-disable-line no-console
     });
