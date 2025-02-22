@@ -35,7 +35,8 @@ const putProductController = async (id, updatedFields) => {
       discount_percentage,
       video_youtube,
       disabled,
-      tags
+      tags,
+      dimensions
     } = updatedFields;
 
     // Actualizar los campos del producto solo si se proporcionan en updatedFields
@@ -96,6 +97,9 @@ const putProductController = async (id, updatedFields) => {
     }
     if (tags !== undefined) {
       product.tags = tags;
+    }
+    if (dimensions !== undefined) {
+      product.dimensions = dimensions;
     }
 
     // Calcular las ventas totales (sold) de todas las variantes y tamaños
