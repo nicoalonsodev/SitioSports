@@ -12,7 +12,7 @@ const server = express();
 server.name = 'API';
  
 // Configuración de CORS   //https://www.sitiosports.com    http://localhost:3001/   http://localhost:3000   --omit=dev  https://sitiosports-production.up.railway.app/
-const allowedOrigins = ['https://www.sitiosports.com', 'http://localhost:3000', 'https://sitio-sports-git-nicodev-nicoalonsoos-projects.vercel.app'];
+const allowedOrigins = ['https://www.sitiosports.com', 'http://localhost:3000', 'https://sitio-sports-git-nicodev-nicoalonsoos-projects.vercel.app', 'https://ecom.nicolasalonsodev.com'];
 
 const corsOptions = {
   origin: function (origin, callback) {
@@ -57,3 +57,4 @@ server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
 });
 
 module.exports = server;
+
